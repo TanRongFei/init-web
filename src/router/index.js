@@ -126,6 +126,72 @@ export const asyncRoutes = [
     ]
   },
 
+  {
+    path: '/work',
+    component: Layout,
+    redirect: '/work/index',
+    alwaysShow: true, // will always show the root menu
+    name: 'work',
+    meta: {
+      title: 'work',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/work/index'),
+        name: 'work',
+        meta: {
+          title: 'Page work',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/crm',
+    component: Layout,
+    // redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'crm',
+    meta: {
+      title: 'Permission',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'survey',
+        component: () => import('@/views/CRM/survey'),
+        name: 'survey',
+        meta: {
+          title: 'survey',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'enterprise-cus',
+        component: () => import('@/views/CRM/enterprise-cus'),
+        name: 'enterprise-cus',
+        meta: {
+          title: 'enterprise-cus'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'individual-cus',
+        component: () => import('@/views/CRM/individual-cus'),
+        name: 'individual-cus',
+        meta: {
+          title: 'Role Permission',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

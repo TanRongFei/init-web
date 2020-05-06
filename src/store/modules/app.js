@@ -6,10 +6,14 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
+  childRouters: []
 }
 
 const mutations = {
+  SET_CHILDROUTERS: (state, childRouters) => {
+    state.childRouters = childRouters
+  },
   TOGGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
@@ -45,6 +49,9 @@ const actions = {
   },
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
+  },
+  setChildRouters({ commit }, childRouters) {
+    commit('SET_CHILDROUTERS', childRouters)
   }
 }
 
