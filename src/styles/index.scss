@@ -13,6 +13,14 @@ body {
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 }
 
+body{
+  .el-submenu__title{
+    .svg-icon{
+      margin-right: 10px;
+    }
+  }
+}
+
 label {
   font-weight: 700;
 }

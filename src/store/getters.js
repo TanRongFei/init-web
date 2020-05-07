@@ -1,5 +1,6 @@
 const getters = {
   sidebar: state => state.app.sidebar,
+  sidebarMode: state => state.app.sidebarMode,
   childRouters: state => state.app.childRouters,
   size: state => state.app.size,
   device: state => state.app.device,

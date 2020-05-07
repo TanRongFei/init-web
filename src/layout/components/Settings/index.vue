@@ -4,19 +4,34 @@
       <h3 class="drawer-title">Page style setting</h3>
 
       <div class="drawer-item">
-        <span>Theme Color</span>
-        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
+        <div class="title">导航模式</div>
+        <template >
+          <el-radio-group class="set-sidebar-mode" v-model="getSidebarMode" @change="changeSidebar">
+            <el-radio :label="'vertical'">
+              <svg-icon icon-class="sidemenu" class-name="sidemenu-icon" />
+            </el-radio>
+
+            <el-radio :label="'horizontal'">
+              <svg-icon icon-class="topmenu" class-name="topmenu-icon" />
+            </el-radio>
+          </el-radio-group>
+        </template>
       </div>
+
+<!--      <div class="drawer-item">-->
+<!--        <span>Theme Color</span>-->
+<!--        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />-->
+<!--      </div>-->
 
       <div class="drawer-item">
         <span>Open Tags-View</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
-      <div class="drawer-item">
-        <span>Fixed Header</span>
-        <el-switch v-model="fixedHeader" class="drawer-switch" />
-      </div>
+<!--      <div class="drawer-item">-->
+<!--        <span>Fixed Header</span>-->
+<!--        <el-switch v-model="fixedHeader" class="drawer-switch" />-->
+<!--      </div>-->
 
       <div class="drawer-item">
         <span>Sidebar Logo</span>
@@ -28,14 +43,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ThemePicker from '@/components/ThemePicker'
 
 export default {
   components: { ThemePicker },
   data() {
-    return {}
+    return {
+      mode: ''
+    }
   },
   computed: {
+    getSidebarMode: {
+      get() {
+        return this.sidebarMode
+      },
+      set(v) {
+        console.log('setSidebarMode', v)
+        this.$store.dispatch('app/setSidebarMode', v)
+        if (!this.sidebar.opened) {
+          this.$store.dispatch('app/toggleSideBar')
+        }
+      }
+    },
     fixedHeader: {
       get() {
         return this.$store.state.settings.fixedHeader
@@ -68,9 +98,16 @@ export default {
           value: val
         })
       }
-    }
+    },
+    ...mapGetters([
+      'sidebarMode',
+      'sidebar'
+    ])
   },
   methods: {
+    changeSidebar(v) {
+      console.log(v)
+    },
     themeChange(val) {
       this.$store.dispatch('settings/changeSetting', {
         key: 'theme',
@@ -105,4 +142,22 @@ export default {
     float: right
   }
 }
+
+.title{
+  margin-bottom: 12px;
+}
+</style>
+
+<style lang="scss">
+  .set-sidebar-mode{
+    display: flex;
+    label{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .el-radio__label{
+      font-size: 38px !important;
+    }
+  }
 </style>

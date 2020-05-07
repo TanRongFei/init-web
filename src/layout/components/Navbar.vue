@@ -1,8 +1,8 @@
 <template>
-  <div class="navbar">
-<!--    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />-->
+  <div class="navbar" :class="{blank: sidebarMode === 'vertical'}">
+    <hamburger v-show="sidebarMode === 'vertical'" id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-<!--    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />-->
+    <breadcrumb v-show="sidebarMode === 'vertical'" id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
@@ -67,7 +67,8 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'device'
+      'device',
+      'sidebarMode'
     ])
   },
   methods: {
@@ -84,7 +85,7 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  /*height: 50px;*/
   overflow: hidden;
   position: relative;
   background: #fff;
@@ -115,7 +116,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    /*line-height: 50px;*/
 
     &:focus {
       outline: none;
@@ -126,7 +127,7 @@ export default {
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: #ffffff;
       vertical-align: text-bottom;
 
       &.hover-effect {
@@ -143,7 +144,7 @@ export default {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
+        margin-top: 10px;
         position: relative;
 
         .user-avatar {
@@ -162,6 +163,18 @@ export default {
         }
       }
     }
+  }
+}
+
+.navbar.blank{
+  height: 50px;
+  .right-menu-item{
+    color: #333333;
+    line-height: 50px;
+  }
+
+  .avatar-wrapper{
+    margin-top: 5px !important;
   }
 }
 </style>

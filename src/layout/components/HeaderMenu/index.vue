@@ -7,7 +7,7 @@
     :background-color="backgroundColor"
     :text-color="textColor"
     :active-text-color="activeTextColor">
-    <el-menu-item :index="resolvePath(item.path)" v-for="(item, index) in routes" :key="index">{{item.name}}</el-menu-item>
+    <el-menu-item :index="item.path" v-for="item in routes" :key="item.path">{{item.name}}</el-menu-item>
   </el-menu>
 </template>
 
@@ -19,10 +19,6 @@ import path from 'path'
 export default {
   name: 'HeaderMenu',
   props: {
-    saveChildRouters: {
-      type: String,
-      default: 'aa'
-    },
     backgroundColor: {
       type: String,
       default: '#545c64'
@@ -35,6 +31,10 @@ export default {
       type: String,
       default: '#ffd04b'
     },
+    saveChildRouters: {
+      type: Boolean,
+      default: false
+    },
     routes: {
       type: Array,
       default: () => {
@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: '0'
+      activeIndex: ''
     }
   },
   computed: {
@@ -57,11 +57,6 @@ export default {
     console.log(this.permission_routes)
     console.log('routes', this.routes)
   },
-  mounted() {
-    setTimeout(function() {
-      this.activeIndex = '1'
-    }.bind(this), 1000)
-  },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
@@ -71,16 +66,22 @@ export default {
           return item
         })[0]
 
-      console.log('childRouters', this.saveChildRouters)
       if (this.saveChildRouters && childRouters.children && childRouters.children.length > 1) {
         this.$store.dispatch('app/setChildRouters', childRouters.children)
+      } else if (this.saveChildRouters) {
+        this.$store.dispatch('app/setChildRouters', [])
       }
 
       console.log(childRouters)
 
-      if (childRouters.children && childRouters.children.length === 1) {
-        this.$router.push(childRouters.children[0].path)
+      if (childRouters && childRouters.children && childRouters.children.length) {
+        this.$router.push(childRouters.children[0].fullPath)
+        this.activeIndex = childRouters.children[0].fullPath
+      } else {
+        this.$router.push(childRouters.path)
+        this.activeIndex = childRouters.path
       }
+      console.log(this.activeIndex, typeof this.activeIndex)
     },
     resolvePath(routePath) {
       if (isExternal(routePath)) {

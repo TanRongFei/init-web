@@ -41,6 +41,15 @@ export default {
   opacity: 0;
 }
 
+.sidebar-horizontal{
+  .sidebar-logo-container{
+    height: 64px  ;
+    line-height: 64px;
+    max-width: 200px;
+    background: #304156;
+  }
+}
+
 .sidebar-logo-container {
   position: relative;
   width: 100%;

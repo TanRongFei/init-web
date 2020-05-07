@@ -5,12 +5,16 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
+  sidebarMode: 'horizontal', // horizontal 顶部水平模式, vertical 侧边栏模式
   device: 'desktop',
   size: Cookies.get('size') || 'medium',
   childRouters: []
 }
 
 const mutations = {
+  SET_SIDEBARMODE: (state, sidebarMode) => {
+    state.sidebarMode = sidebarMode
+  },
   SET_CHILDROUTERS: (state, childRouters) => {
     state.childRouters = childRouters
   },
@@ -52,6 +56,9 @@ const actions = {
   },
   setChildRouters({ commit }, childRouters) {
     commit('SET_CHILDROUTERS', childRouters)
+  },
+  setSidebarMode({ commit }, sidebarMode) {
+    commit('SET_SIDEBARMODE', sidebarMode)
   }
 }
 

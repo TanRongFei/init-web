@@ -3,7 +3,7 @@
     <div class="header-menu">
       <div class="left-menu"></div>
 
-      <header-menu :routes="routes" />
+      <header-menu :routes="routes" :saveChildRouters="saveChildRouters"/>
 
       <div class="right-menu">
         <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
@@ -32,9 +32,8 @@
       </div>
     </div>
 
-    <div class="child-menu ">
+    <div class="child-menu " v-show="childRouters.length">
       <header-menu
-        :saveChildRouters="saveChildRouters"
         :routes="childRouters"
         :backgroundColor="'#ffffff'"
         :textColor="'#545c64'"
@@ -54,7 +53,7 @@ export default {
   },
   data() {
     return {
-      saveChildRouters: 'true'
+      saveChildRouters: true
     }
   },
   computed: {
@@ -87,7 +86,7 @@ export default {
     formatPath(obj) {
       if (obj.children && obj.children.length) {
         obj.children.map(item => {
-          item.path = `${obj.path}/${item.path}`
+          item.fullPath = obj.path === '/' ? `${obj.path}${item.path}` : `${obj.path}/${item.path}`
           this.formatPath(item)
         })
       }

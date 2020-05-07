@@ -1,13 +1,15 @@
 <template>
-  <div class="app-wrapper">
+  <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <sidebar  />
 
-    <topbar />
-
-    <div class="main-container">
-<!--      <div :class="{'fixed-header':fixedHeader}">-->
-<!--        <tags-view v-if="needTagsView" />-->
-<!--      </div>-->
+    <div class="main-container" :class="modecontainer">
+      <div :class="{'fixed-header':fixedHeader}">
+        <template v-if="sidebarMode === 'vertical'">
+          <navbar  />
+        </template>
+        <tags-view v-if="needTagsView" />
+      </div>
       <app-main />
       <right-panel v-if="showSettings">
         <settings />
@@ -18,21 +20,33 @@
 
 <script>
 import RightPanel from '@/components/RightPanel'
-import { AppMain, Settings } from './components'
-import Topbar from './components/Topbar'
+import { AppMain, Settings, Sidebar, TagsView } from './components'
+import Navbar from './components/Navbar'
 import ResizeMixin from './mixin/ResizeHandler'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Layout',
   components: {
     AppMain,
-    Topbar,
+    Navbar,
+    TagsView,
+    Sidebar,
     RightPanel,
     Settings
   },
   mixins: [ResizeMixin],
   computed: {
+    modecontainer() {
+      if (this.sidebarMode === 'horizontal') {
+        return 'horizontal-container'
+      } else {
+        return 'vertical-container'
+      }
+    },
+    ...mapGetters([
+      'sidebarMode'
+    ]),
     ...mapState({
       sidebar: state => state.app.sidebar,
       device: state => state.app.device,
@@ -41,6 +55,8 @@ export default {
       fixedHeader: state => state.settings.fixedHeader
     }),
     classObj() {
+      if (this.sidebarMode !== 'vertical') return ''
+
       return {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
