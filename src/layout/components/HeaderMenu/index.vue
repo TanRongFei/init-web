@@ -1,105 +1,162 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    :background-color="backgroundColor"
-    :text-color="textColor"
-    :active-text-color="activeTextColor">
-    <el-menu-item :index="item.path" v-for="item in routes" :key="item.path">{{item.name}}</el-menu-item>
-  </el-menu>
+  <div class="header-menu">
+    <div class="first-menu">
+      <div class="left-menu">
+        <img src="../../../assets/logo.png" alt="">
+      </div>
+
+      <div class="sidebar-menu">
+        <sidebar-item
+          v-for="route in permission_routes"
+          :generation="'first-menu'"
+          :key="route.path"
+          :index="activeIndexFull"
+          :item="route"
+          :base-path="route.path"
+          @selectedRoute="selectedRoute" />
+      </div>
+
+      <div class="right-menu" style="width: 190px;">
+        <navbar />
+      </div>
+    </div>
+
+    <div class="second-menu" v-if="showSecondMenu">
+      <div class="sidebar-menu">
+        <sidebar-item
+          v-for="route in childrenRoutes"
+          :generation="'second-menu'"
+          :key="route.path"
+          :index="activeIndexFull"
+          :item="route"
+          :base-path="parent.path" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { isExternal } from '@/utils/validate'
-import path from 'path'
+import SidebarItem from './SidebarItem'
+import Navbar from '../Navbar'
 
 export default {
-  name: 'HeaderMenu',
-  props: {
-    backgroundColor: {
-      type: String,
-      default: '#545c64'
-    },
-    textColor: {
-      type: String,
-      default: '#ffffff'
-    },
-    activeTextColor: {
-      type: String,
-      default: '#ffd04b'
-    },
-    saveChildRouters: {
-      type: Boolean,
-      default: false
-    },
-    routes: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    }
+  name: 'Index3',
+  components: {
+    SidebarItem,
+    Navbar
   },
   data() {
     return {
-      activeIndex: ''
+      childrenRoutes: [],
+      parent: '',
+      showSecondMenu: false,
+      activeIndexFull: ''
     }
   },
   computed: {
+    formatRoutes() {
+      return this.permission_routes.filter(item => !item.hidden)
+    },
     ...mapGetters([
-      'permission_routes'
+      'permission_routes',
+      'sidebar'
     ])
   },
-  created() {
-    console.log(this.$route)
-    console.log(this.permission_routes)
-    console.log('routes', this.routes)
+  watch: {
+    '$route'(n, o) {
+      this.activeIndexFull = n.fullPath
+    }
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath)
-      const childRouters = this.routes
-        .filter(item => item.path === key)
-        .map(item => {
-          return item
-        })[0]
-
-      if (this.saveChildRouters && childRouters.children && childRouters.children.length > 1) {
-        this.$store.dispatch('app/setChildRouters', childRouters.children)
-      } else if (this.saveChildRouters) {
-        this.$store.dispatch('app/setChildRouters', [])
+    selectedRoute(item) {
+      if (!item) {
+        this.showSecondMenu = false
+        return
       }
-
-      console.log(childRouters)
-
-      if (childRouters && childRouters.children && childRouters.children.length) {
-        this.$router.push(childRouters.children[0].fullPath)
-        this.activeIndex = childRouters.children[0].fullPath
-      } else {
-        this.$router.push(childRouters.path)
-        this.activeIndex = childRouters.path
-      }
-      console.log(this.activeIndex, typeof this.activeIndex)
+      this.showSecondMenu = true
+      this.childrenRoutes = item.children
+      this.parent = item
     },
-    resolvePath(routePath) {
-      if (isExternal(routePath)) {
-        return routePath
+    hasOneShowingChild(children = [], parent) {
+      const showingChildren = children.filter(item => {
+        if (item.hidden) {
+          return false
+        } else {
+          // Temp set(will be used if only has one showing child)
+          this.onlyOneChild = item
+          return true
+        }
+      })
+
+      // When there is only one child router, the child router is displayed by default
+      if (showingChildren.length === 1) {
+        return true
       }
-      if (isExternal(this.basePath)) {
-        return this.basePath
+
+      // Show parent if there are no child router to display
+      if (showingChildren.length === 0) {
+        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        return true
       }
-      return path.resolve(this.basePath, routePath)
+
+      return false
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .el-menu-demo{
-    &.el-menu.el-menu--horizontal{
-      border: none;
-    }
+.header-menu{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.sidebar-menu{
+  display: flex;
+  height: 64px;
+  line-height: 64px;
+  padding: 0 20px;
+  .sidebar-item{
+    padding: 0 20px;
+    cursor: pointer;
   }
+}
+
+.first-menu{
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: space-between;
+  background-color: #019fe8;
+  color: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+
+.second-menu{
+  box-shadow: 0 2px 4px 0 rgba(7, 17, 27, 0.1);
+  position: relative;
+  z-index: 1;
+  .sidebar-menu{
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    line-height: 50px;
+  }
+}
+
+.right-menu{
+  height: 100%;
+  background-color: #019fe8;
+}
+
+.left-menu{
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  img{
+    width: 150px;
+  }
+}
 </style>

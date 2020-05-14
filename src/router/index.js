@@ -73,7 +73,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   }
@@ -133,7 +133,7 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'work',
     meta: {
-      title: 'work',
+      title: '工作',
       icon: 'lock',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
@@ -157,7 +157,7 @@ export const asyncRoutes = [
     alwaysShow: true, // will always show the root menu
     name: 'crm',
     meta: {
-      title: 'Permission',
+      title: 'CRM',
       icon: 'lock',
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
@@ -167,7 +167,7 @@ export const asyncRoutes = [
         component: () => import('@/views/CRM/survey'),
         name: 'survey',
         meta: {
-          title: 'survey',
+          title: '概况',
           roles: ['admin'] // or you can only set roles in sub nav
         }
       },
@@ -176,7 +176,7 @@ export const asyncRoutes = [
         component: () => import('@/views/CRM/enterprise-cus'),
         name: 'enterprise-cus',
         meta: {
-          title: 'enterprise-cus'
+          title: '企业客户'
           // if do not set roles, means: this page does not require permission
         }
       },
@@ -185,7 +185,7 @@ export const asyncRoutes = [
         component: () => import('@/views/CRM/individual-cus'),
         name: 'individual-cus',
         meta: {
-          title: 'Role Permission',
+          title: '个人客户',
           roles: ['admin']
         }
       }

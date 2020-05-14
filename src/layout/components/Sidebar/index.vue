@@ -6,10 +6,11 @@
 import { mapGetters } from 'vuex'
 import horizontal from './horizontal'
 import vertical from './vertical'
+import Topbar from '../HeaderMenu/index'
 
 export default {
   name: 'Sidebar',
-  components: { horizontal, vertical },
+  components: { horizontal, vertical, Topbar },
   data() {
     return {}
   },

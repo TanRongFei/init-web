@@ -1,8 +1,6 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">Page style setting</h3>
-
       <div class="drawer-item">
         <div class="title">导航模式</div>
         <template >
@@ -14,19 +12,25 @@
             <el-radio :label="'horizontal'">
               <svg-icon icon-class="topmenu" class-name="topmenu-icon" />
             </el-radio>
+
+            <el-radio :label="'topbar'">
+              <svg-icon icon-class="topmenu" class-name="topmenu-icon" />
+            </el-radio>
           </el-radio-group>
         </template>
       </div>
+
+      <el-divider></el-divider>
 
 <!--      <div class="drawer-item">-->
 <!--        <span>Theme Color</span>-->
 <!--        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />-->
 <!--      </div>-->
 
-      <div class="drawer-item">
-        <span>Open Tags-View</span>
-        <el-switch v-model="tagsView" class="drawer-switch" />
-      </div>
+<!--      <div class="drawer-item">-->
+<!--        <span>Open Tags-View</span>-->
+<!--        <el-switch v-model="tagsView" class="drawer-switch" />-->
+<!--      </div>-->
 
 <!--      <div class="drawer-item">-->
 <!--        <span>Fixed Header</span>-->
@@ -44,10 +48,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ThemePicker from '@/components/ThemePicker'
+// import ThemePicker from '@/components/ThemePicker'
 
 export default {
-  components: { ThemePicker },
+  // components: { ThemePicker },
   data() {
     return {
       mode: ''

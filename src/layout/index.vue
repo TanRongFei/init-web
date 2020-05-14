@@ -8,7 +8,7 @@
         <template v-if="sidebarMode === 'vertical'">
           <navbar  />
         </template>
-        <tags-view v-if="needTagsView" />
+<!--        <tags-view v-if="needTagsView" />-->
       </div>
       <app-main />
       <right-panel v-if="showSettings">
@@ -40,8 +40,10 @@ export default {
     modecontainer() {
       if (this.sidebarMode === 'horizontal') {
         return 'horizontal-container'
-      } else {
+      } else if (this.sidebarMode === 'vertical') {
         return 'vertical-container'
+      } else {
+        return ''
       }
     },
     ...mapGetters([

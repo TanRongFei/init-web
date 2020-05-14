@@ -5,7 +5,7 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  sidebarMode: 'horizontal', // horizontal 顶部水平模式, vertical 侧边栏模式
+  sidebarMode: 'topbar', // horizontal 顶部水平模式, vertical 侧边栏模式, topbar 商业保理平台原有模式
   device: 'desktop',
   size: Cookies.get('size') || 'medium',
   childRouters: []
