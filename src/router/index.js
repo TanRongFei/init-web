@@ -98,7 +98,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'page',
-        component: () => import('@/views/permission/page'),
+        component: () => import('@/views/pages/permission/page'),
         name: 'PagePermission',
         meta: {
           title: 'Page Permission',
@@ -107,7 +107,7 @@ export const asyncRoutes = [
       },
       {
         path: 'directive',
-        component: () => import('@/views/permission/directive'),
+        component: () => import('@/views/pages/permission/directive'),
         name: 'DirectivePermission',
         meta: {
           title: 'Directive Permission'
@@ -116,7 +116,7 @@ export const asyncRoutes = [
       },
       {
         path: 'role',
-        component: () => import('@/views/permission/role'),
+        component: () => import('@/views/pages/permission/role'),
         name: 'RolePermission',
         meta: {
           title: 'Role Permission',
@@ -140,7 +140,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/work/index'),
+        component: () => import('@/views/pages/work/index'),
         name: 'work',
         meta: {
           title: 'Page work',
@@ -159,12 +159,12 @@ export const asyncRoutes = [
     meta: {
       title: 'CRM',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      roles: ['admin', 'editor', 's123'] // you can set roles in root nav
     },
     children: [
       {
         path: 'survey',
-        component: () => import('@/views/CRM/survey'),
+        component: () => import('@/views/pages/CRM/survey'),
         name: 'survey',
         meta: {
           title: '概况',
@@ -173,7 +173,7 @@ export const asyncRoutes = [
       },
       {
         path: 'enterprise-cus',
-        component: () => import('@/views/CRM/enterprise-cus'),
+        component: () => import('@/views/pages/CRM/enterprise-cus'),
         name: 'enterprise-cus',
         meta: {
           title: '企业客户'
@@ -182,7 +182,7 @@ export const asyncRoutes = [
       },
       {
         path: 'individual-cus',
-        component: () => import('@/views/CRM/individual-cus'),
+        component: () => import('@/views/pages/CRM/individual-cus'),
         name: 'individual-cus',
         meta: {
           title: '个人客户',
