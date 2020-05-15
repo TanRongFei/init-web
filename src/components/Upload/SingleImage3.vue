@@ -149,7 +149,7 @@ export default {
       position: absolute;
       width: 100%; // background: rgba(0, 0, 0, .1);
       text-align: center;
-      line-height: 64px;
+      line-height: 60px;
       color: #fff;
     }
   }

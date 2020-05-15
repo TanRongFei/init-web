@@ -43,8 +43,8 @@ export default {
 
 .sidebar-horizontal{
   .sidebar-logo-container{
-    height: 64px  ;
-    line-height: 64px;
+    height: 60px  ;
+    line-height: 60px;
     max-width: 200px;
     background: #304156;
   }

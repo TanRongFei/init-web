@@ -170,13 +170,13 @@ export default {
 }
 .navbar.topbar-nv{
   background-color: #019fe8;
-  height: 64px;
+  height: 60px;
   .right-menu{
     background-color: #019fe8;
   }
   .right-menu-item{
     color: #ffffff;
-    line-height: 64px;
+    line-height: 60px;
   }
 }
 </style>

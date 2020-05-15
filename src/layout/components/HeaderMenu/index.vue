@@ -115,12 +115,20 @@ export default {
 
 .sidebar-menu{
   display: flex;
-  height: 64px;
-  line-height: 64px;
+  height: 60px;
+  line-height: 60px;
   padding: 0 20px;
   .sidebar-item{
-    padding: 0 20px;
+    margin: 0 14px;
+    padding: 0 6px;
     cursor: pointer;
+  }
+  .second-sidebar.sidebar-item{
+    padding: 0;
+    margin: 0 12px;
+    a{
+      display: block;
+    }
   }
 }
 
@@ -159,4 +167,12 @@ export default {
     width: 150px;
   }
 }
+</style>
+
+<style lang="scss">
+  .second-sidebar.sidebar-item{
+    a{
+      display: block;
+    }
+  }
 </style>

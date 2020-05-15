@@ -157,5 +157,8 @@ export default {
   .sidebar-item.second-menu-active{
     color: #FC923F;
     border-bottom: #FC923F solid 2px;
+    a{
+      display: block;
+    }
   }
 </style>
