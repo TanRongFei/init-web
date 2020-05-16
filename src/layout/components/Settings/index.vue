@@ -3,8 +3,8 @@
     <div>
       <div class="drawer-item">
         <div class="title">导航模式</div>
-        <template >
-          <el-radio-group class="set-sidebar-mode" v-model="getSidebarMode" @change="changeSidebar">
+        <template>
+          <el-radio-group v-model="getSidebarMode" class="set-sidebar-mode" @change="changeSidebar">
             <el-radio :label="'vertical'">
               <svg-icon icon-class="sidemenu" class-name="sidemenu-icon" />
             </el-radio>
@@ -20,22 +20,7 @@
         </template>
       </div>
 
-      <el-divider></el-divider>
-
-<!--      <div class="drawer-item">-->
-<!--        <span>Theme Color</span>-->
-<!--        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />-->
-<!--      </div>-->
-
-<!--      <div class="drawer-item">-->
-<!--        <span>Open Tags-View</span>-->
-<!--        <el-switch v-model="tagsView" class="drawer-switch" />-->
-<!--      </div>-->
-
-<!--      <div class="drawer-item">-->
-<!--        <span>Fixed Header</span>-->
-<!--        <el-switch v-model="fixedHeader" class="drawer-switch" />-->
-<!--      </div>-->
+      <el-divider />
 
       <div class="drawer-item">
         <span>Sidebar Logo</span>

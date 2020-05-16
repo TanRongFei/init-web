@@ -1,6 +1,7 @@
 <template>
   <div>
-    IndividualCus
+    IndividualCus111
+    <router-view />
   </div>
 </template>
 

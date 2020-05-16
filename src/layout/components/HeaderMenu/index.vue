@@ -8,12 +8,13 @@
       <div class="sidebar-menu">
         <sidebar-item
           v-for="route in permission_routes"
-          :generation="'first-menu'"
           :key="route.path"
+          :generation="'first-menu'"
           :index="activeIndexFull"
           :item="route"
           :base-path="route.path"
-          @selectedRoute="selectedRoute" />
+          @selectedRoute="selectedRoute"
+        />
       </div>
 
       <div class="right-menu" style="width: 190px;">
@@ -21,15 +22,16 @@
       </div>
     </div>
 
-    <div class="second-menu" v-if="showSecondMenu">
+    <div v-if="showSecondMenu" class="second-menu">
       <div class="sidebar-menu">
         <sidebar-item
           v-for="route in childrenRoutes"
-          :generation="'second-menu'"
           :key="route.path"
+          :generation="'second-menu'"
           :index="activeIndexFull"
           :item="route"
-          :base-path="parent.path" />
+          :base-path="parent.path"
+        />
       </div>
     </div>
   </div>
@@ -65,11 +67,16 @@ export default {
   },
   watch: {
     '$route'(n, o) {
+      console.log('$route', n)
       this.activeIndexFull = n.fullPath
     }
   },
+  created() {
+    this.activeIndexFull = this.$route.fullPath
+  },
   methods: {
     selectedRoute(item) {
+      console.log('selectedRoute', item)
       if (!item) {
         this.showSecondMenu = false
         return
@@ -146,6 +153,7 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(7, 17, 27, 0.1);
   position: relative;
   z-index: 1;
+  background: #ffffff;
   .sidebar-menu{
     display: flex;
     justify-content: center;

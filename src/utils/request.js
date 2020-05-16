@@ -1,6 +1,6 @@
 import axios from 'axios'
 // import { MessageBox, Message } from 'element-ui'
-import { Message } from 'element-ui'
+import { Notification } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -75,7 +75,12 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
+    // Message({
+    //   message: error.message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
+    Notification({
       message: error.message,
       type: 'error',
       duration: 5 * 1000

@@ -1,25 +1,27 @@
 <template>
   <div
-    @click="handleChange"
     v-if="!item.hidden"
     class="sidebar-item"
     :class="formatActive"
-    :style="{width: (item.iconType ? '45px' : '')}" >
+    :style="{width: (item.iconType ? '45px' : '')}"
+    @click="handleChange"
+  >
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(item.path)">
         <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
-        <span>{{onlyOneChild.meta.title}}</span>
+        <span>{{ onlyOneChild.meta.title }}</span>
       </app-link>
     </template>
 
-    <div v-else >
-      <app-link v-if="generation === 'second-menu'" :to="resolvePath(item.path)"></app-link>
+    <div v-else>
+      <app-link v-if="generation === 'second-menu'" :to="resolvePath(item.path)" />
       <item v-else :icon="item.meta.icon||(item.meta&&item.meta.icon)" :title="item.meta.title" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import path from 'path'
 import { isExternal } from '@/utils/validate'
 import Item from '../Sidebar/Item'
@@ -74,22 +76,52 @@ export default {
       if (this.generation === 'first-menu') className = `${className} first-sidebar`
 
       return className
+    },
+    ...mapGetters([
+      'permission_routes'
+    ])
+  },
+  created() {
+    /*
+    * 页面刷新根据路由筛选侧边导航
+    * */
+    const arr = this.permission_routes.filter(item => {
+      if (this.$route.path.includes(item.path) && item.path !== '/') return item
+    })
+
+    if (arr && arr[0] && arr[0].children) {
+      const obj = arr[0].children.filter(item => {
+        return item.redirect === this.$route.path
+      })
+
+      if (obj && obj[0]) this.$store.dispatch('app/setLeftSidebarRouters', obj[0])
     }
   },
   methods: {
     handleChange() {
       if (this.item.children) {
         if (this.item.children.length === 1) {
-          this.$emit('selectedRoute', null)
+          if (this.generation === 'second-menu') {
+            this.$emit('selectedRoute', this.item)
+          } else {
+            this.$emit('selectedRoute', null)
+          }
         } else if (this.item.children.length > 1) {
           this.$emit('selectedRoute', this.item)
         }
 
         if (this.item.children.length) {
-          this.$router.push(this.resolvePath(this.item.children[0].path))
+          if (this.generation === 'first-menu') this.$router.push(this.resolvePath(this.item.children[0].path))
         }
       } else {
         this.$emit('selectedRoute', null)
+      }
+
+      // 保存侧边导航
+      if (this.generation === 'second-menu' && this.item.children) {
+        this.$store.dispatch('app/setLeftSidebarRouters', this.item)
+      } else {
+        this.$store.dispatch('app/setLeftSidebarRouters', {})
       }
     },
     hasOneShowingChild(children = [], parent) {

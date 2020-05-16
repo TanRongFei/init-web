@@ -45,9 +45,9 @@
                   @blur="capsTooltip = false"
                   @keyup.enter.native="handleLogin"
                 />
-<!--                <span class="show-pwd" @click="showPwd">-->
-<!--                  <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />-->
-<!--                </span>-->
+                <!--                <span class="show-pwd" @click="showPwd">-->
+                <!--                  <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />-->
+                <!--                </span>-->
               </el-form-item>
             </el-tooltip>
 
@@ -70,9 +70,9 @@
                   v-show="verifyCodeUrl!=null"
                   :src="verifyCodeUrl"
                   class="yzcode"
-                  @click="changeVerifyCode"
                   title="点击更换验证码"
-                />
+                  @click="changeVerifyCode"
+                >
               </el-col>
             </el-row>
 
@@ -177,7 +177,7 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              this.$router.push({ path: '/' })
               this.loading = false
             })
             .catch(() => {

@@ -33,17 +33,17 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index')
-      }
-    ]
-  },
+  // {
+  //   path: '/redirect',
+  //   component: Layout,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: '/redirect/:path(.*)',
+  //       component: () => import('@/views/redirect/index')
+  //     }
+  //   ]
+  // },
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -92,8 +92,7 @@ export const asyncRoutes = [
     name: 'Permission',
     meta: {
       title: 'Permission',
-      icon: 'email',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      icon: 'email'
     },
     children: [
       {
@@ -101,8 +100,7 @@ export const asyncRoutes = [
         component: () => import('@/views/pages/permission/page'),
         name: 'PagePermission',
         meta: {
-          title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: 'Page Permission'
         }
       },
       {
@@ -119,8 +117,7 @@ export const asyncRoutes = [
         component: () => import('@/views/pages/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: 'Role Permission',
-          roles: ['admin']
+          title: 'Role Permission'
         }
       }
     ]
@@ -134,8 +131,7 @@ export const asyncRoutes = [
     name: 'work',
     meta: {
       title: '工作',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      icon: 'lock'
     },
     children: [
       {
@@ -143,8 +139,7 @@ export const asyncRoutes = [
         component: () => import('@/views/pages/work/index'),
         name: 'work',
         meta: {
-          title: 'Page work',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: 'Page work'
         }
       }
     ]
@@ -153,13 +148,12 @@ export const asyncRoutes = [
   {
     path: '/crm',
     component: Layout,
-    // redirect: '/permission/page',
+    redirect: '/crm/survey',
     alwaysShow: true, // will always show the root menu
     name: 'crm',
     meta: {
       title: 'CRM',
-      icon: 'lock',
-      roles: ['admin', 'editor', 's123'] // you can set roles in root nav
+      icon: 'lock'
     },
     children: [
       {
@@ -167,8 +161,7 @@ export const asyncRoutes = [
         component: () => import('@/views/pages/CRM/survey'),
         name: 'survey',
         meta: {
-          title: '概况',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: '概况'
         }
       },
       {
@@ -182,12 +175,22 @@ export const asyncRoutes = [
       },
       {
         path: 'individual-cus',
-        component: () => import('@/views/pages/CRM/individual-cus'),
+        redirect: '/crm/individual-cus/index2',
+        component: () => import('@/views/pages/CRM/index'),
         name: 'individual-cus',
         meta: {
-          title: '个人客户',
-          roles: ['admin']
-        }
+          title: '个人客户'
+        },
+        children: [
+          {
+            path: 'index2',
+            component: () => import('@/views/pages/CRM/enterprise-cus/index2'),
+            name: 'index2',
+            meta: {
+              title: '客户变更'
+            }
+          }
+        ]
       }
     ]
   },

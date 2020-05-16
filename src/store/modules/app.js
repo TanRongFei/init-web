@@ -8,15 +8,15 @@ const state = {
   sidebarMode: 'topbar', // horizontal 顶部水平模式, vertical 侧边栏模式, topbar 商业保理平台原有模式
   device: 'desktop',
   size: Cookies.get('size') || 'medium',
-  childRouters: []
+  leftSidebarRouters: {}
 }
 
 const mutations = {
   SET_SIDEBARMODE: (state, sidebarMode) => {
     state.sidebarMode = sidebarMode
   },
-  SET_CHILDROUTERS: (state, childRouters) => {
-    state.childRouters = childRouters
+  SET_CHILDROUTERS: (state, leftSidebarRouters) => {
+    state.leftSidebarRouters = leftSidebarRouters
   },
   TOGGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
@@ -54,8 +54,8 @@ const actions = {
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
   },
-  setChildRouters({ commit }, childRouters) {
-    commit('SET_CHILDROUTERS', childRouters)
+  setLeftSidebarRouters({ commit }, leftSidebarRouters) {
+    commit('SET_CHILDROUTERS', leftSidebarRouters)
   },
   setSidebarMode({ commit }, sidebarMode) {
     commit('SET_SIDEBARMODE', sidebarMode)
