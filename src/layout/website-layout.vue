@@ -12,7 +12,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import HeaderMenu from './components/HeaderMenu'
+import HeaderMenu from './components/HeaderMenu/index'
 import LeftSidebar from './components/HeaderMenu/left-sidebar'
 import AppMain from './components/AppMain'
 

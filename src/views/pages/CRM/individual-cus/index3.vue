@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-title :label="'客户变更'" :total="10" />
+    <head-title :label="'客户变更2'" :total="30" />
 
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="date" label="日期" width="180" />

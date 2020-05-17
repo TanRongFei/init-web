@@ -5,109 +5,78 @@
         <img src="../../../assets/logo.png" alt="">
       </div>
 
-      <div class="sidebar-menu">
-        <sidebar-item
-          v-for="route in permission_routes"
-          :key="route.path"
-          :generation="'first-menu'"
-          :index="activeIndexFull"
-          :item="route"
-          :base-path="route.path"
-          @selectedRoute="selectedRoute"
-        />
-      </div>
+      <menu1 @selectRoute="selectRoute" />
 
       <div class="right-menu" style="width: 190px;">
         <navbar />
       </div>
     </div>
-
-    <div v-if="showSecondMenu" class="second-menu">
-      <div class="sidebar-menu">
-        <sidebar-item
-          v-for="route in childrenRoutes"
-          :key="route.path"
-          :generation="'second-menu'"
-          :index="activeIndexFull"
-          :item="route"
-          :base-path="parent.path"
-        />
-      </div>
+    <div v-show="secondRoute && secondRoute.children && secondRoute.children.length > 1" class="second-menu">
+      <menu2 :route="secondRoute" @selectRoute="saveRoute" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import SidebarItem from './SidebarItem'
+import menu1 from './menu-1'
+import menu2 from './menu-2'
 import Navbar from '../Navbar'
 
 export default {
-  name: 'Index3',
+  name: 'Headermenu',
   components: {
-    SidebarItem,
+    menu1,
+    menu2,
     Navbar
   },
   data() {
     return {
-      childrenRoutes: [],
-      parent: '',
-      showSecondMenu: false,
-      activeIndexFull: ''
+      secondRoute: null
     }
   },
   computed: {
-    formatRoutes() {
-      return this.permission_routes.filter(item => !item.hidden)
-    },
     ...mapGetters([
-      'permission_routes',
-      'sidebar'
+      'permission_routes'
     ])
   },
-  watch: {
-    '$route'(n, o) {
-      console.log('$route', n)
-      this.activeIndexFull = n.fullPath
-    }
-  },
   created() {
-    this.activeIndexFull = this.$route.fullPath
-  },
-  methods: {
-    selectedRoute(item) {
-      console.log('selectedRoute', item)
-      if (!item) {
-        this.showSecondMenu = false
-        return
-      }
-      this.showSecondMenu = true
-      this.childrenRoutes = item.children
-      this.parent = item
-    },
-    hasOneShowingChild(children = [], parent) {
-      const showingChildren = children.filter(item => {
-        if (item.hidden) {
-          return false
-        } else {
-          // Temp set(will be used if only has one showing child)
-          this.onlyOneChild = item
-          return true
-        }
+    this.selectRoute()
+
+    /*
+   * 页面刷新根据路由筛选侧边导航
+   * */
+    const arr = this.permission_routes.filter(item => {
+      if (this.$route.path.includes(item.path) && item.path !== '/') return item
+    })
+
+    if (arr && arr[0] && arr[0].children) {
+      const obj = arr[0].children.filter(item => {
+        return item.redirect === this.$route.path
       })
 
-      // When there is only one child router, the child router is displayed by default
-      if (showingChildren.length === 1) {
-        return true
+      if (obj && obj[0]) this.$store.dispatch('app/setLeftSidebarRouters', { ...obj[0], basePath: this.secondRoute.path })
+    }
+  },
+  methods: {
+    selectRoute(item = null) {
+      this.secondRoute = item
+
+      if (!this.secondRoute) {
+        this.secondRoute = this.permission_routes.filter(item => {
+          return item.path !== '/' && this.$route.path.includes(item.path)
+        })[0]
       }
 
-      // Show parent if there are no child router to display
-      if (showingChildren.length === 0) {
-        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
-        return true
+      this.saveRoute({})
+    },
+    saveRoute(item) {
+      // 保存侧边导航
+      if (item.children) {
+        this.$store.dispatch('app/setLeftSidebarRouters', { ...item, basePath: this.secondRoute.path })
+      } else {
+        this.$store.dispatch('app/setLeftSidebarRouters', {})
       }
-
-      return false
     }
   }
 }
@@ -117,70 +86,48 @@ export default {
 .header-menu{
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.sidebar-menu{
-  display: flex;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 20px;
-  .sidebar-item{
-    margin: 0 14px;
-    padding: 0 6px;
-    cursor: pointer;
+  .first-menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #019fe8;
+    color: #ffffff;
+    position: relative;
+    z-index: 99;
   }
-  .second-sidebar.sidebar-item{
-    padding: 0;
-    margin: 0 12px;
-    a{
-      display: block;
-    }
-  }
-}
 
-.first-menu{
-  display: flex;
-  flex: 0 0 100%;
-  justify-content: space-between;
-  background-color: #019fe8;
-  color: #ffffff;
-  position: relative;
-  z-index: 10;
-}
-
-.second-menu{
-  box-shadow: 0 2px 4px 0 rgba(7, 17, 27, 0.1);
-  position: relative;
-  z-index: 1;
-  background: #ffffff;
-  .sidebar-menu{
+  .second-menu{
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 50px;
     line-height: 50px;
-  }
-}
-
-.right-menu{
-  height: 100%;
-  background-color: #019fe8;
-}
-
-.left-menu{
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  img{
-    width: 150px;
+    background: #ffffff;
+    position: relative;
+    z-index: 9;
+    box-shadow: 0 2px 4px 0 rgba(7, 17, 27, 0.1);
   }
 }
 </style>
 
 <style lang="scss">
-  .second-sidebar.sidebar-item{
-    a{
-      display: block;
+  .first-menu{
+    .menu-1{
+      height: 60px;
+      line-height: 60px;
+    }
+    .menu-item{
+      padding:0 15px;
+      a{
+        display: block;
+      }
+    }
+  }
+
+  .second-menu{
+    .menu-item{
+      padding:0 10px;
+      color: #606266;
     }
   }
 </style>

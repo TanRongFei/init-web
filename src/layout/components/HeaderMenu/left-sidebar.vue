@@ -15,10 +15,10 @@
         v-for="item in leftSidebarRouters.children"
         :key="item.code"
         class="item"
-        :class="{active: item.code === selected.code}"
+        :class="formatClass(item)"
         @click="handleSelect(item)"
       >
-        <app-link :to="leftSidebarRouters.redirect">
+        <app-link :to="resolvePath(resolvePath(leftSidebarRouters.basePath, leftSidebarRouters.path), item.path)">
           <span>{{ item.meta.title }}</span>
         </app-link>
       </div>
@@ -44,12 +44,22 @@ export default {
     }
   },
   computed: {
+    formatClass() {
+      return (item) => {
+        if (this.$route.path.includes(item.path)) {
+          return 'active'
+        }
+      }
+    },
     basePath() {
       return this.leftSidebarRouters.path
     },
     ...mapGetters([
       'leftSidebarRouters'
     ])
+  },
+  created() {
+    console.log(this.$route)
   },
   methods: {
     handleSelect(item) {
@@ -120,6 +130,9 @@ export default {
           font-weight: normal;
           span{
             margin-left: 20px;
+          }
+          a{
+            display: block;
           }
           &:hover{
             color: #427fed;

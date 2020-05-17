@@ -176,6 +176,7 @@ export const asyncRoutes = [
       {
         path: 'individual-cus',
         redirect: '/crm/individual-cus/index2',
+        alwaysShow: true, // will always show the root menu
         component: () => import('@/views/pages/CRM/index'),
         name: 'individual-cus',
         meta: {
@@ -184,8 +185,16 @@ export const asyncRoutes = [
         children: [
           {
             path: 'index2',
-            component: () => import('@/views/pages/CRM/enterprise-cus/index2'),
+            component: () => import('@/views/pages/CRM/individual-cus/index2'),
             name: 'index2',
+            meta: {
+              title: '客户信息'
+            }
+          },
+          {
+            path: 'index3',
+            component: () => import('@/views/pages/CRM/individual-cus/index3'),
+            name: 'index3',
             meta: {
               title: '客户变更'
             }

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <head-title :title="'客户变更'" :total="30" />
+    <head-title :label="'客户变更'" :total="30">
+      <template slot="after">
+        <el-button type="primary" size="mini">slot</el-button>
+      </template>
+    </head-title>
 
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="date" label="日期" width="180" />
@@ -11,7 +15,7 @@
 </template>
 
 <script>
-import HeadTitle from '../../components/head-title'
+import HeadTitle from '../../components/table-head-title'
 import Module from '@/api/CRM/sysrole'
 
 export default {

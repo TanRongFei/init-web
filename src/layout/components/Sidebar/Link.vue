@@ -30,7 +30,7 @@ export default {
       if (this.isExternal) {
         return {
           href: to,
-          target: '_blank',
+          // target: '_blank',
           rel: 'noopener'
         }
       }

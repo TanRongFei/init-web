@@ -5,6 +5,7 @@
       <span>共{{ total }}个</span>
     </div>
     <div class="header-edit">
+      <slot name="after" />
       <el-button type="primary" size="mini">添 加</el-button>
       <el-button type="primary" size="mini">查 看</el-button>
       <el-button type="primary" size="mini">编 辑</el-button>
@@ -13,6 +14,7 @@
       <el-button type="primary" size="mini" disabled>提交流程</el-button>
       <el-button type="primary" size="mini" disabled>查看流程</el-button>
       <el-button type="primary" size="mini" disabled>套 打</el-button>
+      <slot name="after" />
     </div>
   </div>
 </template>
