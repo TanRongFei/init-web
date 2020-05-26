@@ -19,13 +19,20 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'roles'
+      'roles',
+      'permission_routes'
     ])
   },
   created() {
+    console.log('permission_routes', this.permission_routes)
+    console.log('$route', this.$route)
+    console.log('$router', this.$router)
     if (!this.roles.includes('admin')) {
       this.currentRole = 'editorDashboard'
     }
+  },
+  mounted() {
+    console.log('$router', this.$router)
   }
 }
 </script>

@@ -8,7 +8,7 @@
     </template>
 
     <template v-else>
-      <app-link v-if="onlyOneChild && onlyOneChild.meta" :to="resolvePath(basePath, item.path)">
+      <app-link v-if="item && item.meta" :to="resolvePath(basePath, item.path)">
         <item :icon="item.meta&&item.meta.icon" />
         {{ item.meta && item.meta.title }}
       </app-link>
@@ -56,7 +56,11 @@ export default {
     formatActive() {
       let className = ''
       if (this.item.path !== '/' && this.$route.fullPath.includes(this.item.path)) {
-        className = `active-${this.generation}`
+        if (this.item.fullPath && this.$route.fullPath === this.item.fullPath) {
+          className = `active-${this.generation}`
+        } else if (this.$route.fullPath.includes(this.item.path)) {
+          className = `active-${this.generation}`
+        }
       } else if (this.item.redirect === '/dashboard' && this.$route.fullPath === '/dashboard') {
         className = `active-${this.generation}`
       } else {
@@ -134,7 +138,7 @@ export default {
     font-size: 14px;
     cursor: pointer;
     &.first-sidebar{
-      height: 60px;
+      height: 58px;
       border-bottom: #019fe8 solid 4px;
     }
     &.active-1 a{
@@ -147,8 +151,6 @@ export default {
       }
     }
     &.second-sidebar{
-      height: 50px;
-      border-bottom: #ffffff solid 2px;
       color: #606266;
     }
     &.active-2 a{

@@ -24,7 +24,7 @@ export default {
     click() {
       if (!screenfull.enabled) {
         this.$message({
-          message: 'you browser can not CRM',
+          message: 'you browser can not server',
           type: 'warning'
         })
         return false

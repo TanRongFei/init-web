@@ -4,6 +4,8 @@
 
 <script>
 export default {
-  name: 'EnterpriseCus'
 }
 </script>
+
+<style lang="less" scoped>
+</style>

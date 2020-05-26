@@ -8,10 +8,14 @@ const state = {
   sidebarMode: 'topbar', // horizontal 顶部水平模式, vertical 侧边栏模式, topbar 商业保理平台原有模式
   device: 'desktop',
   size: Cookies.get('size') || 'medium',
-  leftSidebarRouters: {}
+  leftSidebarRouters: {},
+  showSideTool: false
 }
 
 const mutations = {
+  SET_SIDE_TOOL: (state, flag) => {
+    state.showSideTool = flag
+  },
   SET_SIDEBARMODE: (state, sidebarMode) => {
     state.sidebarMode = sidebarMode
   },
@@ -42,6 +46,9 @@ const mutations = {
 }
 
 const actions = {
+  toggleSideToll( { commit }, flag) {
+    commit('SET_SIDE_TOOL', flag)
+  },
   toggleSideBar({ commit }) {
     commit('TOGGLE_SIDEBAR')
   },

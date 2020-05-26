@@ -31,12 +31,30 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password, verifyCode } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+      /*
+      * userType admin登录为2
+      * vcode: verifyCode, userType: 2
+      * */
+      login({ userName: username.trim(), passWord: password, vCode: verifyCode, userType: '2' }).then(response => {
+        const { body } = response
+
+        if (!body) {
+          reject('Verification failed, please Login again.')
+        }
+
+        const { roles, userName } = body
+
+        // 设置token
+        commit('SET_TOKEN', 'admin-token')
+        setToken('admin-token')
+
+        // 保存用户信息
+        // commit('SET_ROLES', roles)
+        commit('SET_NAME', userName)
+        commit('SET_AVATAR', 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
+        // commit('SET_INTRODUCTION', introduction)
         resolve()
       }).catch(error => {
         reject(error)

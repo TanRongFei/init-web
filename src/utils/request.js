@@ -4,11 +4,12 @@ import { Notification } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+axios.defaults.withCredentials = true
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 60000 // request timeout
 })
 
 // request interceptor 请求拦截器
@@ -47,12 +48,13 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    // if (res.code !== 20000) {
-    //   Message({
-    //     message: res.message || 'Error',
-    //     type: 'error',
-    //     duration: 5 * 1000
-    //   })
+    if (!res.ok) {
+      Notification({
+        message: res.msg || 'Error',
+        type: 'error',
+        duration: 2 * 1000
+      })
+    }
     //
     //   // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
     //   if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
@@ -83,7 +85,7 @@ service.interceptors.response.use(
     Notification({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 2 * 1000
     })
     return Promise.reject(error)
   }

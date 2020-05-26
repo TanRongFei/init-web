@@ -20,24 +20,33 @@ router.beforeEach(async(to, from, next) => {
   // determine whether the user has logged in
   const hasToken = getToken()
 
-  if (hasToken) {
+  if (hasToken || 1) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
-      NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
+      NProgress.done()
     } else {
+      // 通过路由地址配置左侧路由导航
+      store.dispatch('permission/setLeftSidebarRouters', to.fullPath)
+
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
         next()
       } else {
         try {
+          // get dict
+          store.dispatch('dict/fetchDict')
+
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
+          // const { roles } = await store.dispatch('user/getInfo')
 
           // generate accessible routes map based on roles
+          // 此处模拟动态获取权限
+          const roles = ['admin']
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          store.commit('user/SET_ROLES', roles)
 
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)

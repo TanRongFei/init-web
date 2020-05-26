@@ -61,12 +61,18 @@ export default {
 
     return {
       rules: {
+        custRole: [
+          { required: true, message: '必选', trigger: 'change' }
+        ],
         telephone: [
           { required: true, message: '必填', trigger: 'change' },
           { validator: valPhone, trigger: 'change' }
         ],
         tel2: [
           { validator: valTel, trigger: 'change' }
+        ],
+        name: [
+          { required: true, message: '必传', trigger: 'change' }
         ],
         faceImage: [
           { required: true, message: '必传', trigger: 'change' }
@@ -83,11 +89,25 @@ export default {
           { required: true, message: '必填', trigger: 'change' },
           { max: 50, message: '长度超出了50个字符', trigger: 'change' }
         ],
-        startDate: [
-          // { required: true, message: '必填', trigger: 'change' },
+        signatureTime: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        repoTime: [
           { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
         ],
         deviceType: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        signWay: [
+          { required: true, message: '必选', trigger: 'change' }
+        ],
+        businessType: [
+          { required: true, message: '必选', trigger: 'change' }
+        ],
+        contPmId: [
+          { required: true, message: '必选', trigger: 'change' }
+        ],
+        platcredBizcode: [
           { required: true, message: '必填', trigger: 'change' }
         ]
       }

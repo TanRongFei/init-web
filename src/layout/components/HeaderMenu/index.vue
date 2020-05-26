@@ -11,8 +11,8 @@
         <navbar />
       </div>
     </div>
-    <div v-show="secondRoute && secondRoute.children && secondRoute.children.length > 1" class="second-menu">
-      <menu2 :route="secondRoute" @selectRoute="saveRoute" />
+    <div v-show="secondRoute && secondRoute.children" class="second-menu">
+      <menu2 :route="secondRoute" />
     </div>
   </div>
 </template>
@@ -42,21 +42,6 @@ export default {
   },
   created() {
     this.selectRoute()
-
-    /*
-   * 页面刷新根据路由筛选侧边导航
-   * */
-    const arr = this.permission_routes.filter(item => {
-      if (this.$route.path.includes(item.path) && item.path !== '/') return item
-    })
-
-    if (arr && arr[0] && arr[0].children) {
-      const obj = arr[0].children.filter(item => {
-        return item.redirect === this.$route.path
-      })
-
-      if (obj && obj[0]) this.$store.dispatch('app/setLeftSidebarRouters', { ...obj[0], basePath: this.secondRoute.path })
-    }
   },
   methods: {
     selectRoute(item = null) {
@@ -66,16 +51,6 @@ export default {
         this.secondRoute = this.permission_routes.filter(item => {
           return item.path !== '/' && this.$route.path.includes(item.path)
         })[0]
-      }
-
-      this.saveRoute({})
-    },
-    saveRoute(item) {
-      // 保存侧边导航
-      if (item.children) {
-        this.$store.dispatch('app/setLeftSidebarRouters', { ...item, basePath: this.secondRoute.path })
-      } else {
-        this.$store.dispatch('app/setLeftSidebarRouters', {})
       }
     }
   }

@@ -26,9 +26,6 @@ export default {
       'permission_routes'
     ])
   },
-  created() {
-    console.log(this.$route)
-  },
   methods: {
     selectRoute(item) {
       this.$emit('selectRoute', item)

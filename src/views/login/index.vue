@@ -100,6 +100,7 @@
 
 <script>
 import SocialSign from './components/SocialSignin'
+import Module from '@/api/server/verifyCode'
 
 export default {
   name: 'Login',
@@ -107,7 +108,7 @@ export default {
   data() {
     return {
       verifyTime: new Date().getTime(),
-      verifyCodeBaseUrl: '/oauth/piccode',
+      verifyCodeBaseUrl: '',
       loginForm: {
         username: '',
         password: '',
@@ -128,7 +129,7 @@ export default {
   },
   computed: {
     verifyCodeUrl: function() {
-      return `${this.verifyCodeBaseUrl}?dt=${this.verifyTime}`
+      return `${this.verifyCodeBaseUrl}`
     }
   },
   watch: {
@@ -145,6 +146,7 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    this.changeVerifyCode()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -198,7 +200,9 @@ export default {
       }, {})
     },
     changeVerifyCode() {
-      this.verifyTime = new Date().getTime()
+      Module.fetchList().then(res => {
+        this.verifyCodeBaseUrl = res.img
+      })
     }
   }
 }

@@ -1,14 +1,20 @@
 <template>
-  <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <router-view :key="key" />
-      </keep-alive>
-    </transition>
+  <section class="app-main" :class="{'show-side-tool': showSideTool}">
+<!--    <transition name="fade-transform" mode="out-in">-->
+<!--      <keep-alive :include="cachedViews">-->
+<!--        <router-view :key="key" />-->
+<!--      </keep-alive>-->
+<!--    </transition>-->
+    <keep-alive :include="cachedViews">
+      <router-view :key="key" />
+    </keep-alive>
+
   </section>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'AppMain',
   computed: {
@@ -17,7 +23,10 @@ export default {
     },
     key() {
       return this.$route.path
-    }
+    },
+    ...mapGetters([
+      'showSideTool'
+    ])
   }
 }
 </script>
@@ -31,6 +40,9 @@ export default {
   overflow: hidden;
   background-color: #eeeeee;
   padding: 15px;
+  &.show-side-tool{
+    padding: 15px 50px 15px 15px;
+  }
 }
 
 .fixed-header+.app-main {

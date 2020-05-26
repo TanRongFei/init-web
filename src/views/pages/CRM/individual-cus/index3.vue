@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import HeadTitle from '../../components/table-head-title'
-import Module from '@/api/CRM/sysrole'
+import HeadTitle from '../../components/head-title'
+import Module from '@/api/server/sysrole'
 
 export default {
   name: 'Index2',

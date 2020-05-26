@@ -4,6 +4,7 @@
 
     <div class="main-container" :class="{'full-main': !formatClass}">
       <left-sidebar v-show="formatClass" />
+      <tabs-sidebar v-show="isShowTabs" />
 
       <app-main />
     </div>
@@ -14,6 +15,7 @@
 import { mapGetters } from 'vuex'
 import HeaderMenu from './components/HeaderMenu/index'
 import LeftSidebar from './components/HeaderMenu/left-sidebar'
+import TabsSidebar from './components/HeaderMenu/tabs-sidebar'
 import AppMain from './components/AppMain'
 
 export default {
@@ -21,6 +23,7 @@ export default {
   components: {
     HeaderMenu,
     LeftSidebar,
+    TabsSidebar,
     AppMain
   },
   data() {
@@ -35,9 +38,17 @@ export default {
         return false
       }
     },
+    isShowTabs() {
+      if (this.tabsSidebarRouters && this.tabsSidebarRouters.children) {
+        return this.tabsSidebarRouters.children.length
+      } else {
+        return false
+      }
+    },
     ...mapGetters([
       'leftSidebarRouters',
-      'permission_routes'
+      'permission_routes',
+      'tabsSidebarRouters'
     ])
   }
 }

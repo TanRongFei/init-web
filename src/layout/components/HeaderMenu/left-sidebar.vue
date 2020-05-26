@@ -3,7 +3,7 @@
     <div class="scope" :class="{'anition': isCollapse}" @click="isCollapse = !isCollapse">
       <div v-show="!isCollapse" class="left-item">
         <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80">
-        <span>user</span>
+        <span>{{name}}</span>
       </div>
       <div class="right-item">
         <i v-show="!isCollapse" class="el-icon-s-fold" />
@@ -12,13 +12,13 @@
     </div>
     <div v-show="!isCollapse" class="scope list" :class="{'anition': isCollapse}">
       <div
-        v-for="item in leftSidebarRouters.children"
+        v-for="item in formatRoutes"
         :key="item.code"
         class="item"
         :class="formatClass(item)"
         @click="handleSelect(item)"
       >
-        <app-link :to="resolvePath(resolvePath(leftSidebarRouters.basePath, leftSidebarRouters.path), item.path)">
+        <app-link :to="resolvePath(item.leftSidebar, item.path)">
           <span>{{ item.meta.title }}</span>
         </app-link>
       </div>
@@ -44,6 +44,11 @@ export default {
     }
   },
   computed: {
+    formatRoutes() {
+      if (this.leftSidebarRouters && this.leftSidebarRouters.children) {
+        return this.leftSidebarRouters.children.filter(item => !item.hidden)
+      }
+    },
     formatClass() {
       return (item) => {
         if (this.$route.path.includes(item.path)) {
@@ -55,11 +60,9 @@ export default {
       return this.leftSidebarRouters.path
     },
     ...mapGetters([
-      'leftSidebarRouters'
+      'leftSidebarRouters',
+      'name'
     ])
-  },
-  created() {
-    console.log(this.$route)
   },
   methods: {
     handleSelect(item) {

@@ -1,10 +1,13 @@
 const getters = {
   sidebar: state => state.app.sidebar,
   sidebarMode: state => state.app.sidebarMode,
-  leftSidebarRouters: state => state.app.leftSidebarRouters,
+  // leftSidebarRouters: state => state.app.leftSidebarRouters,
+  leftSidebarRouters: state => state.permission.leftSidebarRouters,
+  tabsSidebarRouters: state => state.permission.tabsSidebarRouters,
   childRouters: state => state.app.childRouters,
   size: state => state.app.size,
   device: state => state.app.device,
+  showSideTool: state => state.app.showSideTool,
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
   token: state => state.user.token,
@@ -13,6 +16,7 @@ const getters = {
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
-  errorLogs: state => state.errorLog.logs
+  errorLogs: state => state.errorLog.logs,
+  dict: state => state.dict.dict
 }
 export default getters

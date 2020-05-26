@@ -33,43 +33,76 @@ export function FormatDateTime(sour) {
 }
 
 export default class RestModel {
-  constructor(name, newModel) {
-    this.Modelname = name
+  constructor(url, newModel) {
+    this.Modelname = url
     this.model = newModel
   }
+
   newModel() {
     return Object.assign({}, this.model)
   }
   fetchList(query) {
-    var payload = {}
-    payload[this.Modelname] = query
     return request({
-      url: '/rest/r/' + this.Modelname,
+      url: this.Modelname,
       method: 'post',
-      data: payload
-    }).then(response => response.data[this.Modelname])
+      data: query
+    }).then(response => response.body)
       .catch(res => res)
   }
   createModel(data) {
     // 设置插入标志
-    data['id'] = 0
-    var payload = {}
-    payload[this.Modelname] = [FormatDateTime(data)]
     return request({
-      url: '/rest/w/' + this.Modelname,
+      url: this.Modelname,
       method: 'post',
-      data: payload
-    }).then(response => response.data[this.Modelname])
+      data
+    }).then(response => response.body)
   }
   updateModel(data) {
-    // 设置更新标志
-    var payload = {}
-    payload[this.Modelname] = [FormatDateTime(data)]
     return request({
-      url: '/sso/rest/w/' + this.Modelname,
+      url: this.Modelname,
       method: 'post',
-      data: payload
-    }).then(response => response.data[this.Modelname])
+      data
+    }).then(response => response.body)
+  }
+  // 获取crm客户列表
+  corporationList = query => {
+    return request({
+      url: this.Modelname,
+      method: 'post',
+      data: query
+    })
+  }
+  // crm客户删除
+  delList = query => {
+    return request({
+      url: `${this.Modelname}?${query}`,
+      method: 'post',
+      data: {}
+    })
+  }
+  // crm客户查看
+  lookList = query => {
+    return request({
+      url: `${this.Modelname}?${query}`,
+      method: 'post',
+      data: {}
+    })
+  }
+  // crm客户修改
+  emitList = query => {
+    return request({
+      url: `${this.Modelname}?${query}`,
+      method: 'post',
+      data: {}
+    })
+  }
+  // crm客户增加
+  addList = query => {
+    return request({
+      url: this.Modelname,
+      method: 'post',
+      data: query
+    })
   }
 }
 

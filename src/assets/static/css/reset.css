@@ -1,0 +1,95 @@
+/* write by elison ; QQ:673307924 --2015--*/
+body {font:13px/1.5  tahoma,arial,'Hiragino Sans GB','Hiragino Sans GB W3','Microsoft Yahei',\5b8b\4f53;color: #000;margin: 0px; padding: 0px; background:#E3E4E9; min-width:1200px; }
+div,ul,li,h1,h2,h3,h4,h5,h6,img,p,dl,dt,dd,ol,th,td,img,span,a{margin: 0px;padding: 0px;}
+li {list-style-type: none;}
+form,input,button,option,textarea,select{ margin: 0px;padding: 0px;}
+input,button,textarea,select{font:Tahoma,Helvetica,Arial,sans-serif;outline:none;}
+a {color: #000;text-decoration: none;}
+:focus{outline:0;}
+label{cursor:pointer;}
+a:link,a:visited,a:hover {text-decoration: none;outline:none;}
+input,select,textarea{font-family:tahoma,arial,'Hiragino Sans GB','Hiragino Sans GB W3','Microsoft Yahei';}
+th { font-weight:normal;}
+img { border: 0; }
+em,b,s,i{font-style:normal;}
+em{color:#f00;}
+h1{font-size:16px;}h2,h3,h4{font-size:14px; font-weight: lighter;}h5,h6{font-size:12px;}
+.blank20{height:20px;overflow:hidden;display:block;}
+.clearfix:after{clear:both;content:'.';display:block;font-size:0;line-height:0;visibility:hidden;height:0}
+.clearfix{*zoom:1;}
+.fl,.fleft{float:left;}.fr,.fright{float:right;}
+.font_red { color: #ff0000;}.font_blue { color: #338aca;}
+.font_green { color: #8fc31f;}.font_orange { color: #f87509;}
+.font_yellow{color:#f99d33;}.font_gray{ color:#7e7e7e;}.font_black{ color:#000;}
+.tleft{text-align:left;}.tcenter{text-align:center;}.tright{text-align:right;}
+.mt5{margin-top: 5px;}.m_t_10,.mt10{margin-top:10px;}.m_t_15,.mt15{margin-top:15px;}.m_b_15,.mb15{margin-bottom:15px;}
+.ml10{margin-left:10px;}.mr15{margin-right:15px;}.mr0{margin-right:0;}
+.p10{padding:10px;}.pl20{padding-left:20px;}.pt10{padding-top:10px;}
+.pt5{padding-top:5px;}.pt15{padding-top:15px;}
+.pr10{padding-right:10px;}.pr15{padding-right:15px;}.pr25{padding-right:25px;}
+.wp100{width:100%;}.wp95{width:95%;}.wp90{width:90%;}.wp85{width:85%;}.wp80{width:80%;}.wp75{width:75%;}.wp70{width:70%;}
+.wp50{width:50%;}.wp40{width:40%;}.wp30{width:30%;}
+.pr{position:relative;} .ps{position:absolute;}
+input[type=checkbox]{vertical-align:middle; margin-top:-2px; margin-right:3px;}
+input[type=radio]{vertical-align:middle; margin-top:-2px; margin-right:3px;}
+input:focus{border-color:#3487e2;}
+.inp_t:hover{border-color:#3487e2;}
+.bg_fff{background:#fff;}
+.bg_f4{background:#f4f4f4;}
+.bg_black{background:#1d1e1e;}
+.hide{display:none;}
+table{border-collapse: collapse; border-spacing: 0;}
+textarea{resize:none;}
+.inp_t{border:1px solid #ddd; border-radius:3px; line-height:22px; padding:2px 5px;}
+input[type="submit"],
+ input[type="reset"],
+ input[type="button"],
+ button { -webkit-appearance: none; }
+
+input::-webkit-input-placeholder{color:#aaa}
+input:focus::-webkit-input-placeholder{color:rgba(0,0,0,0);}
+input::-moz-placeholder{color:#aaa}
+input:focus::-moz-placeholder{color:rgba(0,0,0,0);}
+input:-ms-input-placeholder{color:#aaa}
+input:focus:-ms-input-placeholder{color:rgba(0,0,0,0);}
+textarea::-webkit-input-placeholder{color:#aaa}
+textarea:focus::-webkit-input-placeholder{color:rgba(0,0,0,0); background-color:#ffffcd;}
+textarea::-moz-placeholder{color:#aaa}
+textarea:focus::-moz-placeholder{color:rgba(0,0,0,0); background-color:#ffffcd;}
+textarea:-ms-input-placeholder{color:#aaa}
+textarea:focus:-ms-input-placeholder{color:rgba(0,0,0,0); background-color:#ffffcd;}
+
+input.inp_t:focus::-webkit-input-placeholder{background-color:#ffffcd;}
+input.inp_t:focus::-moz-placeholder{background-color:#ffffcd;}
+input.inp_t:focus:-ms-input-placeholder{background-color:#ffffcd;}
+
+
+::-webkit-scrollbar{width:8px;background:#eee;height:8px}
+::-webkit-scrollbar-button{height:0;width:0}
+::-webkit-scrollbar-track{}
+::-webkit-scrollbar-thumb{background-color:rgba(0,0,0,.4);border-radius:4px}
+::-webkit-scrollbar-thumb:window-inactive{background:rgba(0,0,0,.3)}
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background-color:rgba(0,0,0,.5)}
+::-webkit-scrollbar-thumb:horizontal{border-width:6px 1px 1px;padding:0 0 0 100px;box-shadow:inset 1px 1px 0 rgba(0,0,0,.1),inset -1px 0 0 rgba(0,0,0,.07)}
+::-webkit-scrollbar-corner{background:transparent}
+body::-webkit-scrollbar-track-piece{background-clip:padding-box;background-color:#eee}
+body::-webkit-scrollbar-track-piece:horizontal{background-color:#eee}
+body::-webkit-scrollbar-corner{background-clip:padding-box;background-color:#eee;border:solid #fff;border-width:3px 0 0 3px;box-shadow:inset 1px 1px 0 rgba(0,0,0,.14)}
+
+
+/*------bank------------*/
+.bank-logo{display:inline-block; height:25px; width:120px; background:url(../images/bank.png) no-repeat; vertical-align:middle; text-indent:-999999px;}
+.bank-icbc{background-position:0 0;}
+.bank-ccb{background-position:-120px 0;}
+.bank-psbc{background-position:-240px 0;}
+.bank-abc{background-position:0 -25px;}
+.bank-boc{background-position:-120px -25px;}
+.bank-comm{background-position:-240px -25px;}
+.bank-cmb{background-position:0 -50px;}
+.bank-spd{background-position:-120px -50px;}
+.bank-ceb{background-position:-240px -50px;}
+.bank-citic{background-position:0 -75px;}
+.bank-pingan{background-position:-120px -75px;}
+.bank-cmbc{background-position:-240px -75px;}
+.bank-cib{background-position:0 -100px;}
+.bank-hxb{background-position:-120px -100px;}

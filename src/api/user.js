@@ -1,10 +1,15 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function login(params) {
+  // const formData = new FormData()
+  // Object.keys(params).forEach((key) => {
+  //   formData.append(key, params[key])
+  // })
+
   return request({
-    url: '/vue-element-admin/user/login',
+    url: '/admin/login/user/login',
     method: 'post',
-    data
+    data: params
   })
 }
 
