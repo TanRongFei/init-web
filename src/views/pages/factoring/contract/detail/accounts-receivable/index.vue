@@ -1,111 +1,49 @@
 <template>
-  <div class="basic-info">
-    <head-title :label="'合同'" :showDefaultButton="false">
-      <template slot="after">
-        <el-button type="primary" size="mini">保 存</el-button>
-        <el-button type="" size="mini">返 回</el-button>
-      </template>
-    </head-title>
-
-    <el-card shadow="nerve">
-      <form-label :label="'申请信息'" />
-      <div class="wrap">
-        <el-form :model="form" label-width="155px">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-form-item label="申请日期">
-                <el-date-picker
-                  v-model="form.date"
-                  style="width: 100%;"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="还款截至日期">
-                <el-date-picker
-                  v-model="form.date"
-                  style="width: 100%;"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="申请金额">
-                <el-input v-model="form.name" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="融资成数">
-                <el-input v-model="form.name" >
-                  <template slot="append">%</template>
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="应收账款类型" >
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
+  <div class="container">
+    <div class="info">
+      <div class="item">
+        <span class="label">应收账款类型</span>
+        <span>{{ form.receWay + '-dueTypeEnums' | filterDict }}</span>
       </div>
+    </div>
 
-      <form-label :label="'基础交易合同'">
-        <template slot="after">
-          <el-button type="" icon="el-icon-plus" size="mini"></el-button>
-          <el-button type="" icon="el-icon-delete" size="mini"></el-button>
-        </template>
-      </form-label>
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="name" label="合同名称" align="center"></el-table-column>
-        <el-table-column prop="address" label="合同编号" align="center"></el-table-column>
-        <el-table-column prop="address" label="合同金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="转让应收账款金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="签署日期" align="center"></el-table-column>
-        <el-table-column prop="address" label="账期" align="center"></el-table-column>
-        <el-table-column prop="address" label="第三方征信查询结果" align="center"></el-table-column>
-        <el-table-column prop="address" label="备注" align="center"></el-table-column>
-        <el-table-column prop="address" label="附件" align="center"></el-table-column>
-      </el-table>
+    <form-label :label="'基础交易合同'" />
+    <el-table :data="contractTradeVO" style="width: 100%">
+      <el-table-column type="index" label="序号" width="50" align="center" />
+      <el-table-column prop="contName" label="合同名称" align="center" />
+      <el-table-column prop="contCode" label="合同编号" align="center" />
+      <el-table-column prop="contAmount" label="合同金额" align="center" />
+      <el-table-column prop="duepayAmount" label="转让应收账款金额" align="center" />
+      <el-table-column prop="signDate" label="签署日期" align="center" />
+      <el-table-column prop="paymentTerm" label="账期" align="center" />
+      <el-table-column prop="creditQueryResult" label="第三方征信查询结果" align="center" />
+      <el-table-column prop="remark" label="备注" align="center" />
+      <el-table-column prop="fileName" label="附件" align="center" />
+    </el-table>
 
-      <form-label :label="'应收账款'">
-        <template slot="after">
-          <el-button type="" size="mini">发票验证</el-button>
-          <el-button type="" size="mini">下载模板</el-button>
-          <el-button type="" size="mini">批量上传</el-button>
-          <el-button type="" size="mini">批量删除</el-button>
-          <el-button type="" icon="el-icon-plus" size="mini"></el-button>
-          <el-button type="" icon="el-icon-delete" size="mini"></el-button>
-        </template>
-      </form-label>
+    <form-label :label="'应收账款'" />
 
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
-        <el-table-column prop="name" label="票据类型" align="center"></el-table-column>
-        <el-table-column prop="address" label="发票代码" align="center"></el-table-column>
-        <el-table-column prop="address" label="发票号码" align="center"></el-table-column>
-        <el-table-column prop="address" label="发票验证码后六位" align="center"></el-table-column>
-        <el-table-column prop="address" label="购买方" align="center"></el-table-column>
-        <el-table-column prop="address" label="发票金额" align="center"></el-table-column>
-        <el-table-column prop="address" label="开票日期" align="center"></el-table-column>
-        <el-table-column prop="address" label="结算方式" align="center"></el-table-column>
-        <el-table-column prop="address" label="附件" align="center"></el-table-column>
-        <el-table-column prop="address" label="验票真伪" align="center"></el-table-column>
-      </el-table>
-    </el-card>
+    <el-table :data="contractDuepayVO" style="width: 100%">
+      <el-table-column type="index" label="序号" width="50" align="center" />
+      <el-table-column prop="invoicetype" label="票据类型" align="center" />
+      <el-table-column prop="invoicecode" label="发票代码" align="center" />
+      <el-table-column prop="billNum" label="发票号码" align="center" />
+      <el-table-column prop="checkCodeSix" label="发票验证码后六位" align="center" />
+      <el-table-column prop="buyName" label="购买方" align="center" />
+      <el-table-column prop="billAmount" label="发票金额" align="center" />
+      <el-table-column prop="billDate" label="开票日期" align="center" />
+      <el-table-column prop="settlementWay" label="结算方式" align="center" />
+      <el-table-column prop="fileName" label="附件" align="center" />
+      <el-table-column prop="state" label="验票真伪" align="center" />
+    </el-table>
   </div>
 </template>
 
 <script>
 import HeadTitle from '@/views/pages/components/head-title'
 import FormLabel from '@/views/pages/components/form-label'
+import Model from "@/api/factoring/contract";
+import AddRouterQuery from '../mixin/add-route-query'
 
 export default {
   name: 'AccountsReceivable',
@@ -113,15 +51,57 @@ export default {
     HeadTitle,
     FormLabel
   },
+  mixins: [AddRouterQuery],
   data() {
     return {
-      tableData: [],
+      contractTradeVO: [],
+      contractDuepayVO: [],
       form: {}
+    }
+  },
+  created() {
+    this.fetchDetail()
+  },
+  methods: {
+    fetchDetail() {
+      const bizCode = this.$route.query.bizCode
+      if (!bizCode) return
+      Model.dueView(bizCode).then(res => {
+        console.log(res)
+        if (!res) return
+        this.form = res.contractDuepaySchemeDTO ? res.contractDuepaySchemeDTO : {}
+        this.contractTradeVO = res.contractTradeDTO ? res.contractTradeDTO : []
+        this.contractDuepayVO = res.contractDuepayDTO ? res.contractDuepayDTO : []
+      })
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .container{
+    padding: 20px 25px;
+    margin-top: 18px;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    position: relative;
+    .info{
+      display: flex;
+      flex-wrap: wrap;
+      padding: 15px 0;
+      .item{
+        flex: 0 0 33%;
+        line-height: 28px;
+        padding: 4px 0;
+        color: #333;
+        word-wrap: break-word;
+        word-break: break-all;
+        .label{
+          padding-right: 5px;
+          color: #999;
+        }
+      }
+    }
+  }
 
 </style>

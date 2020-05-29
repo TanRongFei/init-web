@@ -4,6 +4,7 @@ const getters = {
   // leftSidebarRouters: state => state.app.leftSidebarRouters,
   leftSidebarRouters: state => state.permission.leftSidebarRouters,
   tabsSidebarRouters: state => state.permission.tabsSidebarRouters,
+  tabsActiveName: state => state.permission.tabsActiveName,
   childRouters: state => state.app.childRouters,
   size: state => state.app.size,
   device: state => state.app.device,
@@ -17,6 +18,8 @@ const getters = {
   roles: state => state.user.roles,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs,
-  dict: state => state.dict.dict
+  dict: state => state.dict.dict,
+  province: state => state.dict.province,
+  area: state => state.dict.area
 }
 export default getters

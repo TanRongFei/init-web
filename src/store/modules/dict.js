@@ -1,20 +1,50 @@
-import Module from '@/api/factoring/admittance'
+import Module from '@/api/factoring/contract'
+import CrmModule from '@/api/factoring/crm'
 
 const state = {
-  dict: []
+  dict: [],
+  custList: [],
+  province: [],
+  area: []
 }
 
 const mutations = {
   SET_DICT: (state, dict) => {
     state.dict = dict
+  },
+  SET_CUSTLIST: (state, custList) => {
+    state.custList = custList
+  },
+  SET_PROVINCE: (state, province) => {
+    state.province = province
+  },
+  SET_AREA: (state, area) => {
+    state.area = area
   }
 }
 
 const actions = {
   fetchDict({ commit }) {
-    console.log('fetchDict')
-    Module.listDict().then(res => {
+    Module.dict().then(res => {
       commit('SET_DICT', res)
+    })
+  },
+  fetchCustList({ commit }) {
+    debugger
+    console.log('fetchCustList')
+    Module.custlist.then(res => {
+      commit('SET_CUSTLIST', res)
+    })
+  },
+  fetchProvince({ commit }) {
+    CrmModule.provinceList().then(res => {
+      commit('SET_PROVINCE', res)
+    })
+  },
+  fetchArea({ commit }, pId) {
+    return CrmModule.areaList(pId).then(res => {
+      commit('SET_AREA', res)
+      return res
     })
   }
 }

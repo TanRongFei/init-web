@@ -353,3 +353,14 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+/**
+ * 空对象判断
+ * **/
+export function isPlainObject(obj){
+  let prototype
+
+  return Object.prototype.toString.call(obj) === '[object Object]'
+    && (prototype = Object.getPrototypeOf(obj), prototype === null ||
+    prototype == Object.getPrototypeOf({}))
+}

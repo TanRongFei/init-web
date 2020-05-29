@@ -27,6 +27,14 @@
         </el-checkbox-group>
       </el-col>
     </el-row>
+
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <el-form-item label="产品名称" prop="name">
+          <span>1</span>
+        </el-form-item>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 

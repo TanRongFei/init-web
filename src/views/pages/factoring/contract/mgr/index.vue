@@ -3,9 +3,10 @@
     <head-title
       :label="'企业客户'"
       :total="total"
+      @handleEditor="handleEditor"
       @handleCheek="handleCheek" />
 
-    <table-search >
+    <table-search>
       <template slot="after">
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="状态:">
@@ -40,48 +41,56 @@
       </template>
     </table-search>
 
-    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'合同制作'" :data="multipleSelection">
-      <template slot="after">
-      </template>
-    </side-tool>
+    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'合同制作'" :data="multipleSelection" />
 
     <el-table
       ref="multipleTable"
-      :default-sort = "{prop: 'productStatus', order: 'descending'}"
+      :default-sort="{prop: 'productStatus', order: 'descending'}"
       @selection-change="handleSelectionChange"
       :data="tableData"
       style="width: 100%">
       <el-table-column type="selection" width="50" />
-      <el-table-column type='index' label="序号" width="50" align="center" />
+      <el-table-column type="index" label="序号" width="50" align="center" />
       <el-table-column sortable prop="status" label="状态" align="center" />
       <el-table-column prop="contCode" label="合同编号" align="center" />
-      <el-table-column prop="compCode" label="授信编号" align="center">
+      <el-table-column prop="credCode" label="授信编号" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('contractDetail', scope.row)">{{scope.row.credCode}}</el-button>
+          <el-button type="text" @click="handleDetail('contractDetail', scope.row)">{{ scope.row.credCode }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="compName" label="客户名称" align="center">
+      <el-table-column prop="sellerCompName" label="客户名称" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('FactoringDetail', scope.row)">{{scope.row.credCode}}</el-button>
+          <el-button type="text" @click="handleDetail('contractDetail', scope.row)">{{ scope.row.sellerCompName }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="compUsccCode" label="项目类型" align="center" />
-      <el-table-column prop="productName" label="业务板块" align="center" />
-      <el-table-column prop="occupiedAmount" label="合同类型" align="center" />
-      <el-table-column prop="ftCreditAmount" label="客户经理" align="center" />
-      <el-table-column prop="ftCreditAmount" label="签署日期" align="center" />
-      <el-table-column prop="ftCreditAmount" label="合同资料" align="center" />
+      <el-table-column prop="prjtType" label="项目类型" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.prjtType + '-prjtTypelist' | filterDict }}
+        </template>
+      </el-table-column>>
+      <el-table-column prop="businessType" label="业务板块" align="center">
+        <template slot-scope="scope">{{ scope.row.businessType + '-PlateTypeEnums' | filterDict }}</template>
+      </el-table-column>>
+      <el-table-column prop="contractType" label="合同类型" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.contractType + '-contractTypeList' | filterDict }}
+        </template>
+      </el-table-column>>
+      <el-table-column prop="conPmName" label="客户经理" align="center" />
+      <el-table-column prop="basicContractSigndate" label="签署日期" align="center">
+        <template slot-scope="scope">{{ formatDate(scope.row.basicContractSigndate) }}</template>
+      </el-table-column>>
+      <el-table-column prop="isHandove" label="合同资料" align="center" />
     </el-table>
 
-    <div class="pagination-wrap" >
+    <div class="pagination-wrap">
       <el-pagination
         background
         layout="total, prev, pager, next, sizes"
         :page-sizes="[10, 20, 50, 100]"
         :total="total"
         @size-change="handleSizeChange"
-        @current-change="handleCurrentChange">
-      </el-pagination>
+        @current-change="handleCurrentChange" />
     </div>
   </div>
 </template>
@@ -91,6 +100,7 @@ import HeadTitle from '@/views/pages/components/head-title'
 import TableSearch from '@/views/pages/components/table-search'
 import SideTool from '@/views/pages/components/SideTool'
 import Model from '@/api/factoring/contract'
+import moment from 'moment'
 
 export default {
   name: 'ContractMgr',
@@ -120,9 +130,20 @@ export default {
       multipleSelection: []
     }
   },
+  computed: {
+    formatDate() {
+      return (date) => {
+        if (date) {
+          return moment(date).format('YYYY-MM-DD')
+        } else {
+          return date
+        }
+      }
+    }
+  },
   created() {
     // 显示SideTool
-    this.$nextTick(function () {
+    this.$nextTick(function() {
       this.$store.dispatch('app/toggleSideToll', true)
     })
     this.fetchList()
@@ -141,15 +162,12 @@ export default {
     submit() {
       console.log('submit', this.form)
     },
-    handleDetail(pathName, item) {
-      let query = {}
-      if (item && item.bizCode) {
-        query = {
-          bizCode: item.bizCode
-        }
-      }
-      this.$router.push({ name: pathName, query})
-      this.$store.dispatch('app/setLeftSidebarRouters', {})
+    handleDetail(pathName, query = {}) {
+      console.log('query', query)
+      if (!query) return
+      this.$store.dispatch('app/hiddenChgInfo').then(() => {
+        this.$router.push({ name: pathName, query })
+      })
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -168,7 +186,39 @@ export default {
       /**
        * 查看
        * **/
-      this.handleDetail('contractDetail')
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        this.handleDetail('contractDetail', { bizCode })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
+    },
+    handleEditor() {
+      /**
+       * 编辑
+       * **/
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        this.handleDetail('contractEditor', { bizCode })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
     }
   }
 }

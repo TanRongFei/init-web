@@ -1,310 +1,140 @@
 <template>
-  <div class="basic-info">
-    <head-title :label="'方案信息'" :showDefaultButton="false">
-      <template slot="after">
-        <el-button type="primary" size="mini">保 存</el-button>
-      </template>
-    </head-title>
-
-    <el-card shadow="nerve">
-      <div class="wrap">
-        <el-form  ref="form" :model="form" label-width="120px">
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="16">
-                  <el-form-item label="融资申请金额">
-                    <el-input v-model="form.name"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                  </el-select>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="14">
-                  <el-form-item label="服务费率">
-                    <el-input v-model="form.name">
-                      <template slot="append">%</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                  <el-input v-model="form.name"></el-input>
-                </el-col>
-              </el-row>
-            </el-col>
-
-            <el-col :span="4">
-              <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="16">
-                  <el-form-item label="融资成数">
-                    <el-input v-model="form.name">
-                      <template slot="append">%</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-input v-model="form.name"></el-input>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="14">
-                  <el-form-item label="保理融资利率">
-                    <el-input v-model="form.name">
-                      <template slot="append">%</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                  <el-input v-model="form.name"></el-input>
-                </el-col>
-              </el-row>
-            </el-col>
-
-            <el-col :span="4">
-              <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-form-item label="资金来源">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="14">
-                  <el-form-item label="年罚息率">
-                    <el-input v-model="form.name">
-                      <template slot="append">%</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                  <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                  </el-select>
-                </el-col>
-              </el-row>
-            </el-col>
-
-            <el-col :span="4">
-              <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="16">
-                  <el-form-item label="保证金">
-                    <el-input v-model="form.name">
-                      <template slot="append">%</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                  </el-select>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="14">
-                  <el-form-item label="宽限期/年利率">
-                    <el-input v-model="form.name">
-                      <template slot="append">天</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                  <el-input v-model="form.name">
-                    <template slot="append">%</template>
-                  </el-input>
-                </el-col>
-              </el-row>
-            </el-col>
-
-            <el-col :span="4">
-              <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="16">
-                  <el-form-item label="项目周期">
-                    <el-date-picker
-                      v-model="form.date"
-                      type="date"
-                      placeholder="选择日期">
-                    </el-date-picker>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-date-picker
-                    v-model="form.date"
-                    style="width: 100%;"
-                    type="date"
-                    placeholder="选择日期">
-                  </el-date-picker>
-                </el-col>
-              </el-row>
-            </el-col>
-            <el-col :span="10">
-              <el-row :gutter="10">
-                <el-col :span="14">
-                  <el-form-item label="担保金额">
-                    <el-input v-model="form.name">
-                      <template slot="append">%</template>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                  <el-input v-model="form.name"></el-input>
-                </el-col>
-              </el-row>
-            </el-col>
-
-            <el-col :span="4">
-              <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-form-item label="确权方式">
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="回款方式">
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="4">
-              <el-checkbox v-model="form.checked">保证金是否作扣</el-checkbox>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-form-item label="保理首付款使用费支付方式">
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="宽限期使用费支付方式">
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="10">
-              <el-form-item label="融资用途">
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="还款方式">
-                <el-select v-model="form.region" placeholder="请选择" style="width:100%;">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-button>!</el-button>
-            </el-col>
-          </el-row>
-        </el-form>
+  <div class="container">
+    <form-label :label="'方案信息'" />
+    <div class="info">
+      <div class="item">
+        <span class="label">授信金额</span>
+        <span>{{form.prjtAmountorg}}</span>
+        <span>{{ form.unitOrg + '-unitTypeeList' | filterDict }}</span>
       </div>
-
-      <form-label :label="'计算结果'" />
-      <div class="form-wrap">
-        <div class="item">
-          <span class="label">本息总额</span>
-          <span></span>
-        </div>
-        <div class="item">
-          <span class="label">手续费总额</span>
-          <span></span>
-        </div>
-        <div class="item">
-          <span class="label">IRR</span>
-          <span></span>
-        </div>
-        <div class="item">
-          <span class="label">XIRR</span>
-          <span></span>
+      <div class="item">
+        <span class="label">服务费率</span>
+        <div class="item-wrap">
+          <div class="item-wrap-contain">
+            <span>{{form.procedureRate}}</span>
+            <span>{{form.procedureAmount}}</span>
+          </div>
+          <div class="item-wrap-contain">
+            <span>{{ form.procedureWay + '-procedureWayEnums' | filterDict }}</span>
+          </div>
         </div>
       </div>
+      <div class="item">
+        <span class="label">融资成数</span>
+        <span>{{form.amountPercent}}</span>
+        <span>{{form.amount}}</span>
+      </div>
+      <div class="item">
+        <span class="label">保理融资利率</span>
+        <span>{{form.annualRate}}</span>
+        <span>{{form.annualRateunit}}</span>
+        <span>{{ form.annualRateway + '-annualRatewayEnums' | filterDict }}</span>
+      </div>
+      <div class="item">
+        <span class="label">资金来源</span>
+        <span>{{form.moneySrc}}</span>
+      </div>
+      <div class="item">
+        <span class="label">年罚息率</span>
+        <span>{{form.dueYearsRate}}</span>
+        <span>{{ form.dueRateunit + '-dueRateunitEnums' | filterDict }}</span>
+        <span>{{ form.dueRateway + '-dueRatewayEnums' | filterDict }}</span>
+      </div>
+      <div class="item" >
+        <span class="label">保证金</span>
+        <span>{{form.depositRate}}</span>
+        <span>{{form.depositAmount}}</span>
+      </div>
+      <div class="item">
+        <span class="label">宽限期/年利率</span>
+        <span>{{form.limitDays}}</span>
+        <span>{{form.limitYearsrate}}</span>
+        <span>{{ form.limitWay + '-limitwayEnums' | filterDict }}</span>
+      </div>
 
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="还款计划" name="1"></el-tab-pane>
-        <el-tab-pane label="方案分析" name="2"></el-tab-pane>
-      </el-tabs>
+      <div class="item">
+        <span class="label">项目周期</span>
+        <span>{{ formatDate(form.prjtStartDate) }}</span>
+        <span>{{ formatDate(form.prjtEndDate) }}</span>
+      </div>
+      <div class="item">
+        <span class="label">担保金额</span>
+        <span>{{form.guaranteeRate}}</span>
+        <span>{{form.guaranteeAmount}}</span>
+        <span>{{form.guaranteeWay + '-projectSchemeGuaWayEnums' | filterDict}}</span>
+      </div>
+      <div class="item">
+        <span class="label">确权方式</span>
+        <span>{{ form.isMargindeduction + '-confWay' | filterDict }}</span>
+      </div>
+      <div class="item">
+        <span class="label">回款方式</span>
+        <span>{{ form.paymentWay + '-returnWay' | filterDict }}</span>
+      </div>
+      <div class="item">
+        <span class="label">保证金是否作扣</span>
+        <span>{{form.isMargindeduction}}</span>
+      </div>
+      <div class="item">
+        <span class="label">保理首付款使用费支付方式</span>
+        <span>{{ form.downPaymentPayway + '-procedurWay' | filterDict }}</span>
+      </div>
+      <div class="item">
+        <span class="label">宽限期使用费支付方式</span>
+        <span>{{ form.limitPayway + '-procedurWay' | filterDict }}</span>
+      </div>
+      <div class="item">
+        <span class="label">融资用途</span>
+        <span>{{ form.financingUse + '-financingPurpose' | filterDict }}</span>
+      </div>
+      <div class="item">
+        <span class="label">还款方式</span>
+        <span>{{form.ruleId}}</span>
+      </div>
+    </div>
 
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="name" label="期数" width="180" align="center" />
-        <el-table-column prop="address" label="还款日" align="center" />
-        <el-table-column prop="address" label="应收金额" align="center" />
-        <el-table-column prop="address" label="本金" align="center" />
-        <el-table-column prop="address" label="手续费" align="center" />
-        <el-table-column prop="address" label="剩余本金" align="center" />
-      </el-table>
-    </el-card>
+    <form-label :label="'计算结果'" />
+    <div class="form-wrap">
+      <div class="item">
+        <span class="label">本息总额</span>
+        <span></span>
+      </div>
+      <div class="item">
+        <span class="label">手续费总额</span>
+        <span></span>
+      </div>
+      <div class="item">
+        <span class="label">IRR</span>
+        <span></span>
+      </div>
+      <div class="item">
+        <span class="label">XIRR</span>
+        <span></span>
+      </div>
+    </div>
+
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="还款计划" name="1"></el-tab-pane>
+      <el-tab-pane label="方案分析" name="2"></el-tab-pane>
+    </el-tabs>
+
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="name" label="期数" width="180" align="center" />
+      <el-table-column prop="address" label="还款日" align="center" />
+      <el-table-column prop="address" label="应收金额" align="center" />
+      <el-table-column prop="address" label="本金" align="center" />
+      <el-table-column prop="address" label="手续费" align="center" />
+      <el-table-column prop="address" label="剩余本金" align="center" />
+    </el-table>
   </div>
 </template>
 
 <script>
 import HeadTitle from '@/views/pages/components/head-title'
 import FormLabel from '@/views/pages/components/form-label'
+import Model from '@/api/factoring/contract'
+import AddRouterQuery from '../mixin/add-route-query'
+import moment from 'moment'
 
 export default {
   name: 'SchemeInfo',
@@ -312,11 +142,36 @@ export default {
     HeadTitle,
     FormLabel
   },
+  mixins: [AddRouterQuery],
   data() {
     return {
       tableData: [],
       activeName: '1',
       form: {}
+    }
+  },
+  computed: {
+    formatDate() {
+      return (date) => {
+        if (date) {
+          return moment(date).format('YYYY-MM-DD')
+        } else {
+          return date
+        }
+      }
+    }
+  },
+  created() {
+    this.fetchDetail()
+  },
+  methods: {
+    fetchDetail() {
+      const bizCode = this.$route.query.bizCode
+      if (!bizCode) return
+      Model.schemeView(bizCode).then(res => {
+        console.log(res)
+        this.form = res.contractSchemeDTO
+      })
     }
   }
 }
@@ -328,6 +183,44 @@ export default {
   margin-bottom: 20px;
   .item{
     flex: 0 0 25%;
+  }
+}
+
+.container{
+  padding: 20px 25px;
+  margin-top: 18px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  position: relative;
+  .info{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px 0;
+    .item{
+      flex: 0 0 50%;
+      display: flex;
+      line-height: 28px;
+      padding: 4px 0;
+      color: #333;
+      word-wrap: break-word;
+      word-break: break-all;
+      span{
+        margin-right: 10px;
+      }
+      .label{
+        display: inline-flex;
+        padding-right: 5px;
+        color: #999;
+        width: 140px;
+      }
+      .item-wrap{
+        flex: 1;
+        display: flex;
+        .item-wrap-contain{
+          flex: 0 0 50%;
+        }
+      }
+    }
   }
 }
 </style>

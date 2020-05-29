@@ -1,5 +1,6 @@
 // import parseTime, formatTime and set to filter
 export { parseTime, formatTime } from '@/utils'
+import store from '@/store'
 
 /**
  * Show plural label if time is plural number
@@ -65,4 +66,36 @@ export function toThousandFilter(num) {
  */
 export function uppercaseFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+/**
+ * 字典过滤器
+ * **/
+export function filterDict(generation) {
+  if (!generation) return ''
+  const l = generation.split('-')
+
+  if (l[0] === 'undefined') return ''
+
+  const val = l[0]
+  const type = l[1]
+
+  const dict = store.getters.dict
+
+  const arr = dict[type]
+  if (!arr) return val
+
+  let temp = {}
+
+  arr.forEach(item => {
+    if (item.CODE === val) {
+      temp = item
+    }
+  })
+
+  if (temp.FLAG) {
+    return temp.FLAG
+  } else {
+    return ''
+  }
 }

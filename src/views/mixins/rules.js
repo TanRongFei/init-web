@@ -109,6 +109,33 @@ export default {
         ],
         platcredBizcode: [
           { required: true, message: '必填', trigger: 'change' }
+        ],
+        platCredBizCode: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        amount: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        procedureRate: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        amountPercent: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        annualRate: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        moneySrc: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        dueYearsRate: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        prjtStartDate: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        ruleId: [
+          { required: true, message: '必填', trigger: 'change' }
         ]
       }
     }

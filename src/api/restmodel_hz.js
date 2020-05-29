@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import moment from 'moment'
-import { MessageBox  } from 'element-ui'
+import { MessageBox, Message   } from 'element-ui'
 
 export function FormatDateTime(sour) {
   var rtn = {}
@@ -73,7 +73,16 @@ export default class RestModel {
         url,
         method: 'post',
         data
-      }).then(response => response.body)
+      }).then(response => {
+        Message.success({
+          message: '操作成功！'
+        })
+        return response.body
+      }).catch(() => {
+        Message.warning({
+          message: '操作失败！'
+        })
+      })
     }).catch(() => {
       this.$message({
         type: 'info',

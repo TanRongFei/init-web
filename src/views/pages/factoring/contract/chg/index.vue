@@ -3,6 +3,7 @@
     <head-title
       :label="'企业客户'"
       :total="total"
+      @handleEditor="handleEditor"
       @handleCheek="handleCheek" />
 
     <table-search >
@@ -40,6 +41,8 @@
       </template>
     </table-search>
 
+    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'合同制作'" :data="multipleSelection" />
+
     <el-table
       ref="multipleTable"
       :default-sort = "{prop: 'productStatus', order: 'descending'}"
@@ -49,21 +52,21 @@
       <el-table-column type="selection" width="50" />
       <el-table-column type='index' label="序号" width="50" align="center" />
       <el-table-column sortable prop="status" label="状态" align="center" />
-      <el-table-column prop="contCode" label="变更编号" align="center" />
-      <el-table-column prop="compCode" label="合同编号" align="center">
+      <el-table-column prop="cochCode" label="变更编号" align="center" />
+      <el-table-column prop="credCode" label="合同编号" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="handleDetail('contractDetail', scope.row)">{{scope.row.credCode}}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="compName" label="客户名称" align="center">
+      <el-table-column prop="contCode" label="客户名称" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('FactoringDetail', scope.row)">{{scope.row.credCode}}</el-button>
+          <el-button type="text" @click="handleDetail('contractDetail', scope.row)">{{scope.row.contCode}}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="compUsccCode" label="版本" align="center" />
-      <el-table-column prop="productName" label="有效性" align="center" />
-      <el-table-column prop="occupiedAmount" label="申请人" align="center" />
-      <el-table-column prop="ftCreditAmount" label="申请时间" align="center" />
+      <el-table-column prop="version" label="版本" align="center" />
+      <el-table-column prop="businessType" label="有效性" align="center" />
+      <el-table-column prop="applyUserName" label="申请人" align="center" />
+      <el-table-column prop="applyDate" label="申请时间" align="center" />
     </el-table>
 
     <div class="pagination-wrap" >
@@ -82,16 +85,19 @@
 <script>
 import HeadTitle from '@/views/pages/components/head-title'
 import TableSearch from '@/views/pages/components/table-search'
+import SideTool from '@/views/pages/components/SideTool'
 import Model from '@/api/factoring/contract'
 
 export default {
   name: 'ContractChg',
   components: {
     HeadTitle,
-    TableSearch
+    TableSearch,
+    SideTool
   },
   data() {
     return {
+      functions: ['contract-change'], // 合同变更
       form: {
         checkList: []
       },
@@ -111,14 +117,18 @@ export default {
     }
   },
   created() {
-    // this.fetchList()
+    // 显示SideTool
+    this.$nextTick(function() {
+      this.$store.dispatch('app/toggleSideToll', true)
+    })
+    this.fetchList()
   },
   methods: {
     fetchList() {
       const param = {
         ...this.Query
       }
-      Model.list(param).then(res => {
+      Model.changeList(param).then(res => {
         console.log(res)
         this.tableData = res.list
         this.total = res.total
@@ -134,8 +144,12 @@ export default {
           bizCode: item.bizCode
         }
       }
-      this.$router.push({ name: pathName, query})
-      this.$store.dispatch('app/setLeftSidebarRouters', {})
+      // const path = '/factoring/contract/contract-editor/chg-info'
+
+      this.$store.dispatch('app/showChgInfo').then(() => {
+        this.$router.push({ name: pathName, query })
+        // this.$router.push({ name: pathName, query})
+      })
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -154,7 +168,44 @@ export default {
       /**
        * 查看
        * **/
-      this.handleDetail('contractDetail')
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        // this.handleDetail('contractDetail', { bizCode })
+        this.$store.dispatch('app/showChgInfo').then(() => {
+          this.$router.push({ path: '/factoring/contract/contract-detail/chg-info', query: { bizCode } })
+        })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行查看！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行查看！',
+          type: 'warning'
+        })
+      }
+    },
+    handleEditor() {
+      /**
+       * 编辑
+       * **/
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        this.$store.dispatch('app/showChgInfo').then(() => {
+          this.$router.push({ path: '/factoring/contract/contract-editor/chg-info', query: { bizCode } })
+        })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
     }
   }
 }

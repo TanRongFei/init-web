@@ -32,6 +32,11 @@
         <contract-change :data="data" :generation="generation"/>
       </div>
 
+      <!--生成合同-->
+      <div v-if="functions.includes('add-contract')">
+        <add-contract :data="data" :generation="generation"/>
+      </div>
+
       <slot name="after"></slot>
     </div>
 
@@ -46,6 +51,7 @@ import AdmittanceDisable from './admittance-disable'
 import DataHandover from './data-handover'
 import GenerateLoan from './generate-loan'
 import ContractChange from './contract-change'
+import AddContract from './add-contract'
 
 export default {
   name: 'SideTool',
@@ -79,7 +85,8 @@ export default {
     AdmittanceDisable, // 关闭
     DataHandover, // 资料交接
     GenerateLoan, // 生成放款
-    ContractChange // 生成放款
+    ContractChange, // 生成放款
+    AddContract // 生成合同
   },
   data() {
     return {}

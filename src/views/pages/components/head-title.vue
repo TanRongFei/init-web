@@ -7,11 +7,11 @@
     <div class="header-edit">
       <slot name="after" />
       <template v-if="showDefaultButton">
-        <el-button type="primary" size="mini">添 加</el-button>
+        <el-button @click="handleAdd" type="primary" size="mini">添 加</el-button>
         <el-button @click="handleCheek" type="primary" size="mini">查 看</el-button>
-        <el-button type="primary" size="mini">编 辑</el-button>
-        <el-button type="primary" size="mini">删 除</el-button>
-        <el-button type="primary" size="mini" disabled>保 存</el-button>
+        <el-button @click="handleEditor" type="primary" size="mini">编 辑</el-button>
+        <el-button @click="handleDelete" type="primary" size="mini">删 除</el-button>
+        <el-button @click="handleSave" type="primary" size="mini" disabled>保 存</el-button>
         <el-button type="primary" size="mini" disabled>提交流程</el-button>
         <el-button type="primary" size="mini" disabled>查看流程</el-button>
         <el-button type="primary" size="mini" disabled>套 打</el-button>
@@ -45,6 +45,18 @@ export default {
     },
     handleCheek() {
       this.$emit('handleCheek')
+    },
+    handleEditor() {
+      this.$emit('handleEditor')
+    },
+    handleAdd() {
+      this.$emit('handleAdd')
+    },
+    handleDelete() {
+      this.$emit('handleDelete')
+    },
+    handleSave() {
+      this.$emit('handleSave')
     }
   }
 }

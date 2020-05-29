@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import store from '@/store'
 
 const state = {
   sidebar: {
@@ -66,6 +67,20 @@ const actions = {
   },
   setSidebarMode({ commit }, sidebarMode) {
     commit('SET_SIDEBARMODE', sidebarMode)
+  },
+  hiddenChgInfo() {
+    return new Promise((resolve, reject) => {
+      store.dispatch('user/changeRoles', 'env').then(() => {
+        resolve()
+      })
+    })
+  },
+  showChgInfo({ commit }) {
+    return new Promise((resolve, reject) => {
+      store.dispatch('user/changeRoles', 'chgInfo').then(() => {
+        resolve()
+      })
+    })
   }
 }
 

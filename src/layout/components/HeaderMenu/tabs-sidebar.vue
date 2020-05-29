@@ -1,12 +1,12 @@
 <template>
   <div class="tabs-sidebar">
     <div class="title">
-      <span>查看授信</span>
+      <span>查看详情</span>
       <el-button type="primary" size="mini" @click="$router.back()">返回</el-button>
     </div>
     <div class="tab-menu">
-      <el-tabs type="card" @tab-click="handleClick">
-        <el-tab-pane :label="item.meta.title" v-for="item in formatRoutes" />
+      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tab-pane :label="item.meta.title" :name="item.path" v-for="item in formatRoutes" />
       </el-tabs>
     </div>
   </div>
@@ -26,16 +26,34 @@ export default {
       }
     },
     ...mapGetters([
-      'tabsSidebarRouters'
+      'tabsSidebarRouters',
+      'tabsActiveName'
     ])
+  },
+  data() {
+    return {
+      activeName: ''
+    }
+  },
+  watch: {
+    tabsActiveName(n) {
+      if (n) {
+        this.activeName = n
+      }
+    }
+  },
+  created() {
+    const path = this.$route.fullPath.split('/')
+    this.activeName = path[path.length - 1]
   },
   methods: {
     handleClick(tab, e) {
       const route = this.formatRoutes[tab.index]
       let path = ''
       if (route && route.tabsSidebar && route.path) {
+        this.activeName = route.path
+
         path = this.resolvePath(route.tabsSidebar, route.path)
-        console.log('path', path)
         this.$router.push({ path })
       }
     },
@@ -58,6 +76,7 @@ export default {
     background-color: #ffffff;
     border: 1px solid #E4E7ED;
     border-bottom: none;
+    margin: 15px 15px 0;
     .title{
       display: flex;
       justify-content: space-between;

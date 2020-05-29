@@ -39,6 +39,8 @@
       </template>
     </table-search>
 
+    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'授信'" />
+
     <el-table :data="tableData" style="width: 100%">
       <el-table-column type='index' label="序号" width="50" align="center" />
       <el-table-column prop="status" label="状态" width="180" align="center" />
@@ -80,15 +82,18 @@
 import HeadTitle from '../../../components/head-title'
 import TableSearch from '@/views/pages/components/table-search'
 import Model from '@/api/factoring/facility/creditList'
+import SideTool from '@/views/pages/components/SideTool'
 
 export default {
   name: 'CreditMgr',
   components: {
     HeadTitle,
-    TableSearch
+    TableSearch,
+    SideTool
   },
   data() {
     return {
+      functions: ['add-contract'], // 生成合同
       form: {
         checkList: []
       },
@@ -104,6 +109,10 @@ export default {
     }
   },
   created() {
+    // 显示SideTool
+    this.$nextTick(function () {
+      this.$store.dispatch('app/toggleSideToll', true)
+    })
     this.fetchList()
   },
   methods: {

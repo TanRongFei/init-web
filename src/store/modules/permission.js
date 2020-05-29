@@ -67,6 +67,7 @@ function hasLeftSideRoute(router, fullPath) {
 
 /**
  * 过滤tabs路由导航
+ * tabs需要额外添加activeName(选中状态)
  * **/
 function hasTabsSideRoute(router, fullPath) {
   if (!router.children) return
@@ -97,6 +98,7 @@ function hasTabsSideRoute(router, fullPath) {
 }
 /**
  * 添加左侧路由导航
+ * 添加tabs路由导航
  * **/
 function addLefeSidebar(routers, fullPath) {
   routers.forEach(item => {
@@ -112,12 +114,12 @@ function addLefeSidebar(routers, fullPath) {
     }
 
     if (hasTabsSideRoute(item, fullPath)) {
-      const tem = {
+      const router = {
         basePath: item.path,
         ...item
       }
 
-      store.dispatch('permission/addTabsSidebarRouters', tem)
+      store.dispatch('permission/addTabsSidebarRouters', {router, fullPath})
     } else if (!item.hidden && item.children) {
       addLefeSidebar(item.children, fullPath)
     }
@@ -128,10 +130,14 @@ const state = {
   routes: constantRoutes,
   addRoutes: [],
   leftSidebarRouters: {},
-  tabsSidebarRouters: {}
+  tabsSidebarRouters: {},
+  tabsActiveName: ''
 }
 
 const mutations = {
+  SET_TABS_AVTIVENAME: (state, tabsActiveName) => {
+    state.tabsActiveName = tabsActiveName
+  },
   SET_CHILDROUTERS: (state, leftSidebarRouters) => {
     state.leftSidebarRouters = leftSidebarRouters
   },
@@ -175,12 +181,14 @@ const actions = {
 
     commit('SET_CHILDROUTERS', router)
   },
-  addTabsSidebarRouters({ commit }, router) {
-    /**
-     * 添加tabs路由列表
-     * **/
-
+  addTabsSidebarRouters({ commit }, {router, fullPath}) {
+    // 添加tabs路由列表
     commit('SET_TABS_SIDEBAR', router)
+
+    // tabs需要额外添加activeName(选中状态)
+    const path = fullPath.split('/')
+    const activeName = path[path.length - 1]
+    commit('SET_TABS_AVTIVENAME', activeName)
   }
 }
 

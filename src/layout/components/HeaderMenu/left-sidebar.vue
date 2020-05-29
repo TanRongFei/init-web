@@ -51,7 +51,9 @@ export default {
     },
     formatClass() {
       return (item) => {
-        if (this.$route.path.includes(item.path)) {
+        if (item.fullPath && this.$route.path === item.fullPath) {
+          return 'active'
+        } else if (!item.fullPath && this.$route.path.includes(item.path)) {
           return 'active'
         }
       }

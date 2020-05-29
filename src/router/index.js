@@ -5,7 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-
+import crmRoutes from '@/router/modules/crm'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -85,6 +85,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  ...crmRoutes,
   // {
   //   path: '/work',
   //   component: Layout,
@@ -106,7 +107,6 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-
   {
     path: '/factoring',
     component: Layout,
@@ -155,10 +155,10 @@ export const asyncRoutes = [
             }
           },
           {
-            path: 'business-profile-statistics',
+            path: 'bps',
             component: () => import('@/views/pages/factoring/permit/business-profile-statistics'),
             leftSidebar: '/factoring/permit',
-            name: 'business-profile-statistics',
+            name: 'bps',
             meta: {
               title: '业务概况统计'
             }
@@ -205,12 +205,12 @@ export const asyncRoutes = [
           {
             path: 'corp-detail',
             hidden: true,
-            component: () => import('@/views/pages/factoring/credit/corp-detail'),
+            component: () => import('@/views/pages/factoring/index'),
             redirect: '/factoring/credit/corp-detail/basic-info',
             tabsSidebar: '/factoring/credit/corp-detail',
             name: 'CorpDetail',
             meta: {
-              title: '详情'
+              title: '公司详情'
             },
             children: [
               {
@@ -221,17 +221,111 @@ export const asyncRoutes = [
                 meta: {
                   title: '基本信息'
                 }
+              },
+              {
+                path: 'scheme-info',
+                component: () => import('@/views/pages/factoring/credit/corp-detail/scheme-info'),
+                tabsSidebar: '/factoring/credit/corp-detail',
+                name: 'scheme-info',
+                meta: {
+                  title: '方案信息'
+                }
+              },
+              {
+                path: 'guarantee-info',
+                component: () => import('@/views/pages/factoring/credit/corp-detail/guarantee-info'),
+                tabsSidebar: '/factoring/credit/corp-detail',
+                name: 'guarantee-info',
+                meta: {
+                  title: '担保信息'
+                }
+              },
+              {
+                path: 'files',
+                component: () => import('@/views/pages/factoring/credit/corp-detail/files'),
+                tabsSidebar: '/factoring/credit/corp-detail',
+                name: 'files',
+                meta: {
+                  title: '档案管理'
+                }
               }
             ]
           },
           {
             path: 'personal-detail',
             hidden: true,
-            component: () => import('@/views/pages/factoring/credit/personal-detail'),
+            component: () => import('@/views/pages/factoring'),
+            redirect: '/factoring/credit/personal-detail/basic-info',
+            tabsSidebar: '/factoring/credit/personal-detail',
             name: 'PersonalDetail',
             meta: {
-              title: '详情'
-            }
+              title: '个人详情'
+            },
+            children: [
+              {
+                path: 'basic-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/basic-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'basic-info',
+                meta: {
+                  title: '基本信息'
+                }
+              },
+              {
+                path: 'spouse-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/spouse-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'spouse-info',
+                meta: {
+                  title: '配偶信息'
+                }
+              },
+              {
+                path: 'user-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/user-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'user-info',
+                meta: {
+                  title: '用户信息'
+                }
+              },
+              {
+                path: 'event-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/event-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'event-info',
+                meta: {
+                  title: '事件信息'
+                }
+              },
+              {
+                path: 'other-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/other-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'other-info',
+                meta: {
+                  title: '其他信息'
+                }
+              },
+              {
+                path: 'account-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/account-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'account-info',
+                meta: {
+                  title: '账户信息'
+                }
+              },
+              {
+                path: 'data-info',
+                component: () => import('@/views/pages/factoring/credit/personal-detail/data-info'),
+                tabsSidebar: '/factoring/credit/personal-detail',
+                name: 'data-info',
+                meta: {
+                  title: '资料信息'
+                }
+              }
+            ]
           },
           {
             path: 'credit-detail',
@@ -241,7 +335,7 @@ export const asyncRoutes = [
             leftSidebar: '/factoring/credit/credit-detail',
             name: 'CreditDetail',
             meta: {
-              title: '详情'
+              title: '授信编辑'
             },
             children: [
               {
@@ -336,16 +430,26 @@ export const asyncRoutes = [
             component: () => import('@/views/pages/factoring/index'),
             hidden: true,
             redirect: '/factoring/contract/contract-detail/basic-info',
-            leftSidebar: '/factoring/contract/contract-detail',
+            tabsSidebar: '/factoring/contract/contract-detail',
             name: 'contractDetail',
             meta: {
-              title: '合同详情'
+              title: '合同查看'
             },
             children: [
               {
+                path: 'chg-info',
+                component: () => import('@/views/pages/factoring/contract/detail/chg-info'),
+                tabsSidebar: '/factoring/contract/contract-detail',
+                name: 'chg-info',
+                meta: {
+                  title: '变更信息',
+                  roles: ['chgInfo']
+                }
+              },
+              {
                 path: 'basic-info',
                 component: () => import('@/views/pages/factoring/contract/detail/basic-info'),
-                leftSidebar: '/factoring/contract/contract-detail',
+                tabsSidebar: '/factoring/contract/contract-detail',
                 name: 'basic-info',
                 meta: {
                   title: '基本信息'
@@ -354,7 +458,7 @@ export const asyncRoutes = [
               {
                 path: 'scheme-info',
                 component: () => import('@/views/pages/factoring/contract/detail/scheme-info'),
-                leftSidebar: '/factoring/contract/contract-detail',
+                tabsSidebar: '/factoring/contract/contract-detail',
                 name: 'scheme-info',
                 meta: {
                   title: '方案信息'
@@ -363,7 +467,7 @@ export const asyncRoutes = [
               {
                 path: 'accounts-receivable',
                 component: () => import('@/views/pages/factoring/contract/detail/accounts-receivable'),
-                leftSidebar: '/factoring/contract/contract-detail',
+                tabsSidebar: '/factoring/contract/contract-detail',
                 name: 'accounts-receivable',
                 meta: {
                   title: '应收账款'
@@ -372,17 +476,17 @@ export const asyncRoutes = [
               {
                 path: 'commercial-terms',
                 component: () => import('@/views/pages/factoring/contract/detail/commercial-terms'),
-                leftSidebar: '/factoring/contract/contract-detail',
+                tabsSidebar: '/factoring/contract/contract-detail',
                 name: 'commercial-terms',
                 meta: {
                   title: '商务条款'
                 }
               },
               {
-                path: 'zhongdeng',
+                path: 'credit-info',
                 component: () => import('@/views/pages/factoring/contract/detail/credit-info'),
-                leftSidebar: '/factoring/contract/contract-detail',
-                name: 'zhongdeng',
+                tabsSidebar: '/factoring/contract/contract-detail',
+                name: 'credit-info',
                 meta: {
                   title: '用信信息'
                 }
@@ -390,10 +494,87 @@ export const asyncRoutes = [
               {
                 path: 'information',
                 component: () => import('@/views/pages/factoring/contract/detail/information'),
-                leftSidebar: '/factoring/contract/contract-detail',
+                tabsSidebar: '/factoring/contract/contract-detail',
                 name: 'information',
                 meta: {
-                  title: '资料信息'
+                  title: '档案资料'
+                }
+              }
+            ]
+          },
+          {
+            path: 'contract-editor',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            redirect: '/factoring/contract/contract-editor/basic-info',
+            leftSidebar: '/factoring/contract/contract-editor',
+            name: 'contractEditor',
+            meta: {
+              title: '合同编辑'
+            },
+            children: [
+              {
+                path: 'chg-info',
+                component: () => import('@/views/pages/factoring/contract/editor/chg-info'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'chg-info',
+                meta: {
+                  title: '变更信息',
+                  roles: ['chgInfo']
+                }
+              },
+              {
+                path: 'basic-info',
+                component: () => import('@/views/pages/factoring/contract/editor/basic-info'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'basic-info',
+                meta: {
+                  title: '基本信息'
+                }
+              },
+              {
+                path: 'scheme-info',
+                component: () => import('@/views/pages/factoring/contract/editor/scheme-info'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'scheme-info',
+                meta: {
+                  title: '方案信息'
+                }
+              },
+              {
+                path: 'accounts-receivable',
+                component: () => import('@/views/pages/factoring/contract/editor/accounts-receivable'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'accounts-receivable',
+                meta: {
+                  title: '应收账款'
+                }
+              },
+              {
+                path: 'commercial-terms',
+                component: () => import('@/views/pages/factoring/contract/editor/commercial-terms'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'commercial-terms',
+                meta: {
+                  title: '商务条款'
+                }
+              },
+              {
+                path: 'credit-info',
+                component: () => import('@/views/pages/factoring/contract/editor/credit-info'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'credit-info',
+                meta: {
+                  title: '用信信息'
+                }
+              },
+              {
+                path: 'information',
+                component: () => import('@/views/pages/factoring/contract/editor/information'),
+                leftSidebar: '/factoring/contract/contract-editor',
+                name: 'information',
+                meta: {
+                  title: '档案资料'
                 }
               }
             ]
@@ -418,8 +599,123 @@ export const asyncRoutes = [
             component: () => import('@/views/pages/factoring/pa/mgr'),
             name: 'mgr',
             meta: {
-              title: '前期款'
+              title: '前期款管理'
             }
+          },
+          {
+            path: 'deduction',
+            leftSidebar: '/factoring/pa',
+            component: () => import('@/views/pages/factoring/pa/deduction'),
+            name: 'deduction',
+            meta: {
+              title: '前期款抵扣'
+            }
+          },
+          {
+            path: 'complement',
+            leftSidebar: '/factoring/pa',
+            component: () => import('@/views/pages/factoring/pa/complement'),
+            name: 'complement',
+            meta: {
+              title: '前期款补足'
+            }
+          },
+          {
+            path: 'return',
+            leftSidebar: '/factoring/pa',
+            component: () => import('@/views/pages/factoring/pa/return'),
+            name: 'return',
+            meta: {
+              title: '前期款退回'
+            }
+          },
+          {
+            path: 'paMgrLayout',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            redirect: '/factoring/pa/mgr/paMgrEditorLayout/paMgrEditor',
+            leftSidebar: '/factoring/pa/paMgrLayout',
+            name: 'paMgrLayout',
+            meta: {
+              title: '前期款编辑'
+            },
+            children: [
+              {
+                path: 'paMgrEditor',
+                component: () => import('@/views/pages/factoring/pa/mgr/editor'),
+                leftSidebar: '/factoring/pa/paMgrLayout',
+                name: 'paMgrEditor',
+                meta: {
+                  title: '基本信息'
+                }
+              }
+            ]
+          },
+          {
+            path: 'paDeductionLayout',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            redirect: '/factoring/pa/mgr/paMgrEditorLayout/paDeductionEditor',
+            leftSidebar: '/factoring/pa/paDeductionLayout',
+            name: 'paDeductionLayout',
+            meta: {
+              title: '前期款编辑'
+            },
+            children: [
+              {
+                path: 'paDeductionEditor',
+                component: () => import('@/views/pages/factoring/pa/deduction/editor'),
+                leftSidebar: '/factoring/pa/paMgrEditorLayout',
+                name: 'paDeductionEditor',
+                meta: {
+                  title: '基本信息'
+                }
+              }
+            ]
+          },
+          {
+            path: 'paComplementLayout',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            redirect: '/factoring/pa/mgr/paComplementLayout/paComplementEditor',
+            leftSidebar: '/factoring/pa/paComplementLayout',
+            name: 'paComplementLayout',
+            meta: {
+              title: '前期款编辑'
+            },
+            children: [
+              {
+                path: 'paComplementEditor',
+                component: () => import('@/views/pages/factoring/pa/complement/editor'),
+                leftSidebar: '/factoring/pa/paMgrEditorLayout',
+                name: 'paComplementEditor',
+                meta: {
+                  title: '基本信息'
+                }
+              }
+            ]
+          },
+          {
+            path: 'paReturnEditorLayout',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            redirect: '/factoring/pa/mgr/paReturnEditorLayout/paReturnEditor',
+            leftSidebar: '/factoring/pa/paReturnEditorLayout',
+            name: 'paReturnEditorLayout',
+            meta: {
+              title: '前期款编辑'
+            },
+            children: [
+              {
+                path: 'paReturnEditor',
+                component: () => import('@/views/pages/factoring/pa/return/editor'),
+                leftSidebar: '/factoring/pa/paReturnEditor',
+                name: 'paReturnEditor',
+                meta: {
+                  title: '基本信息'
+                }
+              }
+            ]
           }
         ]
       },
@@ -533,7 +829,7 @@ export const asyncRoutes = [
       {
         path: 'accounts',
         component: () => import('@/views/pages/factoring/index'),
-        redirect: '/factoring/accounts/incomie',
+        redirect: '/factoring/accounts/income',
         leftSidebar: '/factoring/accounts',
         name: 'accounts',
         meta: {
@@ -541,34 +837,162 @@ export const asyncRoutes = [
         },
         children: [
           {
-            path: 'incomie',
-            fullPath: '/factoring/accounts/incomie',
-            component: () => import('@/views/pages/factoring/accounts/incomie'),
+            path: 'income',
+            fullPath: '/factoring/accounts/income',
+            component: () => import('@/views/pages/factoring/accounts/income'),
             leftSidebar: '/factoring/accounts',
-            name: 'incomie',
+            name: 'income',
             meta: {
               title: '来款管理'
             }
           },
           {
-            path: 'paid',
-            fullPath: '/factoring/accounts/paid',
-            component: () => import('@/views/pages/factoring/accounts/paid'),
+            path: 'planPaid',
+            fullPath: '/factoring/accounts/planPaid',
+            component: () => import('@/views/pages/factoring/accounts/planPaid'),
             leftSidebar: '/factoring/accounts',
-            name: 'paid',
+            name: 'planPaid',
             meta: {
               title: '来款核销'
             }
           },
           {
-            path: 'other-expenses-incoming',
-            fullPath: '/factoring/accounts/other-expenses-incoming',
-            component: () => import('@/views/pages/factoring/accounts/other-expenses-incoming'),
+            path: 'final',
+            component: () => import('@/views/pages/factoring/accounts/final'),
             leftSidebar: '/factoring/accounts',
-            name: 'other-expenses-incoming',
+            name: 'final',
             meta: {
-              title: '其他费用核销'
+              title: '尾款管理'
             }
+          },
+          {
+            path: 'planPaidRed',
+            fullPath: '/factoring/accounts/planPaidRed',
+            component: () => import('@/views/pages/factoring/accounts/planPaidRed'),
+            leftSidebar: '/factoring/accounts',
+            name: 'planPaidRed',
+            meta: {
+              title: '来款核销冲红'
+            }
+          },
+          {
+            path: 'refund',
+            component: () => import('@/views/pages/factoring/accounts/refund'),
+            leftSidebar: '/factoring/accounts',
+            name: 'refund',
+            meta: {
+              title: '退款管理'
+            }
+          },
+          {
+            path: 'incomeViewLayout',
+            hidden: true,
+            component: () => import('@/views/pages/factoring'),
+            tabsSidebar: '/factoring/accounts/income',
+            name: 'incomeViewLayout',
+            meta: {
+              title: '来款管理查看'
+            },
+            children: [
+              {
+                path: 'incomeView',
+                hidden: true,
+                component: () => import('@/views/pages/factoring/accounts/income/view'),
+                tabsSidebar: '/factoring/accounts/income',
+                name: 'incomeView',
+                meta: {
+                  title: '查看'
+                }
+              }
+            ]
+          },
+          {
+            path: 'planPaidViewLayout',
+            hidden: true,
+            component: () => import('@/views/pages/factoring'),
+            tabsSidebar: '/factoring/accounts/planPaid',
+            name: 'planPaidViewLayout',
+            meta: {
+              title: '来款核销查看'
+            },
+            children: [
+              {
+                path: 'planPaidView',
+                hidden: true,
+                component: () => import('@/views/pages/factoring/accounts/planPaid/view'),
+                tabsSidebar: '/factoring/accounts/income',
+                name: 'planPaidView',
+                meta: {
+                  title: '查看'
+                }
+              }
+            ]
+          },
+          {
+            path: 'finalViewLayout',
+            hidden: true,
+            component: () => import('@/views/pages/factoring'),
+            tabsSidebar: '/factoring/accounts/final',
+            name: 'finalViewLayout',
+            meta: {
+              title: '尾款管理查看'
+            },
+            children: [
+              {
+                path: 'finalView',
+                hidden: true,
+                component: () => import('@/views/pages/factoring/accounts/final/view'),
+                tabsSidebar: '/factoring/accounts/final',
+                name: 'finalView',
+                meta: {
+                  title: '查看'
+                }
+              }
+            ]
+          },
+          {
+            path: 'planPaidRedLayout',
+            hidden: true,
+            component: () => import('@/views/pages/factoring'),
+            tabsSidebar: '/factoring/accounts/planPaidRed',
+            name: 'planPaidRedLayout',
+            meta: {
+              title: '来款核销冲红查看'
+            },
+            children: [
+              {
+                path: 'planPaidRedView',
+                hidden: true,
+                component: () => import('@/views/pages/factoring/accounts/planPaidRed/view'),
+                tabsSidebar: '/factoring/accounts/planPaidRed',
+                name: 'planPaidRedView',
+                meta: {
+                  title: '查看'
+                }
+              }
+            ]
+          },
+          {
+            path: 'refundLayout',
+            hidden: true,
+            component: () => import('@/views/pages/factoring'),
+            tabsSidebar: '/factoring/accounts/refund',
+            name: 'refundLayout',
+            meta: {
+              title: '退款管理查看'
+            },
+            children: [
+              {
+                path: 'refundView',
+                hidden: true,
+                component: () => import('@/views/pages/factoring/accounts/refund/view'),
+                tabsSidebar: '/factoring/accounts/refund',
+                name: 'refundView',
+                meta: {
+                  title: '查看'
+                }
+              }
+            ]
           }
         ]
       },
@@ -616,133 +1040,6 @@ export const asyncRoutes = [
       }
     ]
   },
-
-  {
-    path: '/crm',
-    component: Layout,
-    redirect: '/crm/corporation',
-    alwaysShow: true, // will always show the root menu
-    name: 'crm',
-    meta: {
-      title: 'CRM',
-      icon: 'lock'
-    },
-    children: [
-      {
-        path: 'corporation',
-        component: () => import('@/views/pages/CRM/enterprise-cus'),
-        name: 'survey',
-        redirect: 'corporation/corporation',
-        meta: {
-          title: '企业客户'
-        },
-        children: [
-          // { path: '/crm/enterprise-cus', redirect: '/crm/enterprise-cus/list' },
-          //  点击左侧企业客户跳转到企业客户列表页
-          { path: 'corporation',
-            component: () => import('@/views/pages/CRM/enterprise-cus/corporationList'),
-            name: 'CorporationList',
-            meta: {
-              title: '企业客户'
-            }
-          },
-          // 企业信息变更页面
-          { path: 'change',
-            name: 'customer_infochange',
-            component: () => import('@/views/pages/CRM/enterprise-cus/customer_infochange/customer_infochange'),
-            meta: {
-              title: '企业信息'
-            }
-          },
-          // 组织架构页面
-          { path: 'customerorganize',
-            name: 'Organization',
-            component: () => import('@/views/pages/CRM/enterprise-cus/Organization/Organization'),
-            meta: {
-              title: '组织架构'
-            }
-          },
-          // 管理员变更页面
-          { path: 'managerchange',
-            name: 'Administrator',
-            component: () => import('@/views/pages/CRM/enterprise-cus/Administrator/Administrator'),
-            meta: {
-              title: '管理员变更'
-            }
-          },
-          // 企业角色变更页面
-          { path: 'rolechange',
-            name: 'Enterpriserole',
-            component: () => import('@/views/pages/CRM/enterprise-cus/Enterprise role/Enterpriserole'),
-            meta: {
-              title: '企业角色变更'
-            }
-          },
-          // 增加企业
-          { path: 'corporation/info',
-            name: 'Factoring',
-            hidden: true,
-            alwaysShow: true,
-            component: () => import('@/views/pages/CRM/add/add'),
-            meta: {
-              title: '详情'
-            }
-          },
-          // 查看企业
-          { path: 'corporation/info/view',
-            name: 'Detail',
-            hidden: true,
-            alwaysShow: true,
-            component: () => import('@/views/pages/CRM/detail'),
-            meta: {
-              title: '详情'
-            }
-          },
-          // 修改页面
-          {
-            path: 'corporation/info/edit',
-            name: 'Emit',
-            hidden: true,
-            alwaysShow: true,
-            component: () => import('@/views/pages/CRM/emit/emit'),
-            meta: {
-              title: '详情'
-            }
-          }
-        ]
-      },
-      // 个人客户页面
-      {
-        path: 'personal',
-        redirect: '/crm/personal/personal',
-        alwaysShow: true, // will always show the root menu
-        component: () => import('@/views/pages/CRM/index'),
-        name: 'individual-cus',
-        meta: {
-          title: '个人客户'
-        },
-        children: [
-          {
-            path: 'personal',
-            component: () => import('@/views/pages/CRM/individual-cus/index2'),
-            name: 'index2',
-            meta: {
-              title: '客户信息'
-            }
-          },
-          {
-            path: 'change',
-            component: () => import('@/views/pages/CRM/individual-cus/index3'),
-            name: 'index3',
-            meta: {
-              title: '客户变更'
-            }
-          }
-        ]
-      }
-    ]
-  },
-
   {
     path: '/apps',
     component: Layout,
