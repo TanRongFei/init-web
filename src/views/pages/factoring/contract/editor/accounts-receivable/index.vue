@@ -2,7 +2,7 @@
   <div class="basic-info">
     <head-title :label="'合同'" :showDefaultButton="false">
       <template slot="after">
-        <el-button @click="handleSave" type="primary" size="mini">保 存</el-button>
+        <el-button :disabled="disabled" @click="handleSave" type="primary" size="mini">保 存</el-button>
         <el-button @click="backToList" type="" size="mini">返 回</el-button>
       </template>
     </head-title>
@@ -204,6 +204,7 @@ export default {
   mixins: [AddRouterQuery],
   data() {
     return {
+      disabled: false,
       tableData: [],
       contractTradeVO: [],
       form: {},
@@ -245,6 +246,8 @@ export default {
   },
   methods: {
     handleSave() {
+      this.disabled = true
+
       const param = {
         contractDuepaySchemeVO: {
           contBizCode: this.$route.query.bizCode,
@@ -259,7 +262,12 @@ export default {
           return item
         })
       }
-      Model.dueSave(param)
+      Model.dueSave(param).then((res => {
+        this.fetchDetail()
+        this.disabled = false
+      })).catch(() => {
+        this.disabled = false
+      })
     },
     // 添加基础交易合同
     handleAddContract() {

@@ -6,7 +6,7 @@
       title="计息方式"
       :visible.sync="dialogVisible"
       width="860px"
-      :before-close="handleClose">{{form}}
+      :before-close="handleClose">
       <el-form ref="form" :model="form" label-width="80px">
         <el-row :gutter="20">
           <el-col :span="18">
@@ -55,13 +55,13 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="结算日期">
-              <el-input v-model="form.paymentDate" />
+              <el-input v-model="form.paymentDate" type="number" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="调整方式">
               <el-select v-model="form.adjustType" placeholder="请选择" style="width: 100%;">
-                <el-option :label="item.FLAG" :value="item.CODE" v-for="item in dict.ajustType" :key="item.CODE" />
+                <el-option :label="item.FLAG" :value="item.CODE" v-for="item in dict.adjustType" :key="item.CODE" />
               </el-select>
             </el-form-item>
           </el-col>

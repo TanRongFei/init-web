@@ -13,7 +13,11 @@
 
     <form-label :label="'合同明细'" />
     <el-table :data="contContractdetailDTOList" style="width: 100%">
-      <el-table-column prop="contractdetailType" label="合同类型" align="center" />
+      <el-table-column prop="contractdetailType" label="合同类型" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.contractdetailType + '-contractTypeList'|filterDict}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="contractdetailCode" label="合同编号" align="center" />
       <el-table-column prop="contractdetailName" label="合同名称" align="center" />
       <el-table-column prop="contractdetailCount" label="份数" align="center" />
@@ -40,7 +44,11 @@
     <el-table :data="contSignrerequisiteDTOList" style="width: 100%">
       <el-table-column prop="signContent" label="条款内容" align="center" />
       <el-table-column prop="signMemo" label="说明" align="center" />
-      <el-table-column prop="signEstimated" label="预计完成时间" align="center" />
+      <el-table-column prop="signEstimated" label="预计完成时间" align="center">
+        <template slot-scope="scope">
+          <span>{{formatDate(scope.row.signEstimated)}}</span>
+        </template>
+      </el-table-column>;
       <el-table-column prop="signExecutor" label="协调/执行人" align="center" />
     </el-table>
   </div>

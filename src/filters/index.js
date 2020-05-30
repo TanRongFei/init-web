@@ -1,4 +1,6 @@
 // import parseTime, formatTime and set to filter
+import moment from 'moment'
+
 export { parseTime, formatTime } from '@/utils'
 import store from '@/store'
 
@@ -96,6 +98,17 @@ export function filterDict(generation) {
   if (temp.FLAG) {
     return temp.FLAG
   } else {
-    return ''
+    return val
+  }
+}
+
+/**
+ * 时间格式转化
+ * **/
+export function formatDate(date, type='YYYY-MM-DD') {
+  if (date) {
+    return moment(date).format(type)
+  } else {
+    return date
   }
 }

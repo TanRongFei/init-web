@@ -3,8 +3,10 @@
     <head-title
       :label="'企业客户'"
       :total="total"
+      :functions="btnFunctions"
+      @handleDelete="handleDel"
       @handleEditor="handleEditor"
-      @handleCheek="handleCheek" />
+      @handleCheck="handleCheck" />
 
     <table-search >
       <template slot="after">
@@ -41,7 +43,15 @@
       </template>
     </table-search>
 
-    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'合同制作'" :data="multipleSelection" />
+    <side-tool
+      :functions="functions"
+      key="enterprise-customers"
+      ref="sideTool"
+      :label="'合同变更'"
+      :data="multipleSelection"
+      @handleChangeAudit="handleDetail"
+      @handleChangeUnAudit="handleDetail"
+    />
 
     <el-table
       ref="multipleTable"
@@ -51,7 +61,11 @@
       style="width: 100%">
       <el-table-column type="selection" width="50" />
       <el-table-column type='index' label="序号" width="50" align="center" />
-      <el-table-column sortable prop="status" label="状态" align="center" />
+      <el-table-column sortable prop="status" label="状态" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.status + '-stutasEnum' | filterDict }}
+        </template>
+      </el-table-column>
       <el-table-column prop="cochCode" label="变更编号" align="center" />
       <el-table-column prop="credCode" label="合同编号" align="center">
         <template slot-scope="scope">
@@ -66,7 +80,9 @@
       <el-table-column prop="version" label="版本" align="center" />
       <el-table-column prop="businessType" label="有效性" align="center" />
       <el-table-column prop="applyUserName" label="申请人" align="center" />
-      <el-table-column prop="applyDate" label="申请时间" align="center" />
+      <el-table-column prop="applyDate" label="申请时间" align="center">
+        <template slot-scope="scope">{{ scope.row.applyDate | formatDate }}</template>
+      </el-table-column>
     </el-table>
 
     <div class="pagination-wrap" >
@@ -97,7 +113,8 @@ export default {
   },
   data() {
     return {
-      functions: ['contract-change'], // 合同变更
+      btnFunctions: ['check', 'editor', 'delete'],
+      functions: ['change-audit', 'change-unAudit'], // 变更审批通过 变更审批不通过
       form: {
         checkList: []
       },
@@ -164,7 +181,7 @@ export default {
       this.Query.pageNum = val
       this.fetchList()
     },
-    handleCheek(v) {
+    handleCheck(v) {
       /**
        * 查看
        * **/
@@ -172,7 +189,7 @@ export default {
         const { bizCode } = this.multipleSelection[0]
         // this.handleDetail('contractDetail', { bizCode })
         this.$store.dispatch('app/showChgInfo').then(() => {
-          this.$router.push({ path: '/factoring/contract/contract-detail/chg-info', query: { bizCode } })
+          this.$router.push({ path: '/factoring/contract/contract-detail/chg-info', query: { bizCode }})
         })
       } else if (this.multipleSelection && this.multipleSelection.length > 1) {
         this.$message({
@@ -193,7 +210,7 @@ export default {
       if (this.multipleSelection && this.multipleSelection.length === 1) {
         const { bizCode } = this.multipleSelection[0]
         this.$store.dispatch('app/showChgInfo').then(() => {
-          this.$router.push({ path: '/factoring/contract/contract-editor/chg-info', query: { bizCode } })
+          this.$router.push({ path: '/factoring/contract/contract-editor/chg-info', query: { bizCode }})
         })
       } else if (this.multipleSelection && this.multipleSelection.length > 1) {
         this.$message({
@@ -203,6 +220,27 @@ export default {
       } else {
         this.$message({
           message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
+    },
+    handleDel() {
+      /**
+       * 删除
+       * **/
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        Model.deleteInfo(bizCode).then(() => {
+          this.handleDetail()
+        })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行删除！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行删除！',
           type: 'warning'
         })
       }

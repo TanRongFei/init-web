@@ -9,7 +9,11 @@
       <el-table-column prop="isOriginal" label="原件" align="center" />
       <el-table-column prop="address" label="附件" align="center" />
       <el-table-column prop="recordUserName" label="上传人" align="center" />
-      <el-table-column prop="recordDate" label="上传时间" align="center" />
+      <el-table-column prop="recordDate" label="上传时间" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.recordDate | formatDate }}
+        </template>
+      </el-table-column>
       <el-table-column prop="remark" label="备注" align="center" />
     </el-table>
   </div>

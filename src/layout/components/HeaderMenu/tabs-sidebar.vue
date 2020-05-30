@@ -54,7 +54,9 @@ export default {
         this.activeName = route.path
 
         path = this.resolvePath(route.tabsSidebar, route.path)
-        this.$router.push({ path })
+        // this.$router.push({ path })
+        if (this.$route.path === path) return
+        this.$router.push(path)
       }
     },
     resolvePath(basePath, routePath) {

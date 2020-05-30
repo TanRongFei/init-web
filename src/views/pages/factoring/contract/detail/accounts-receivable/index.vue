@@ -14,7 +14,11 @@
       <el-table-column prop="contCode" label="合同编号" align="center" />
       <el-table-column prop="contAmount" label="合同金额" align="center" />
       <el-table-column prop="duepayAmount" label="转让应收账款金额" align="center" />
-      <el-table-column prop="signDate" label="签署日期" align="center" />
+      <el-table-column prop="signDate" label="签署日期" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.signDate | formatDate }}
+        </template>
+      </el-table-column>
       <el-table-column prop="paymentTerm" label="账期" align="center" />
       <el-table-column prop="creditQueryResult" label="第三方征信查询结果" align="center" />
       <el-table-column prop="remark" label="备注" align="center" />
@@ -31,7 +35,11 @@
       <el-table-column prop="checkCodeSix" label="发票验证码后六位" align="center" />
       <el-table-column prop="buyName" label="购买方" align="center" />
       <el-table-column prop="billAmount" label="发票金额" align="center" />
-      <el-table-column prop="billDate" label="开票日期" align="center" />
+      <el-table-column prop="billDate" label="开票日期" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.billDate | formatDate }}
+        </template>
+      </el-table-column>
       <el-table-column prop="settlementWay" label="结算方式" align="center" />
       <el-table-column prop="fileName" label="附件" align="center" />
       <el-table-column prop="state" label="验票真伪" align="center" />

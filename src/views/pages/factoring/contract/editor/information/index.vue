@@ -2,7 +2,7 @@
   <div class="basic-info">
     <head-title :label="''" :showDefaultButton="false">
       <template slot="after">
-        <el-button @click="handleSave" type="primary" size="mini">保 存</el-button>
+        <el-button :disabled="disabled" @click="handleSave" type="primary" size="mini">保 存</el-button>
         <el-button @click="backToList" type="" size="mini">返 回</el-button>
       </template>
     </head-title>
@@ -38,7 +38,8 @@
         </el-table-column>
         <el-table-column prop="address" label="附件" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini">附件上传</el-button>
+<!--            <el-button type="primary" size="mini">附件上传</el-button>-->
+            <file-upload />
             <div v-for="item in scope.row.contFiledetailDTO">
               <span>{{item.name}}</span>
             </div>
@@ -73,16 +74,19 @@ import HeadTitle from '@/views/pages/components/head-title'
 import FormLabel from '@/views/pages/components/form-label'
 import Model from "@/api/factoring/contract";
 import AddRouterQuery from '../mixin/add-route-query'
+import FileUpload from '@/views/pages/components/file-upload'
 
 export default {
   name: 'Information',
   components: {
     HeadTitle,
-    FormLabel
+    FormLabel,
+    FileUpload
   },
   mixins: [AddRouterQuery],
   data() {
     return {
+      disabled: false,
       contFiledetail: {
         contBizCode: this.$route.query.bizCode ? this.$route.query.bizCode : '',
         datumName: '',
@@ -94,7 +98,9 @@ export default {
         remark: '',
         contFiledetailDTO: []
       },
-      tableData: []
+      tableData: [
+        {}
+      ]
     }
   },
   created() {
@@ -111,10 +117,17 @@ export default {
       })
     },
     handleSave() {
+      this.disabled = true
+
       const param = {
         contFileDTO: this.tableData
       }
-      Model.fileSave(param)
+      Model.fileSave(param).then((res => {
+        this.fetchDetail()
+        this.disabled = false
+      })).catch(() => {
+        this.disabled = false
+      })
     },
     handleAdd() {
       const temp = JSON.parse(JSON.stringify(this.contFiledetail))

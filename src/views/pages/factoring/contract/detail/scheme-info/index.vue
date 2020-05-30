@@ -126,6 +126,30 @@
       <el-table-column prop="address" label="手续费" align="center" />
       <el-table-column prop="address" label="剩余本金" align="center" />
     </el-table>
+    <!--还款计划-->
+    <div v-show="activeName==='1'">
+      <el-table :data="contPlandetailDTOList" style="width: 100%">
+        <el-table-column prop="period" label="期数" width="180" align="center" />
+        <el-table-column prop="paydate" label="还款日" align="center" />
+        <el-table-column prop="rent" label="应收金额" align="center" />
+        <el-table-column prop="principal" label="本金" align="center" />
+        <el-table-column prop="interest" label="手续费" align="center" />
+        <el-table-column prop="remainingPrincipal" label="剩余本金" align="center" />
+      </el-table>
+    </div>
+
+    <!--方案分析-->
+    <div v-show="activeName==='2'">
+      <el-table :data="contSchemeanalysisDTOList" style="width: 100%">
+        <el-table-column prop="period" label="期数" width="180" align="center" />
+        <el-table-column prop="paydate" label="应付日期" align="center" />
+        <el-table-column prop="address" label="现金流" align="center" />
+        <el-table-column prop="cashflow" label="保理预付款" align="center" />
+        <el-table-column prop="procedure" label="手续费" align="center" />
+        <el-table-column prop="deposit" label="保证金" align="center" />
+        <el-table-column prop="interest" label="利息收日" align="center" />
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -147,7 +171,9 @@ export default {
     return {
       tableData: [],
       activeName: '1',
-      form: {}
+      form: {},
+      contPlandetailDTOList: [],
+      contSchemeanalysisDTOList: []
     }
   },
   computed: {
@@ -170,7 +196,10 @@ export default {
       if (!bizCode) return
       Model.schemeView(bizCode).then(res => {
         console.log(res)
+        if (!res) return
         this.form = res.contractSchemeDTO
+        this.contPlandetailDTOList = res.contPlandetailDTOList
+        this.contSchemeanalysisDTOList = res.contSchemeanalysisDTOList
       })
     }
   }

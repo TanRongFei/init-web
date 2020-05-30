@@ -3,8 +3,10 @@
     <head-title
       :label="'企业客户'"
       :total="total"
+      :functions="btnFunctions"
+      @handleDelete="handleDel"
       @handleEditor="handleEditor"
-      @handleCheek="handleCheek" />
+      @handleCheck="handleCheck" />
 
     <table-search>
       <template slot="after">
@@ -41,7 +43,15 @@
       </template>
     </table-search>
 
-    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'合同制作'" :data="multipleSelection" />
+    <side-tool
+      :functions="functions"
+      key="enterprise-customers"
+      ref="sideTool"
+      :label="'合同制作'"
+      :data="multipleSelection"
+      @handleUnAudit="handleDetail"
+      @handleInfoAudit="handleDetail"
+    />
 
     <el-table
       ref="multipleTable"
@@ -51,7 +61,11 @@
       style="width: 100%">
       <el-table-column type="selection" width="50" />
       <el-table-column type="index" label="序号" width="50" align="center" />
-      <el-table-column sortable prop="status" label="状态" align="center" />
+      <el-table-column sortable prop="status" label="状态" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.status + '-stutasEnum' | filterDict }}
+        </template>
+      </el-table-column>
       <el-table-column prop="contCode" label="合同编号" align="center" />
       <el-table-column prop="credCode" label="授信编号" align="center">
         <template slot-scope="scope">
@@ -69,7 +83,7 @@
         </template>
       </el-table-column>>
       <el-table-column prop="businessType" label="业务板块" align="center">
-        <template slot-scope="scope">{{ scope.row.businessType + '-PlateTypeEnums' | filterDict }}</template>
+        <template slot-scope="scope">{{ scope.row.businessType + '-plateTypeEnums' | filterDict }}</template>
       </el-table-column>>
       <el-table-column prop="contractType" label="合同类型" align="center">
         <template slot-scope="scope">
@@ -78,9 +92,13 @@
       </el-table-column>>
       <el-table-column prop="conPmName" label="客户经理" align="center" />
       <el-table-column prop="basicContractSigndate" label="签署日期" align="center">
-        <template slot-scope="scope">{{ formatDate(scope.row.basicContractSigndate) }}</template>
+        <template slot-scope="scope">{{ scope.row.basicContractSigndate | formatDate }}</template>
       </el-table-column>>
-      <el-table-column prop="isHandove" label="合同资料" align="center" />
+      <el-table-column prop="isHandove" label="合同资料" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.isHandove + '-isHandoverStatus' | filterDict }}
+        </template>
+      </el-table-column>
     </el-table>
 
     <div class="pagination-wrap">
@@ -100,7 +118,6 @@ import HeadTitle from '@/views/pages/components/head-title'
 import TableSearch from '@/views/pages/components/table-search'
 import SideTool from '@/views/pages/components/SideTool'
 import Model from '@/api/factoring/contract'
-import moment from 'moment'
 
 export default {
   name: 'ContractMgr',
@@ -111,7 +128,8 @@ export default {
   },
   data() {
     return {
-      functions: ['data-handover', 'generate-loan', 'contract-change'], // 资料交接 生成放款 合同变更
+      btnFunctions: ['check', 'editor', 'delete'],
+      functions: ['info-audit', 'un-audit', 'contract-change'], // 审批通过 审批不通过 合同变更
       form: {
         checkList: []
       },
@@ -130,17 +148,6 @@ export default {
       multipleSelection: []
     }
   },
-  computed: {
-    formatDate() {
-      return (date) => {
-        if (date) {
-          return moment(date).format('YYYY-MM-DD')
-        } else {
-          return date
-        }
-      }
-    }
-  },
   created() {
     // 显示SideTool
     this.$nextTick(function() {
@@ -155,6 +162,7 @@ export default {
       }
       Model.list(param).then(res => {
         console.log(res)
+        if (!res || !res.list) return
         this.tableData = res.list
         this.total = res.total
       })
@@ -182,7 +190,7 @@ export default {
       this.Query.pageNum = val
       this.fetchList()
     },
-    handleCheek(v) {
+    handleCheck(v) {
       /**
        * 查看
        * **/
@@ -216,6 +224,27 @@ export default {
       } else {
         this.$message({
           message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
+    },
+    handleDel() {
+      /**
+       * 删除
+       * **/
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        Model.deleteInfo(bizCode).then(() => {
+          this.handleDetail()
+        })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行删除！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行删除！',
           type: 'warning'
         })
       }

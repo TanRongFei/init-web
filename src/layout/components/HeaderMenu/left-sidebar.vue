@@ -18,9 +18,12 @@
         :class="formatClass(item)"
         @click="handleSelect(item)"
       >
-        <app-link :to="resolvePath(item.leftSidebar, item.path)">
+<!--        <app-link :to="resolvePath(item.leftSidebar, item.path)">-->
+<!--          <span>{{ item.meta.title }}</span>-->
+<!--        </app-link>-->
+        <div @click="handleDetail(resolvePath(item.leftSidebar, item.path))">
           <span>{{ item.meta.title }}</span>
-        </app-link>
+        </div>
       </div>
     </div>
   </div>
@@ -67,6 +70,10 @@ export default {
     ])
   },
   methods: {
+    handleDetail(path) {
+      if (this.$route.path === path) return
+      this.$router.push(path)
+    },
     handleSelect(item) {
       this.selected = item
     },

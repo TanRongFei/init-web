@@ -11,8 +11,8 @@ class Model extends RestModel{
   /**
    * 删除合同基本信息
    * **/
-  deleteInfo(param) {
-    return this.updateModel(param, `/api/contract/info/delete`, '此操作将删除合同基本信息！ 是否继续？')
+  deleteInfo(bizCode) {
+    return this.updateModel({}, `/api/contract/info/delete?bizCode=${bizCode}`, '此操作将删除合同基本信息！ 是否继续？')
   }
 
   /**
@@ -26,7 +26,7 @@ class Model extends RestModel{
    * 查看合同基本信息
    * **/
   viewInfo(bizCode) {
-    return this.updateModel({}, `/api/contract/info/view?bizCode=${bizCode}`)
+    return this.fetchList({}, `/api/contract/info/view?bizCode=${bizCode}`)
   }
 
 
@@ -41,7 +41,7 @@ class Model extends RestModel{
    * 初始化还款方式
    * **/
   planType(param) {
-    return this.updateModel(param, `/api/contract/scheme/planType`)
+    return this.fetchList(param, `/api/contract/scheme/planType`)
   }
 
   /**
@@ -129,31 +129,31 @@ class Model extends RestModel{
   }
 
   /**
-   * 合同审批不通过
-   * **/
-  unAudit(param) {
-    return this.updateModel(param, `/api/contract/info/unAudit`)
-  }
-
-  /**
    * 变更审批通过
    * **/
-  audit(param) {
-    return this.updateModel(param, `/api/contract/change/audit`)
+  audit(bizCode) {
+    return this.updateModel({}, `/api/contract/change/audit?bizCode=${bizCode}`, '确定变更审批通过吗?')
   }
 
   /**
    * 变更审批不通过
    * **/
-  changeUnAudit(param) {
-    return this.updateModel(param, `/api/contract/change/unAudit`)
+  changeUnAudit(bizCode) {
+    return this.updateModel({}, `/api/contract/change/unAudit?bizCode=${bizCode}`, '确定变更审批不通过吗?')
   }
 
   /**
    * 合同审批通过
    * **/
-  infoAudit(param) {
-    return this.updateModel(param, `/api/contract/info/audit`)
+  infoAudit(bizCode) {
+    return this.updateModel({}, `/api/contract/info/audit?bizCode=${bizCode}`, '确定合同审批通过吗?')
+  }
+
+  /**
+   * 合同审批不通过
+   * **/
+  unAudit(bizCode) {
+    return this.updateModel({}, `/api/contract/info/unAudit?bizCode=${bizCode}`, '确定合同审批不通过!')
   }
 
   /**

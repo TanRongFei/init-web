@@ -72,7 +72,8 @@
       <el-col :span="12">
         <el-form-item label="客户经理" prop="contPmId">
           <el-select v-model="form.contPmId" placeholder="请选择" style="width:100%;">
-            <el-option :label="item.compName" :value="item.compCode" v-for="item in permitDTOList" :key="item.compCode" />
+<!--            <el-option :label="item.compName" :value="item.compCode" v-for="item in permitDTOList" :key="item.compCode" />-->
+            <el-option :label="item.FLAG" :value="item.CODE" v-for="item in dict.userInfoEnum" :key="item.CODE" />
           </el-select>
         </el-form-item>
       </el-col>

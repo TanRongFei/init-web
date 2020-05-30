@@ -2,7 +2,7 @@
   <div class="basic-info">
     <head-title :label="'方案信息'" :showDefaultButton="false">
       <template slot="after">
-        <el-button @click="handleSave" type="primary" size="mini">保 存</el-button>
+        <el-button :disabled="disabled" @click="handleSave" type="primary" size="mini">保 存</el-button>
         <el-button @click="backToList" type="" size="mini">返 回</el-button>
       </template>
     </head-title>
@@ -210,7 +210,7 @@
             </el-col>
 
             <el-col :span="4">
-              <el-form-item label="是否作扣">
+              <el-form-item label="保证金是否作扣">
                 <el-switch
                   style="display: block;height:36px;line-height: 36px;"
                   v-model="value">
@@ -285,25 +285,25 @@
       <!--还款计划-->
       <div v-show="activeName==='1'">
         <el-table :data="contPlandetailDTOList" style="width: 100%">
-          <el-table-column prop="name" label="期数" width="180" align="center" />
-          <el-table-column prop="address" label="还款日" align="center" />
-          <el-table-column prop="address" label="应收金额" align="center" />
-          <el-table-column prop="address" label="本金" align="center" />
-          <el-table-column prop="address" label="手续费" align="center" />
-          <el-table-column prop="address" label="剩余本金" align="center" />
+          <el-table-column prop="period" label="期数" width="180" align="center" />
+          <el-table-column prop="paydate" label="还款日" align="center" />
+          <el-table-column prop="rent" label="应收金额" align="center" />
+          <el-table-column prop="principal" label="本金" align="center" />
+          <el-table-column prop="interest" label="手续费" align="center" />
+          <el-table-column prop="remainingPrincipal" label="剩余本金" align="center" />
         </el-table>
       </div>
 
       <!--方案分析-->
       <div v-show="activeName==='2'">
         <el-table :data="contSchemeanalysisDTOList" style="width: 100%">
-          <el-table-column prop="name" label="期数" width="180" align="center" />
-          <el-table-column prop="address" label="应付日期" align="center" />
+          <el-table-column prop="period" label="期数" width="180" align="center" />
+          <el-table-column prop="paydate" label="应付日期" align="center" />
           <el-table-column prop="address" label="现金流" align="center" />
-          <el-table-column prop="address" label="保理预付款" align="center" />
-          <el-table-column prop="address" label="手续费" align="center" />
-          <el-table-column prop="address" label="保证金" align="center" />
-          <el-table-column prop="address" label="利息收日" align="center" />
+          <el-table-column prop="cashflow" label="保理预付款" align="center" />
+          <el-table-column prop="procedure" label="手续费" align="center" />
+          <el-table-column prop="deposit" label="保证金" align="center" />
+          <el-table-column prop="interest" label="利息收日" align="center" />
         </el-table>
       </div>
     </el-card>
@@ -329,6 +329,7 @@ export default {
   mixins: [AddRouterQuery, rules],
   data() {
     return {
+      disabled: false,
       value: false,
       tableData: [],
       planType: [],
@@ -354,7 +355,10 @@ export default {
       if (!bizCode) return
       Model.schemeView(bizCode).then(res => {
         console.log(res)
+        if (!res) return
         this.form = JSON.parse(JSON.stringify(res.contractSchemeDTO))
+        this.contPlandetailDTOList = res.contPlandetailDTOList
+        this.contSchemeanalysisDTOList = res.contSchemeanalysisDTOList
       })
     },
     fetchPlanType() {
@@ -364,6 +368,7 @@ export default {
       })
     },
     handleSave() {
+      this.disabled = true
       const param = {
         contractSchemeVO: {
           contBizCode: this.$route.query.bizCode,
@@ -373,7 +378,12 @@ export default {
         },
         contPlandetailVOList: []
       }
-      Model.schemeSave(param)
+      Model.schemeSave(param).then((res => {
+        this.fetchDetail()
+        this.disabled = false
+      })).catch(() => {
+        this.disabled = false
+      })
     },
     getRuleIdForm(v) {
       this.ruleIdForm = v

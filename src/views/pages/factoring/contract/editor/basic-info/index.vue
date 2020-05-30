@@ -7,6 +7,13 @@
       </template>
     </head-title>
 
+    {{unChange}}
+    <el-form :model="form">
+      <el-form-item label="合同编号" >
+        <el-input v-model="form.auth" />
+      </el-form-item>
+    </el-form>
+
     <el-card shadow="never">
       <form-label :label="'基本信息'" />
       <div class="wrap">
@@ -15,7 +22,34 @@
 
       <form-label :label="'授信产品'" />
       <div class="wrap">
-        <quota-form />
+<!--        <quota-form />-->
+        <el-form :model="form" label-width="120px" :label-position="'left'" ref="form">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item label="有无追索权" prop="name">
+                <el-radio-group v-model="form.hasRecourse" class="set-sidebar-mode">
+                  <el-radio :label="1"><span style="font-size: 14px;">是</span></el-radio>
+                  <el-radio :label="0"><span style="font-size: 14px;">否</span></el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="保理方式" prop="name">
+                <el-radio-group v-model="form.factoringType" class="set-sidebar-mode">
+                  <el-radio :label="1"><span style="font-size: 14px;">明保理</span></el-radio>
+                  <el-radio :label="0"><span style="font-size: 14px;">暗保理</span></el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
+            <el-col :span="24">
+              <el-checkbox v-model="isHandove" label="1" disabled>资料是否交接</el-checkbox>
+              <el-checkbox v-model="governModel" label="2">是否单笔保理</el-checkbox>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
 
       <form-label :label="'客户信息'" >
@@ -46,13 +80,13 @@
       <div class="wrap">
         <el-form :model="form" label-width="80px">
           <el-form-item label="产品信息">
-            <el-input v-model="form.name" type="textarea" />
+            <el-input v-model="form.productInfo" type="textarea" />
           </el-form-item>
           <el-form-item label="借款用途">
-            <el-input v-model="form.name" type="textarea" />
+            <el-input v-model="form.usageLoan" type="textarea" />
           </el-form-item>
           <el-form-item label="交易条件">
-            <el-input v-model="form.name" type="textarea" />
+            <el-input v-model="form.tradeCdt" type="textarea" />
           </el-form-item>
         </el-form>
       </div>
@@ -83,6 +117,8 @@ export default {
     return {
       showDefaultButton: false,
       form: {},
+      saveForm: {},
+      unChange: true,
       baseInfo: {},
       info: '',
       tableData: [],
@@ -91,19 +127,64 @@ export default {
     }
   },
   computed: {
+    isHandove: {
+      get() {
+        if (this.form.isHandove === 0 || !this.form.isHandove) return false
+        if (this.form.isHandove === 1) return  true
+      },
+      set(v) {
+        if (v) {
+          this.form.isHandove = 1
+        } else {
+          this.form.isHandove = 0
+        }
+      }
+    },
+    governModel: {
+      get() {
+        if (this.form.governModel === 0 || !this.form.governModel) return false
+        if (this.form.governModel === 1) return  true
+      },
+      set(v) {
+        if (v) {
+          this.form.governModel = 1
+        } else {
+          this.form.governModel = 0
+        }
+      }
+    },
     ...mapGetters([
       'dict'
     ])
   },
+  watch: {
+    form: {
+      deep: true,
+      handler(n, o) {
+        const _this = this
+        for (let i in _this.form) {
+          if(n[i] != _this.saveForm[i]) {
+            _this.unChange = false
+            break;
+          }else {
+            _this.unChange = true
+          }
+        }
+      }
+    }
+  },
   created() {
+    console.log(this.$route.query.bizCode)
+
     this.fetchBase()
-    this.fetchCustlist()
+    // this.fetchCustlist()
   },
   methods: {
     // 客户列表
     fetchCustlist() {
       Model.custlist({}).then(res => {
         console.log(res)
+        if (!res) return
         this.permitDTOList = res.permitDTOList
       })
     },
@@ -113,7 +194,10 @@ export default {
       if (!bizCode) return
       Model.viewInfo(bizCode).then(res => {
         console.log('fetchBase', res)
+        if (!res) return
         this.baseInfo = JSON.parse(JSON.stringify(res))
+        this.form = res
+        this.saveForm = JSON.parse(JSON.stringify(res))
       })
     },
     handleSave() {
@@ -125,7 +209,9 @@ export default {
         },
         contBuyerDTO: []
       }
-      Model.save(param)
+      Model.save(param).then(res => {
+        this.fetchBase()
+      })
     },
     back() {
       this.$router.back()

@@ -96,33 +96,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "@/styles/side-tool.scss";
+
   .item{
-    text-align: center;
-    font-size: 13px;
-    position: relative;
-    background: url("../../../../assets/rg-tool.png") no-repeat;
     background-position: -420px 0px;
-    .icon{
-      height: 35px;
-      line-height: 35px;
-    }
-    .title{
-      display: none;
-      min-width: 80px;
-      position: absolute;
-      padding: 0 10px;
-      right: 35px;
-      top: 0;
-      background: #9fa0a4;
-      height: 35px;
-      line-height: 35px;
-      z-index: 999;
-    }
-    &:hover{
-      color: #ffffff;
-      .title{
-        display: flex;
-      }
-    }
   }
 </style>

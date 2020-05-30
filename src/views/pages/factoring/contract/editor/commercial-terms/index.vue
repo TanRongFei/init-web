@@ -2,7 +2,7 @@
   <div class="basic-info">
     <head-title :label="'商务条款'" :showDefaultButton="false">
       <template slot="after">
-        <el-button @click="handleSave" type="primary" size="mini">保 存</el-button>
+        <el-button :disabled="disabled" @click="handleSave" type="primary" size="mini">保 存</el-button>
         <el-button @click="backToList" type="" size="mini">返 回</el-button>
       </template>
     </head-title>
@@ -185,6 +185,7 @@ export default {
   mixins: [AddRouterQuery],
   data() {
     return {
+      disabled: false,
       tableData: [],
       form: {},
       contParties: { // 合同当事人
@@ -254,6 +255,8 @@ export default {
       this.contSignrerequisiteDTOList.push(temp)
     },
     handleSave() {
+      this.disabled = true
+
       const param = {
         contRentrerequisiteDTO: {
           contBizCode: this.$route.query.bizCode ? this.$route.query.bizCode : '',
@@ -263,7 +266,12 @@ export default {
         contContractdetailDTOList: this.contContractdetailDTOList,
         contSignrerequisiteDTOList: this.contSignrerequisiteDTOList
       }
-      Model.businessInfoSave(param)
+      Model.businessInfoSave(param).then((res => {
+        this.fetchDetail()
+        this.disabled = false
+      })).catch(() => {
+        this.disabled = false
+      })
     },
   }
 }

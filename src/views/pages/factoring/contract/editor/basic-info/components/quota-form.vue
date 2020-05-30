@@ -21,10 +21,8 @@
 
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-checkbox-group v-model="form.checkList">
-          <el-checkbox label="1">资料是否交接</el-checkbox>
-          <el-checkbox label="2">是否单笔保理</el-checkbox>
-        </el-checkbox-group>
+        <el-checkbox label="1" disabled>资料是否交接</el-checkbox>
+        <el-checkbox v-model="form.isHandove" label="2">是否单笔保理</el-checkbox>
       </el-col>
     </el-row>
   </el-form>

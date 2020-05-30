@@ -2,6 +2,8 @@
  * Created by PanJiaChen on 16/11/18.
  */
 
+import moment from 'moment'
+
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
@@ -363,4 +365,15 @@ export function isPlainObject(obj){
   return Object.prototype.toString.call(obj) === '[object Object]'
     && (prototype = Object.getPrototypeOf(obj), prototype === null ||
     prototype == Object.getPrototypeOf({}))
+}
+
+/**
+ * 时间格式转化
+ * **/
+export function formatDate(date, type='YYYY-MM-DD') {
+  if (date) {
+    return moment(date).format(type)
+  } else {
+    return date
+  }
 }

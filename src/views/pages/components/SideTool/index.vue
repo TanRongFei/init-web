@@ -27,14 +27,34 @@
         <generate-loan :data="data" :generation="generation"/>
       </div>
 
-      <!--生成放款-->
+      <!--合同变更-->
       <div v-if="functions.includes('contract-change')">
         <contract-change :data="data" :generation="generation"/>
+      </div>
+
+      <!--合同审批通过-->
+      <div v-if="functions.includes('info-audit')">
+        <info-audit :data="data" @handleInfoAudit="handleInfoAudit"/>
+      </div>
+
+      <!--合同审批不通过-->
+      <div v-if="functions.includes('un-audit')">
+        <un-audit :data="data" @handleUnAudit="handleUnAudit"/>
       </div>
 
       <!--生成合同-->
       <div v-if="functions.includes('add-contract')">
         <add-contract :data="data" :generation="generation"/>
+      </div>
+
+      <!--变更审批通过-->
+      <div v-if="functions.includes('change-audit')">
+        <change-audit :data="data" @handleChangeAudit="handleChangeAudit"/>
+      </div>
+
+      <!--变更审批不通过-->
+      <div v-if="functions.includes('change-unAudit')">
+        <change-unAudit :data="data" @handleChangeUnAudit="handleChangeUnAudit"/>
       </div>
 
       <slot name="after"></slot>
@@ -52,6 +72,10 @@ import DataHandover from './data-handover'
 import GenerateLoan from './generate-loan'
 import ContractChange from './contract-change'
 import AddContract from './add-contract'
+import infoAudit from './infoAudit'
+import unAudit from './unAudit'
+import changeUnAudit from './change-unAudit'
+import changeAudit from './change-audit'
 
 export default {
   name: 'SideTool',
@@ -86,7 +110,11 @@ export default {
     DataHandover, // 资料交接
     GenerateLoan, // 生成放款
     ContractChange, // 生成放款
-    AddContract // 生成合同
+    AddContract, // 生成合同
+    infoAudit, // 合同审批通过
+    unAudit, // 合同审批不通过
+    changeAudit, // 变更审批通过
+    changeUnAudit // 变更审批不通过
   },
   data() {
     return {}
@@ -96,6 +124,20 @@ export default {
   },
   beforeDestroy() {
     this.$store.dispatch('app/toggleSideToll', false)
+  },
+  methods: {
+    handleInfoAudit() {
+      this.$emit('handleInfoAudit')
+    },
+    handleUnAudit() {
+      this.$emit('handleUnAudit')
+    },
+    handleChangeAudit() {
+      this.$emit('handleChangeAudit')
+    },
+    handleChangeUnAudit() {
+      this.$emit('handleChangeUnAudit')
+    }
   }
 }
 </script>
@@ -122,38 +164,6 @@ export default {
       display: flex;
       flex-direction: column;
       .item{
-        text-align: center;
-        font-size: 13px;
-        position: relative;
-        .icon{
-          height: 35px;
-          line-height: 35px;
-          color: #ffffff;
-        }
-        .title{
-          display: none;
-          min-width: 80px;
-          position: absolute;
-          padding: 0 10px;
-          right: 80px;
-          top: 0;
-          background: #9fa0a4;
-          height: 35px;
-          line-height: 35px;
-          z-index: 999;
-          animation:mymove .3s ease-in-out;
-          .t{
-            display: block;
-            position: absolute;
-            left: 80px;
-            top: 11px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid #9fa0a3;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-          }
-        }
         &:hover{
           background-color: #3d78ec;
           color: #ffffff;
@@ -163,15 +173,6 @@ export default {
           }
         }
       }
-    }
-  }
-
-  @keyframes mymove{
-    from {
-      right: 60px;
-    }
-    to{
-      right: 35px;
     }
   }
 </style>

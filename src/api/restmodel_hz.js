@@ -57,37 +57,65 @@ export default class RestModel {
     }).then(response => response.body)
   }
   updateModel(data, url, message) {
-    if (!message) {
-      return request({
-        url,
-        method: 'post',
-        data
-      }).then(response => response.body)
-    }
-    return MessageBox.confirm(`${message ? message : '是否继续?'}`, '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }).then(() => {
-      return request({
-        url,
-        method: 'post',
-        data
-      }).then(response => {
-        Message.success({
-          message: '操作成功！'
+    return new Promise((resolve, reject) => {
+      if (!message) {
+        return request({
+          url,
+          method: 'post',
+          data
+        }).then(response => {
+          if (response && response.ok) {
+            Message.success({
+              message: '操作成功！'
+            })
+            resolve()
+            return response.body
+          } else {
+            Message.warning({
+              message: '操作失败！'
+            })
+            reject()
+          }
+        }).catch(() => {
+          reject()
         })
-        return response.body
-      }).catch(() => {
-        Message.warning({
-          message: '操作失败！'
+      } else {
+        return MessageBox.confirm(`${message ? message : '是否继续?'}`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          return request({
+            url,
+            method: 'post',
+            data
+          }).then(response => {
+            if (response && response.ok) {
+              Message.success({
+                message: '操作成功！'
+              })
+              resolve()
+              return response.body
+            } else {
+              Message.warning({
+                message: '操作失败！'
+              })
+              reject()
+            }
+          }).catch(() => {
+            Message.warning({
+              message: '操作失败！'
+            })
+            reject()
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+          reject()
         })
-      })
-    }).catch(() => {
-      this.$message({
-        type: 'info',
-        message: '已取消删除'
-      });
+      }
     })
   }
 }
