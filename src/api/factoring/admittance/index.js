@@ -6,7 +6,7 @@ class Model extends RestModel{
   infoSave(param, type = 'cust') {
     return this.updateModel(param, `/api/permit/${type}/info/save`, '此操作将准入插入！ 是否继续？')
   }
-
+z
   // 保理准入页面初始化接口
   // type: cust-企业客户  user-个人账户
   listDict(param, type = 'cust') {

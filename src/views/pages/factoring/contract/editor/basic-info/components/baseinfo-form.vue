@@ -217,6 +217,7 @@ export default {
   watch: {
     data(n, o) {
       this.form = JSON.parse(JSON.stringify(n))
+      this.form.businessType = `${this.form.businessType}`
     }
   },
   created() {
@@ -289,6 +290,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.el-radio-group{
+  display: flex;
+  width: 100%;
+}
 </style>

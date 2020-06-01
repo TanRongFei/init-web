@@ -16,6 +16,13 @@ class Model extends RestModel{
   }
 
   /**
+   * 删除合同变更信息
+   * **/
+  changeDelete(bizCode) {
+    return this.updateModel({}, `/api/contract/change/delete?bizCode=${bizCode}`, '此操作将删除合同变更信息！ 是否继续？')
+  }
+
+  /**
    * 初始化枚举数据字典
    * **/
   dict(param) {

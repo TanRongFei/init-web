@@ -21,7 +21,7 @@
 <!--        <app-link :to="resolvePath(item.leftSidebar, item.path)">-->
 <!--          <span>{{ item.meta.title }}</span>-->
 <!--        </app-link>-->
-        <div @click="handleDetail(resolvePath(item.leftSidebar, item.path))">
+        <div @click="handleDetail(resolvePath(item.leftSidebar, item.path, item))">
           <span>{{ item.meta.title }}</span>
         </div>
       </div>
@@ -77,7 +77,9 @@ export default {
     handleSelect(item) {
       this.selected = item
     },
-    resolvePath(basePath, routePath) {
+    resolvePath(basePath, routePath, item) {
+      if (!basePath) return
+
       if (isExternal(routePath)) {
         return routePath
       }
@@ -85,6 +87,7 @@ export default {
         return basePath
       }
 
+      console.log(path.resolve(basePath, routePath))
       return path.resolve(basePath, routePath)
     }
   }

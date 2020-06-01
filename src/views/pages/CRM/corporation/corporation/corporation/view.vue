@@ -11,10 +11,10 @@
           <div class="tags clearfix">
             <div class="fl">
               <div class="status">状态：
-                {{ compStatus }}
+                {{showDict(corporation.compStatus,'compStatus')}}
               </div>
             </div>
-            <div class="numb">用户编号：{{ compCode }}</div>
+            <div class="numb">用户编号：{{ corporation.compCode }}</div>
           </div>
           <!-- tabs -->
           <div class="tab-menu">
@@ -38,79 +38,79 @@
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="客户分类：">
-                      {{ custType }}
+                    {{showDict(corporation.custType,'corpTypes')}}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="客户状态：">
-                      {{ compStatus }}
+                      {{showDict(corporation.compStatus,'compStatus')}}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="客户名称:">
-                      {{ compName }}
+                      {{ corporation.compName }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="企业简称:">
-                      {{ simpleName }}
+                      {{ corporation.simpleName }}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="是否三证合一：">
-                      {{ isUscc }}
+                      {{corporation.isUscc==1?'是':'否'}}
                     </el-form-item>
                   </el-col>
                   <el-col :span="11">
                     <el-form-item label="统一社会信用代码:" style="width: 400px">
-                      {{ usccCode }}
+                      {{ corporation.usccCode }}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="营业执照号码：">
-                      {{ busLicenseCode }}
+                      {{ corporation.busLicenseCode }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="组织机构代码：">
-                      {{ orgCode }}
+                      {{ corporation.orgCode }}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="10">
                     <el-form-item label="税务登记证号：">
-                      {{ taxRegCerCode }}
+                      {{ corporation.taxRegCerCode }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10" style="padding-left: 10px">
                     <el-form-item label="开户许可证：">
-                      {{ openingPermit }}
+                      {{ corporation.openingPermit }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="20">
                     <el-form-item label="注册地址：">
-                      <span>{{ regAddrProvinceName }}</span>
-                      <span>{{ regAddrCityName }}</span>
-                      <span>{{ regAddrDesc }}</span>
+                      <span>{{showEnum(corporation.regAddrProvince,'regAddrProvinces')}}</span>-
+                      <span>{{showEnum(corporation.regAddrCity,'regAddrCitys')}}</span>-
+                      <span>{{ corporation.regAddrDesc }}</span>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="10">
                     <el-form-item label="客户编号：">
-                      {{ compCode }}
+                      {{ corporation.compCode }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="上级组织：">
-                      {{ parentCode }}
+                      {{ corporation.parentCode }}
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -124,43 +124,46 @@
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="法人姓名：">
-                      {{ legalName }}
+                      {{ corporation.legalName }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="性别：">
-                      {{ legalGender }}
+                    <span v-if="corporation.legalGender=='F'">女</span>
+							<span v-if="corporation.legalGender=='M'">男</span>
+							<span v-if="corporation.legalGender=='N'">未知</span>
+                
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="证件类型:">
-                      {{ legalIdtype }}
+                      {{showDict(corporation.legalIdtype,'idTypes')}}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="法人证件号码：">
-                      {{ legalIdnum }}
+                      {{ corporation.legalIdnum }}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="法人手机号：">
-                      {{ legalMobile }}
+                      {{ corporation.legalMobile }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="法人邮箱：">
-                      {{ legalEmail }}
+                      {{ corporation.legalEmail }}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="20">
                     <el-form-item label="固定电话：">
-                      {{ legalTel }}
+                      {{ corporation.legalTel }}
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -175,12 +178,12 @@
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="注册资本(万)：">
-                      {{ regCapital }}
+                      {{ corporation.regCapital }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="实收资本(万)：">
-                      {{ paidupCapital }}
+                      {{ corporation.paidupCapital }}
                     </el-form-item>
                   </el-col>
 
@@ -188,37 +191,75 @@
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="成立日期:">
-                      {{ setupDate }}
+                      {{ corporation.setupDate }}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="营业期限：">
-                      {{ readonly }}
+                      {{ corporation.operPeriod }}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="10">
                     <el-form-item label="企业类型:">
-                      {{ entpType }}
+                      {{showDict(corporation.entpType,'entpTypes')}}
                     </el-form-item>
                   </el-col>
                   <el-col :span="10">
                     <el-form-item label="企业性质：">
-                      {{ entpNature }}
+                      {{showDict(corporation.entpNature,'entpNatures')}}
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row :gutter="20">
                   <el-col :span="20">
                     <el-form-item label="行业分类:">
-                      {{ busTypeBig }}
+                     <span>{{showEnum(corporation.busTypeBig,'busTypeBigs')}}</span>-
+							<span>{{showEnum(corporation.busTypeMiddle,'busTypeMiddles')}}</span>-
+							<span>{{showEnum(corporation.busTypeSmall,'busTypeSmalls')}}</span>
                     </el-form-item>
                   </el-col>
                 </el-row>
 
               </el-form>
             </div>
+             <!-- 企业信用评级 -->
+          <div class="mod-info-tit"><h4>企业信用评级</h4></div>
+          <div class="mod-detail mt15">
+            <el-form  label-width="120px" size="small">
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <el-form-item label="评级及建议：">
+                   {{corporationLevel.ratScore}} / {{corporationLevel.ratSuggest}}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="展望：">
+                   {{showDict(corporationLevel.ratOutLook,'ratOutLooks')}}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="评级失效日：">
+                    {{corporationLevel.ratInvalid}}
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <el-form-item label="评级人员：" >
+                    {{corporationLevel.ratCode}}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="评级结果：">
+                    {{showDict(corporationLevel.ratResult,'ratResults')}}
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8"></el-col>
+              </el-row>
+            </el-form>
+          </div>
           </div>
         </div>
       </div>
@@ -228,192 +269,91 @@
 </template>
 
 <script>
-// import { lookList } from '@/api/corporationList/lookcorporationList'
-import Look from '@/api/crm/lookcorporationList'
+import Corporation from '@/api/crm/corporation/corporation/corporation';
+import Common from '@/api/crm/corporation/common/common';
 export default {
   name: 'Detail',
   data() {
     return {
-      ctype: 1,
-      status: 10,
-      compStatus: '', // 状态
-      compCode: '', // 客户编号
-      legalName: '', // 法人姓名
-      compName: '', // 客户名称
-      parentCode: '', // 上级组织
-      simpleName: '', // 企业简称
-      isUscc: '', // 是否三证合一
-      uscc: 1,
-      busLicenseCode: '', // 营业执照号码
-      orgCode: '', // 组织机构代码
-      taxRegCerCode: '', // 税务登记证号
-      openingPermit: '', // 开户许可证
-      custType: '', // 客户分类
-      usccCode: '', // 统一社会信用代码
-      regAddrDesc: '', // 注册地址
-      regAddrCityName: '', // 注册地址
-      regAddrProvinceName: '', // 注册地址
-      legalGender: '', // 性别
-      legalIdtype: '', // 证件类型
-      Idtype: 1,
-      legalIdnum: '', // 法人证件号码
-      legalMobile: '', // 法人手机号
-      setupDate: '', // 成立日期
-      legalEmail: '', // 法人邮箱
-      legalTel: '', // 固定电话
-      regCapital: '', // 注册资本
-      paidupCapital: '', // 实收资本
-      readonly: '', // 营业期限
-      entpType: '', // 企业类型
-      entpNature: '', // 企业性质
-      busTypeBig: '', // 行业分类
-      activeName: 'first',
-      tabType: 0,
-      tableData: [{
-        numb: 'KH2002010001',
-        custName: '北京某某有限公司',
-        custType: '供应商',
-        createDate: '2020-04-21 14:20'
-      }, {
-        numb: 'KH2002010001',
-        custName: '北京某某有限公司',
-        custType: '供应商',
-        createDate: '2020-04-21 14:20'
-      }, {
-        numb: 'KH2002010001',
-        custName: '北京某某有限公司',
-        custType: '供应商',
-        createDate: '2020-04-21 14:20'
-      }, {
-        numb: 'KH2002010001',
-        custName: '北京某某有限公司',
-        custType: '供应商',
-        createDate: '2020-04-21 14:20'
-      }, {
-        numb: 'KH2002010001',
-        custName: '北京某某有限公司',
-        custType: '供应商',
-        createDate: '2020-04-21 14:20'
-      }]
+      corporation:{},
+      corporationLevel:{},
+      dict:{busTypeBigs:[],busTypeMiddles:[],busTypeSmalls:[],regAddrProvinces:[],regAddrCitys:[]},
+      activeName:{},
+      tabType:0,
+      currentName:{}
     }
   },
   created() {
-    this.getLookList()
+    
   },
   mounted() {
-    if (this.ctype === 1) {
-      this.custType = '法人'
-    } else if (this.ctype === 2) {
-      this.custType = '非法人'
-    }
-    if (this.status === 10) {
-      this.compStatus = '保存'
-    } else if (this.status === 15) {
-      this.compStatus = '实名中'
-    } else if (this.status === 16) {
-      this.compStatus = '实名认证待审核'
-    } else if (this.status === 20) {
-      this.compStatus = '实名认证通过'
-    } else if (this.status === 25) {
-      this.compStatus = '实名失败'
-    } else if (this.status === 30) {
-      this.compStatus = '待审批'
-    } else if (this.status === 35) {
-      this.compStatus = '审批不通过'
-    } else if (this.status === 40) {
-      this.compStatus = '审批通过'
-    }
-    if (this.Idtype === 1) {
-      this.legalIdtype = '身份证'
-    } else if (this.Idtype === 3) {
-      this.legalIdtype = '港澳通行证'
-    } else if (this.Idtype === 4) {
-      this.legalIdtype = '台胞通行证'
-    } else if (this.Idtype === 5) {
-      this.legalIdtype = '护照'
-    }
-    if (this.uscc === 1) {
-      this.isUscc = '是'
-    } else if (this.uscc === 2) {
-      this.isUscc = '否'
+      Corporation.listDict().then((resp) =>{
+        this.dict = resp.body
+          
+    })
+    Common.getRegAddrProvinces().then((resp) =>{
+        this.dict.regAddrProvinces = resp.body
+          
+    })
+    Common.getBusTypeBigs().then((resp) =>{
+        this.dict.busTypeBigs = resp.body
+    })
+    let compCode =this.$route.query.compCode; 
+    if (compCode!=undefined && compCode!="") {
+        this.infoView()
     }
   },
   methods: {
-    // 获取客户列表信息
-    getLookList() {
-      console.log(this.$route.query.compCode)
-      Look.lookList(`compCode=${this.$route.query.compCode}`)
-        .then(resp => {
-          console.log(resp)
-          //
-          if (resp.body.custCompDTO) {
-            this.status = resp.body.custCompDTO.compStatus
-            this.compCode = resp.body.custCompDTO.compCode
-            this.compName = resp.body.custCompDTO.compName
-            this.parentCode = resp.body.custCompDTO.parentCode
-            this.simpleName = resp.body.custCompDTO.simpleName
-            this.uscc = resp.body.custCompDTO.isUscc
-            this.legalName = resp.body.custCompDTO.legalName
-            this.busLicenseCode = resp.body.custCompDTO.busLicenseCode
-            this.orgCode = resp.body.custCompDTO.orgCode
-            this.taxRegCerCode = resp.body.custCompDTO.taxRegCerCode
-            this.openingPermit = resp.body.custCompDTO.openingPermit
-            this.ctype = resp.body.custCompDTO.custType
-            this.usccCode = resp.body.custCompDTO.usccCode
-            this.regAddrDesc = resp.body.custCompDTO.regAddrDesc
-            this.regAddrCityName = resp.body.custCompDTO.regAddrCityName
-            this.regAddrProvinceName = resp.body.custCompDTO.regAddrProvinceName
-            this.legalGender = resp.body.custCompDTO.legalGender
-            this.Idtype = resp.body.custCompDTO.legalIdtype
-            this.legalIdnum = resp.body.custCompDTO.legalIdnum
-            this.legalMobile = resp.body.custCompDTO.legalMobile
-            this.legalTel = resp.body.custCompDTO.legalTel
-            this.setupDate = resp.body.custCompDTO.setupDate
-            this.legalEmail = resp.body.custCompDTO.legalEmail
-            this.regCapital = resp.body.custCompDTO.regCapital
-            this.paidupCapital = resp.body.custCompDTO.paidupCapital
-            this.entpType = resp.body.custCompDTO.entpType
-            this.entpNature = resp.body.custCompDTO.entpNature
-            this.busTypeBig = resp.body.custCompDTO.busTypeBig
-            this.readonly = resp.body.custCompDTO.operPeriod
-          } else {
-            this.status = resp.body.custCompLevDTO.compStatus
-            this.compCode = resp.body.custCompLevDTO.compCode
-            this.compName = resp.body.custCompLevDTO.compName
-            this.parentCode = resp.body.custCompLevDTO.parentCode
-            this.simpleName = resp.body.custCompLevDTO.simpleName
-            this.uscc = resp.body.custCompLevDTO.isUscc
-            this.legalName = resp.body.custCompLevDTO.legalName
-            this.busLicenseCode = resp.body.custCompLevDTO.busLicenseCode
-            this.orgCode = resp.body.custCompLevDTO.orgCode
-            this.taxRegCerCode = resp.body.custCompLevDTO.taxRegCerCode
-            this.openingPermit = resp.body.custCompLevDTO.openingPermit
-            this.ctype = resp.body.custCompLevDTO.custType
-            this.usccCode = resp.body.custCompLevDTO.usccCode
-            this.regAddrDesc = resp.body.custCompLevDTO.regAddrDesc
-            this.regAddrCityName = resp.body.custCompLevDTO.regAddrCityName
-            this.regAddrProvinceName = resp.body.custCompLevDTO.regAddrProvinceName
-            this.legalGender = resp.body.custCompLevDTO.legalGender
-            this.Idtype = resp.body.custCompLevDTO.legalIdtype
-            this.legalIdnum = resp.body.custCompLevDTO.legalIdnum
-            this.legalMobile = resp.body.custCompLevDTO.legalMobile
-            this.legalTel = resp.body.custCompLevDTO.legalTel
-            this.setupDate = resp.body.custCompLevDTO.setupDate
-            this.legalEmail = resp.body.custCompLevDTO.legalEmail
-            this.regCapital = resp.body.custCompLevDTO.regCapital
-            this.paidupCapital = resp.body.custCompLevDTO.paidupCapital
-            this.entpType = resp.body.custCompLevDTO.entpType
-            this.entpNature = resp.body.custCompLevDTO.entpNature
-            this.busTypeBig = resp.body.custCompLevDTO.busTypeBig
-            this.readonly = resp.body.custCompLevDTO.operPeriod
+      showEnum (code,enumStr){
+        let list
+                if(this.dict!=null)
+                   list = this.dict[enumStr];
+                if(list!=null)
+                    for(let i=0;i<list.length;i++){
+                        if(list[i].id == code){
+                            return list[i].name;
+                        }
+                    }
+            },
+   infoView(){
+    
+       let compCode =this.$route.query.compCode; 
+      Corporation.compView(compCode).then((resp) =>{
+        this.corporation = resp.body.custCompDTO;
+        this.corporation.custType=String(resp.body.custCompDTO.custType)
+        this.corporation.legalIdtype=String(resp.body.custCompDTO.legalIdtype)
+        this.corporation.compStatus=String(resp.body.custCompDTO.compStatus)
+        this.corporation.regType=String(resp.body.custCompDTO.regType)
+        Common.getRegAddrCitys(this.corporation.regAddrProvince).then((resp) =>{
+                this.dict.regAddrCitys = resp.body
+            })
+            Common.getBusTypeSmalls(this.corporation.busTypeBig).then((resp) =>{
+                this.dict.busTypeMiddles = resp.body
+            })
+            Common.getBusTypeSmalls(this.corporation.busTypeMiddle).then((resp) =>{
+                this.dict.busTypeSmalls = resp.body
+            })
+          if(resp.body.custCompLevDTO!=undefined){
+              this.corporationLevel = resp.body.custCompLevDTO;
+               this.corporationLevel.ratOutLook=String(resp.body.custCompLevDTO.ratOutLook)
+            this.corporationLevel.ratResult=String(resp.body.custCompLevDTO.ratResult)
           }
+        })
 
-          // /
-        })
-        .catch(err => {
-          console.log(err)
-        })
     },
+    showDict :function(code,enumStr){
+            let list
+           if (this.dict != null){
+              list = this.dict[enumStr];
+           }
+                 
+            if (list != null)
+                for (let i = 0; i < list.length; i++) {
+                    if (list[i].code == code) {
+                        return list[i].mark;
+                    }
+                }
+        },
     handleClick: function(tab, event) {
       this.tabType = tab.index
     },

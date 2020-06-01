@@ -11,10 +11,10 @@
         <el-button :disabled="!functions.includes('check')" @click="handleCheck" type="primary" size="mini">查 看</el-button>
         <el-button :disabled="!functions.includes('editor')" @click="handleEditor" type="primary" size="mini">编 辑</el-button>
         <el-button :disabled="!functions.includes('delete')" @click="handleDelete" type="primary" size="mini">删 除</el-button>
-        <el-button :disabled="!functions.includes('add')" @click="handleSave" type="primary" size="mini" disabled>保 存</el-button>
-        <el-button type="primary" size="mini" disabled>提交流程</el-button>
-        <el-button type="primary" size="mini" disabled>查看流程</el-button>
-        <el-button type="primary" size="mini" disabled>套 打</el-button>
+        <el-button :disabled="!functions.includes('save')" @click="handleSave" type="primary" size="mini" disabled>保 存</el-button>
+        <el-button :disabled="!functions.includes('submit')" type="primary" size="mini">提交流程</el-button>
+        <el-button :disabled="!functions.includes('flowPath')" type="primary" size="mini">查看流程</el-button>
+        <el-button :disabled="!functions.includes('overprint')" type="primary" size="mini">套 打</el-button>
       </template>
       <slot name="before" />
     </div>

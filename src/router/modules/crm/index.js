@@ -34,7 +34,7 @@ export default [
             path: 'corporation/edit',
             hidden: true,
             redirect: 'corporation/edit/corporation',
-            component: () => import('@/views/pages/crm/corporation/corporation/edit.vue'),
+            component: () => import('@/views/pages/crm/corporation/corporation/edit'),
             name: 'corporationEdit',
             meta: {
               title: '企业客户'

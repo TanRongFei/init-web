@@ -50,6 +50,7 @@ router.beforeEach(async(to, from, next) => {
 
           // get dict
           store.dispatch('dict/fetchDict')
+          store.dispatch('dict/fetchCreditDict')
 
           // 查询所有省
           store.dispatch('dict/fetchProvince')

@@ -115,6 +115,7 @@ export default {
   mixins: [AddRouterQuery],
   data() {
     return {
+      disabled: false,
       showDefaultButton: false,
       form: {},
       saveForm: {},
@@ -138,6 +139,7 @@ export default {
         } else {
           this.form.isHandove = 0
         }
+        return v
       }
     },
     governModel: {
@@ -151,6 +153,7 @@ export default {
         } else {
           this.form.governModel = 0
         }
+        return v
       }
     },
     ...mapGetters([
@@ -158,20 +161,20 @@ export default {
     ])
   },
   watch: {
-    form: {
-      deep: true,
-      handler(n, o) {
-        const _this = this
-        for (let i in _this.form) {
-          if(n[i] != _this.saveForm[i]) {
-            _this.unChange = false
-            break;
-          }else {
-            _this.unChange = true
-          }
-        }
-      }
-    }
+    // form: {
+    //   deep: true,
+    //   handler(n, o) {
+    //     const _this = this
+    //     for (let i in _this.form) {
+    //       if(n[i] != _this.saveForm[i]) {
+    //         _this.unChange = false
+    //         break;
+    //       }else {
+    //         _this.unChange = true
+    //       }
+    //     }
+    //   }
+    // }
   },
   created() {
     console.log(this.$route.query.bizCode)
@@ -203,14 +206,19 @@ export default {
     handleSave() {
       // contractInfoDTO 一些基本信息
       // 买方信息
+      this.disabled = true
       const param = {
         contractInfoDTO: {
-          ...this.$refs.baseForm.form
+          ...this.$refs.baseForm.form,
+          ...this.form
         },
         contBuyerDTO: []
       }
       Model.save(param).then(res => {
         this.fetchBase()
+        this.disabled = false
+      }).catch(() => {
+        this.disabled = false
       })
     },
     back() {

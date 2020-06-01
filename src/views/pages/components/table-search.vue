@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       activeNames: [],
-      input: ''
+      input: '123'
     }
   },
   methods: {

@@ -1,14 +1,19 @@
 import Module from '@/api/factoring/contract'
+import CreditModule from '@/api/factoring/credit'
 import CrmModule from '@/api/factoring/crm'
 
 const state = {
   dict: [],
   custList: [],
   province: [],
-  area: []
+  area: [],
+  creditDict: [] // 授信字典
 }
 
 const mutations = {
+  SET_CREDIT_DICT: (state, creditDict) => {
+    state.creditDict = creditDict
+  },
   SET_DICT: (state, dict) => {
     state.dict = dict
   },
@@ -24,6 +29,11 @@ const mutations = {
 }
 
 const actions = {
+  fetchCreditDict({ commit }) {
+    CreditModule.dict().then(res => {
+      commit('SET_CREDIT_DICT', res)
+    })
+  },
   fetchDict({ commit }) {
     Module.dict().then(res => {
       commit('SET_DICT', res)

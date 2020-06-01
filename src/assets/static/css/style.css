@@ -74,7 +74,7 @@
 .cate-list li.cate-more-up .arrow{display:block; position:absolute; right:10px; top:18px; width:12px; height:10px; background:url(../images/filter.png) no-repeat; background-position:0px 0px;}
 
 /*task-main------------*/
-.maincont{/*width:960px; float:right;*/ padding-left:250px; padding-right:40px; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+.maincont{ padding-right:40px; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
 .m-head{border-bottom: solid 0px #d8d8d8; width:100%; margin-bottom: 12px;}
 .m-head-tit h4{font-size: 20px; color: #414141; float:left; line-height:35px; margin:0;}
 .m-head-tit span.txt{color: #999; font-size: 14px;line-height: 35px; margin-left: 10px;}
@@ -506,7 +506,7 @@ th,td{box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: b
 .mod-info-list-table td{line-height:28px; padding:4px 0;color:#333;}
 .mod-info-list-table span.lab{ padding-right:5px; color:#999;}
 
-.mod-info-tit{height:32px; padding-bottom:5px; padding-top:5px; border-bottom:1px solid #d8d8d8; line-height:32px; position:relative;}
+.mod-info-tit{height:42px; padding-bottom:5px; padding-top:5px; border-bottom:1px solid #d8d8d8; line-height:32px; position:relative;}
 .mod-info-tit h4{font-size:15px; color:#333; font-weight:600; float:left; line-height:32px;padding-top: 4px;}
 .mod-info-tit h4 span{color:#999; font-size:13px; padding-left:5px;}
 .mod-info-tit a{/*float:right; color:#338aca; padding-right:15px;*/}

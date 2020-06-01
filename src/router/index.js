@@ -6,6 +6,8 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import crmRoutes from '@/router/modules/crm'
+import ecRoutes from '@/router/modules/ec'
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -86,6 +88,7 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   ...crmRoutes,
+  ...ecRoutes,
   // {
   //   path: '/work',
   //   component: Layout,
@@ -183,6 +186,124 @@ export const asyncRoutes = [
             meta: {
               title: '授信管理'
             }
+          },
+          {
+            path: 'mgr-detail',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            tabsSidebar: '/factoring/credit/mgr-detail',
+            leftSidebar: false,
+            redirect: '/factoring/credit/mgr-detail/basic-info-detail',
+            name: 'mgr-detail',
+            meta: {
+              title: '授信管理查看'
+            },
+            children: [
+              {
+                path: 'basic-info-detail',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/basic-info'),
+                tabsSidebar: '/factoring/credit/mgr-detail',
+                name: 'basic-info-detail',
+                meta: {
+                  title: '基本信息'
+                }
+              },
+              {
+                path: 'gua-info-detail',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/gua-info'),
+                tabsSidebar: '/factoring/credit/mgr-detail',
+                name: 'gua-info-detail',
+                meta: {
+                  title: '担保信息'
+                }
+              },
+              {
+                path: 'credit-ft-detail',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/credit-ft'),
+                tabsSidebar: '/factoring/credit/mgr-detail',
+                name: 'credit-ft-detail',
+                meta: {
+                  title: '保理授信'
+                }
+              },
+              {
+                path: 'credit-history-detail',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/credit-history'),
+                tabsSidebar: '/factoring/credit/mgr-detail',
+                name: 'credit-history-detail',
+                meta: {
+                  title: '授信记录'
+                }
+              },
+              {
+                path: 'credit-file-detail',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/credit-file'),
+                tabsSidebar: '/factoring/credit/mgr-detail',
+                name: 'credit-file-detail',
+                meta: {
+                  title: '档案资料'
+                }
+              }
+            ]
+          },
+          {
+            path: 'mgr-editor',
+            hidden: true,
+            component: () => import('@/views/pages/factoring/index'),
+            redirect: '/factoring/credit/mgr-editor/basic-info',
+            leftSidebar: '/factoring/credit',
+            tabsSidebar: false,
+            name: 'mgr-editor',
+            meta: {
+              title: '授信管理编辑'
+            },
+            children: [
+              {
+                path: 'basic-info',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-editor/basic-info'),
+                leftSidebar: '/factoring/credit/mgr-editor',
+                name: 'basic-info',
+                meta: {
+                  title: '基本信息'
+                }
+              },
+              {
+                path: 'gua-info',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-editor/gua-info'),
+                leftSidebar: '/factoring/credit/mgr-editor',
+                name: 'gua-info',
+                meta: {
+                  title: '担保信息'
+                }
+              },
+              {
+                path: 'credit-ft',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-editor/credit-ft'),
+                leftSidebar: '/factoring/credit/mgr-editor',
+                name: 'credit-ft',
+                meta: {
+                  title: '保理授信'
+                }
+              },
+              {
+                path: 'credit-history',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-editor/credit-history'),
+                leftSidebar: '/factoring/credit/mgr-editor',
+                name: 'credit-history',
+                meta: {
+                  title: '授信记录'
+                }
+              },
+              {
+                path: 'credit-file',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-editor/credit-file'),
+                leftSidebar: '/factoring/credit/mgr-editor',
+                name: 'credit-file',
+                meta: {
+                  title: '档案资料'
+                }
+              }
+            ]
           },
           {
             path: 'quota',

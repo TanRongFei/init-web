@@ -47,7 +47,6 @@
 .cate-list li a.current{background: #eee; border-left: 2px solid #427fed; font-weight: 700; text-indent: 18px;}
 
 /*task-main------------*/
-.maincont{ padding-left:250px; padding-right:40px; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
 .m-head{border-bottom: solid 0px #d8d8d8; width:100%; margin-bottom: 12px;}
 .m-head-tit h4{font-size: 20px; color: #414141; float:left; line-height:35px; margin:0;}
 .m-head-tit span.txt{color: #999; font-size: 14px;line-height: 35px; margin-left: 10px;}
@@ -121,7 +120,7 @@
 
 .el-textarea .el-textarea__inner{resize: none;}
 .m-table-detail{border:1px solid #d8d8d8; background:#fff; border-radius:2px; padding:15px 20px 20px;}
-.mod-add-form .el-form-item__label{font-size: 14px; color: #666; line-height: 28px;}
+.mod-add-form .el-form-item__label{font-size: 14px; color: #666; line-height: 32px; font-weight: normal;}
 .el-input__inner{border: 1px solid #ccc;}
 .el-input.is-disabled .el-input__inner::placeholder{color:#666}
 .el-textarea.is-disabled .el-textarea__inner::placeholder {color:#666}

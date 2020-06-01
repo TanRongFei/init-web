@@ -230,7 +230,7 @@ export default {
        * **/
       if (this.multipleSelection && this.multipleSelection.length === 1) {
         const { bizCode } = this.multipleSelection[0]
-        Model.deleteInfo(bizCode).then(() => {
+        Model.changeDelete(bizCode).then(() => {
           this.handleDetail()
         })
       } else if (this.multipleSelection && this.multipleSelection.length > 1) {
