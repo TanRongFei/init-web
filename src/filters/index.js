@@ -72,6 +72,8 @@ export function uppercaseFirst(string) {
 
 /**
  * 字典过滤器
+ * 合同字典
+ * 授信字典
  * **/
 export function filterDict(generation) {
   if (!generation) return ''
@@ -82,21 +84,30 @@ export function filterDict(generation) {
   const val = l[0]
   const type = l[1]
 
-  const dict = store.getters.dict
+  const contractDict = store.getters.contractDict || {}
+  const creditDict = store.getters.creditDict || {}
+
+  const dict = {
+    ...contractDict,
+    ...creditDict
+  }
 
   const arr = dict[type]
+
   if (!arr) return val
 
   let temp = {}
 
   arr.forEach(item => {
-    if (item.CODE === val) {
+    if (item.CODE == val || item.code == val) {
       temp = item
     }
   })
 
   if (temp.FLAG) {
     return temp.FLAG
+  } else if (temp.flag) {
+    return temp.flag
   } else {
     return val
   }

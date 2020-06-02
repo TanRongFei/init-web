@@ -48,7 +48,7 @@ function hasLeftSideRoute(router, fullPath) {
 
   let child = null
   router.children.forEach(item => {
-    if (item.path === fullPathName) {
+    if (item.path === fullPathName && fullPath.includes(item.leftSidebar)) {
       child = item
     }
   })
@@ -80,7 +80,7 @@ function hasTabsSideRoute(router, fullPath) {
 
   let child = null
   router.children.forEach(item => {
-    if (item.path === fullPathName) {
+    if (item.path === fullPathName && fullPath.includes(item.tabsSidebar)) {
       child = item
     }
   })

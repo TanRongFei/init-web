@@ -6,14 +6,18 @@
       </template>
     </head-title>
     <div class="container">
-      <el-table :data="form.credPlatAllocationList" style="width: 100%">
-        <el-table-column prop="index" label="序号" width="50" align="center" />
-        <el-table-column prop="period" label="applyDate" align="center" />
-        <el-table-column prop="credCode" label="授信编号" align="center" />
-        <el-table-column prop="address" label="授信期限" align="center">
+      <el-table :data="form.list" style="width: 100%">
+        <el-table-column type="index" label="序号" width="50" align="center" />
+        <el-table-column prop="applyDate" label="申请日期" align="center" />
+        <el-table-column prop="credCode" label="授信编号" align="center">
+          <template slot-scope="scope">
+            <el-button @click="handleDetail(scope.row)" type="text">{{scope.row.credCode}}</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="授信期限" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.creditStartDate | formatDate}}</span>
-             -
+             至
             <span>{{scope.row.creditEndDate | formatDate}}</span>
           </template>
         </el-table-column>
@@ -58,11 +62,19 @@ export default {
         console.log(res)
         if (!res) return
         this.form = JSON.parse(JSON.stringify(res))
-        this.credPlatAllocationList = JSON.parse(JSON.stringify(res.credPlatAllocationList))
       })
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    handleDetail(item) {
+      if (!item) return
+
+      const  query = {
+        bizCode: item.bizCode
+      }
+
+      this.$router.push({ name: 'mgr-detail',  query})
     }
   }
 }

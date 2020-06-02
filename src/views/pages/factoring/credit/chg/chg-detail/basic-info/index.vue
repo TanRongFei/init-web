@@ -86,15 +86,13 @@
 import HeadTitle from '@/views/pages/components/head-title'
 import FormLabel from '@/views/pages/components/form-label'
 import Model from '@/api/factoring/credit'
-import AddRouterQuery from '../mixin/add-route-query'
 
 export default {
-  name: 'CreditMgrDetailBasic',
+  name: 'CreditChgDetailBasic',
   components: {
     HeadTitle,
     FormLabel
   },
-  mixins: [AddRouterQuery],
   data() {
     return {
       tableData: [],
@@ -110,12 +108,15 @@ export default {
     fetchDetail() {
       const bizCode = this.$route.query.bizCode
       if (!bizCode) return
-      Model.fetchCreditPlatform(bizCode).then(res => {
+      Model.fetchCredChange({ bizCode }).then(res => {
         console.log(res)
         if (!res) return
-        this.form = res
-        this.credPlatAllocationList = res.credPlatAllocationList
+        this.form = JSON.parse(JSON.stringify(res))
+        this.credPlatAllocationList = JSON.parse(JSON.stringify(res.credPlatAllocationList))
       })
+    },
+    backToList() {
+      this.$router.push({ name: 'chg' })
     }
   }
 }

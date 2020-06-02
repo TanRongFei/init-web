@@ -14,17 +14,9 @@
         </template>
       </form-label>
 
-      <el-table :data="credFileList" style="width: 100%">
-        <el-table-column prop="dataList" label="资料清单" align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.dataList" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="isMust" label="必要件" align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.isMust" />
-          </template>
-        </el-table-column>
+      <el-table :data="credDistriFileList" style="width: 100%">
+        <el-table-column prop="dataList" label="资料清单" align="center" />
+        <el-table-column prop="isMust" label="必要件" align="center" />
         <el-table-column prop="isCopy" label="复印件" align="center">
           <template slot-scope="scope">
             <el-input v-model="scope.row.isCopy" />
@@ -32,7 +24,7 @@
         </el-table-column>
         <el-table-column prop="isOriginal" label="原件" align="center">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.isOriginal" />
+            <el-input v-model="scope.row.isOrigional" />
           </template>
         </el-table-column>
         <el-table-column prop="" label="附件" align="center">
@@ -45,12 +37,11 @@
             <el-input v-model="scope.row.createdName" />
           </template>
         </el-table-column>
-        <el-table-column prop="recordDate" label="上传时间" align="center">
+        <el-table-column prop="remark" label="备注" align="center">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.recordDate" />
+            <el-input v-model="scope.row.remark" />
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" align="center" />
       </el-table>
     </div>
   </div>
@@ -65,7 +56,7 @@ import HeadTitle from '@/views/pages/components/head-title'
 import Model from '@/api/factoring/credit'
 
 export default {
-  name: 'CreditMgrEditorCreditFile',
+  name: 'CreditQuotaEditorCreditFile',
   components: { FormLabel, HeadTitle },
   mixins: [rules, AddRouteQuery],
   data() {
@@ -76,7 +67,7 @@ export default {
       form: {},
       value: false,
       activeName: '1',
-      credFileList: []
+      credDistriFileList: []
     }
   },
   computed: {
@@ -91,11 +82,11 @@ export default {
     fetchDetail() {
       const bizCode = this.$route.query.bizCode
       if (!bizCode) return
-      Model.fetchCredFile(bizCode).then(res => {
+      Model.fetchCredDistributionFile(bizCode).then(res => {
         console.log(res)
         if (!res) return
         this.form = JSON.parse(JSON.stringify(res))
-        this.credFileList = JSON.parse(JSON.stringify(res.credFileList))
+        this.credDistriFileList = JSON.parse(JSON.stringify(res.credDistriFileList))
       })
     },
     handleSubmit() {
@@ -103,10 +94,10 @@ export default {
 
       const param = {
         bizCode: this.$route.query.bizCode,
-        credFileList: this.credFileList
+        credDistriFileList: this.credDistriFileList
       }
 
-      Model.saveCredFile(param).then(res => {
+      Model.saveCredDistributionFile(param).then(res => {
         this.fetchDetail()
         this.disabled = false
       }).catch(() => {
@@ -114,16 +105,16 @@ export default {
       })
     },
     handleAdd() {
-      // 额度分配
       const temp = {
+        distriBizCode: this.$route.query.bizCode,
         dataList: '',
         isMust: '',
         isCopy: '',
-        isOriginal: '',
+        isOrigional: '',
         createdName: '',
-        recordDate: ''
+        remark: ''
       }
-      this.credFileList.push(temp)
+      this.credDistriFileList.push(temp)
     },
     handleSelectionChange(val) {
       this.multipleSelection = val

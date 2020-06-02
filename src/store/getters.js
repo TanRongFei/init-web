@@ -19,6 +19,8 @@ const getters = {
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs,
   dict: state => state.dict.dict,
+  creditDict: state => state.dict.creditDict,
+  contractDict: state => state.dict.contractDict,
   province: state => state.dict.province,
   area: state => state.dict.area
 }

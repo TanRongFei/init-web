@@ -3,7 +3,7 @@
   <div>
     <div class="item" >
       <div class="icon" @click="handleShow"></div>
-      <div class="title" @click="handleShow">标示客户
+      <div class="title" @click="handleShow">生成合同
         <span class="t"></span>
       </div>
     </div>
@@ -107,6 +107,6 @@ export default {
   @import "@/styles/side-tool.scss";
 
   .item{
-    background-position: 0 -140px;
+    background-position: -35px 0;
   }
 </style>

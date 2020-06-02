@@ -2,7 +2,7 @@
   <div class="container">
     <form-label :label="'资料信息'" />
 
-    <el-table :data="credFileList" style="width: 100%">
+    <el-table :data="credDistriFileList" style="width: 100%">
       <el-table-column prop="datumName" label="资料清单" width="180" align="center" />
       <el-table-column prop="isMust" label="必要件" align="center" />
       <el-table-column prop="isCopy" label="复印件" align="center" />
@@ -26,13 +26,13 @@ import Model from '@/api/factoring/credit'
 import AddRouterQuery from '../mixin/add-route-query'
 
 export default {
-  name: 'CreditMgrDetailCreditFile',
+  name: 'CreditQuotaDetailCreditFile',
   mixins: [AddRouterQuery],
   components: { HeadTitle, FormLabel },
   data() {
     return {
       form: {},
-      credFileList: []
+      credDistriFileList: []
     }
   },
   created() {
@@ -42,11 +42,11 @@ export default {
     fetchDetail() {
       const bizCode = this.$route.query.bizCode
       if (!bizCode) return
-      Model.fetchCredFile(bizCode).then(res => {
+      Model.fetchCredDistributionFile(bizCode).then(res => {
         console.log(res)
         if (!res) return
         this.form = JSON.parse(JSON.stringify(res))
-        this.credFileList = JSON.parse(JSON.stringify(res.credFileList))
+        this.credDistriFileList = JSON.parse(JSON.stringify(res.credDistriFileList))
       })
     }
   }

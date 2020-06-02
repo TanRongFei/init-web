@@ -35,7 +35,7 @@
         </el-table-column>
         <el-table-column prop="contCode" label="合同编号" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.contCode" />
+            <el-input v-model="scope.row.contCode" />
           </template>
         </el-table-column>
         <el-table-column prop="contAmount" label="合同金额" align="center">
@@ -60,12 +60,12 @@
         </el-table-column>
         <el-table-column prop="creditQueryResult" label="第三方征信查询结果" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.creditQueryResult" />
+            <el-input v-model="scope.row.creditQueryResult" />
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.remark" />
+            <el-input v-model="scope.row.remark" />
           </template>
         </el-table-column>
 
@@ -92,17 +92,17 @@
         </el-table-column>
         <el-table-column prop="billCode" label="发票代码" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.billCode" />
+            <el-input v-model="scope.row.billCode" />
           </template>
         </el-table-column>
         <el-table-column prop="billNo" label="发票号码" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.billNo" />
+            <el-input v-model="scope.row.billNo" />
           </template>
         </el-table-column>
         <el-table-column prop="billVerifyCode" label="发票验证码后六位" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.billVerifyCode" />
+            <el-input v-model="scope.row.billVerifyCode" />
           </template>
         </el-table-column>
         <el-table-column prop="buyerName" label="购买方" align="center">

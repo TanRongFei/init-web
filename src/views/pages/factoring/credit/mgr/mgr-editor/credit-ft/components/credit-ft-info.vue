@@ -17,6 +17,7 @@
             <el-form-item label="申请日期">
               <el-date-picker
                 style="width: 100%;"
+                disabled
                 v-model="form.applyDate"
                 type="date"
                 placeholder="选择日期">
@@ -25,7 +26,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="授信额度">
-              <el-input v-model="form.custCode" type="number"></el-input>
+              <el-input v-model="form.creditAmount" type="number" disabled />
             </el-form-item>
           </el-col>
         </el-row>
@@ -34,6 +35,7 @@
           <el-col :span="12">
             <el-form-item label="循环授信">
               <el-switch
+                disabled
                 style="display: block;height:36px;line-height: 36px;"
                 v-model="value">
               </el-switch>
@@ -43,6 +45,7 @@
             <el-form-item label="授信开始日">
               <el-date-picker
                 style="width: 100%;"
+                disabled
                 v-model="form.creditStartDate"
                 type="date"
                 placeholder="选择日期">
@@ -53,14 +56,15 @@
 
         <el-row :gutter="20">
           <el-col :span="12"><el-form-item label="授信期限">
-            <el-select v-model="form.creditDuration" placeholder="请选择" style="width:100%;">
-              <el-option :label="item.FLAG" :value="item.CODE" v-for="item in dict.returnWay" :key="item.CODE" />
+            <el-select v-model="form.creditDuration" placeholder="请选择" style="width:100%;" disabled>
+              <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.duration	" :key="item.code" />
             </el-select>
           </el-form-item></el-col>
           <el-col :span="12"><el-form-item label="授信截至日">
             <el-date-picker
               style="width: 100%;"
               v-model="form.creditEndDate"
+              disabled
               type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -71,7 +75,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="占用授信余额">
-              <el-input v-model="form.creditBalance" type="number"></el-input>
+              <el-input v-model="form.creditBalance" type="number" disabled />
             </el-form-item>
           </el-col>
         </el-row>
@@ -83,15 +87,14 @@
           <el-col :span="12">
             <el-form-item label="产品类型">
               <el-radio-group v-model="form.productType">
-                <el-radio label="正向保理"></el-radio>
-                <el-radio label="反向保理"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.productType" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="业务类型">
               <el-radio-group v-model="form.businessType">
-                <el-radio label="应收账款"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.businessType" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -100,15 +103,14 @@
           <el-col :span="12">
             <el-form-item label="业务区域">
               <el-radio-group v-model="form.businessArea">
-                <el-radio label="国内"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.businessArea" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="保理方式">
               <el-radio-group v-model="form.factoringType">
-                <el-radio label="明保理"></el-radio>
-                <el-radio label="暗保理"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.factoringMode" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -117,15 +119,14 @@
           <el-col :span="12">
             <el-form-item label="有无追索权">
               <el-radio-group v-model="form.hasRecourse">
-                <el-radio label="有追"></el-radio>
-                <el-radio label="无追"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.hasRecourse" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="保理商数量">
               <el-radio-group v-model="form.factoryCount">
-                <el-radio label="单保理"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.factorCount" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -134,9 +135,7 @@
           <el-col :span="12">
             <el-form-item label="管理模式">
               <el-radio-group v-model="form.governModel">
-                <el-radio label="单笔保理"></el-radio>
-                <el-radio label="框架保理"></el-radio>
-                <el-radio label="池保理"></el-radio>
+                <el-radio :label="item.code" v-for="item in creditDict.manageMode" :key="item.code">{{item.flag}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -152,7 +151,6 @@
       <el-table :data="credFtAllocationList" style="width: 100%">
         <el-table-column type="selection" width="50" />
         <el-table-column prop="index" label="序号" width="50" align="center" />
-        <el-table-column prop="" label="状态" align="center" />
         <el-table-column prop="custName" label="买/卖方名称" align="center">
           <template slot-scope="scope">
             <el-input v-model="scope.row.custName" />
@@ -184,14 +182,14 @@
       <el-table :data="credFtLoanPremiseList" @selection-change="handleSelectionChange" style="width: 100%">
         <el-table-column type="selection" width="50" />
         <el-table-column type="index" label="序号" width="50" align="center" />
-        <el-table-column prop="counterpartyName" label="前提对象" width="180" align="center">
+        <el-table-column prop="counterpartyName" label="前提对象" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.counterpartyName" />
+            <el-input v-model="scope.row.counterpartyName" />
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="说明" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.remark" />
+            <el-input v-model="scope.row.remark" />
           </template>
         </el-table-column>
       </el-table>
@@ -205,14 +203,14 @@
       <el-table :data="credFtUsePremiseList" @selection-change="handleSelectionChange" style="width: 100%">
         <el-table-column type="selection" width="50" />
         <el-table-column type="index" label="序号" width="50" align="center" />
-        <el-table-column prop="counterpartyName" label="前提对象" width="180" align="center">
+        <el-table-column prop="counterpartyName" label="前提对象" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.counterpartyName" />
+            <el-input v-model="scope.row.counterpartyName" />
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="说明" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.remark" />
+            <el-input v-model="scope.row.remark" />
           </template>
         </el-table-column>
       </el-table>
@@ -252,7 +250,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'dict'
+      'creditDict'
     ])
   },
   created() {
@@ -277,6 +275,7 @@ export default {
         if (valid) {
           const param = {
             ...this.form,
+            isLoopCredit: this.value ? 1 : 0,
             credFtAllocationList: this.credFtAllocationList,
             credFtLoanPremiseList: this.credFtLoanPremiseList,
             credFtUsePremiseList: this.credFtUsePremiseList

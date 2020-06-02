@@ -193,53 +193,62 @@ export const asyncRoutes = [
             hidden: true,
             tabsSidebar: '/factoring/credit/mgr-detail',
             leftSidebar: false,
-            redirect: '/factoring/credit/mgr-detail/basic-info-detail',
+            redirect: '/factoring/credit/mgr-detail/basic-info',
             name: 'mgr-detail',
             meta: {
               title: '授信管理查看'
             },
             children: [
               {
-                path: 'basic-info-detail',
+                path: 'basic-info',
                 component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/basic-info'),
                 tabsSidebar: '/factoring/credit/mgr-detail',
-                name: 'basic-info-detail',
+                name: 'basic-info',
                 meta: {
                   title: '基本信息'
                 }
               },
               {
-                path: 'gua-info-detail',
+                path: 'gua-info',
                 component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/gua-info'),
                 tabsSidebar: '/factoring/credit/mgr-detail',
-                name: 'gua-info-detail',
+                name: 'gua-info',
                 meta: {
                   title: '担保信息'
                 }
               },
               {
-                path: 'credit-ft-detail',
+                path: 'credit-ft',
                 component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/credit-ft'),
                 tabsSidebar: '/factoring/credit/mgr-detail',
-                name: 'credit-ft-detail',
+                name: 'credit-ft',
                 meta: {
-                  title: '保理授信'
+                  title: '保理信息'
                 }
               },
               {
-                path: 'credit-history-detail',
+                path: 'receivables',
+                component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/receivables'),
+                tabsSidebar: '/factoring/credit/mgr-detail',
+                name: 'receivables',
+                meta: {
+                  title: '应收账款'
+                }
+              },
+              {
+                path: 'credit-history',
                 component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/credit-history'),
                 tabsSidebar: '/factoring/credit/mgr-detail',
-                name: 'credit-history-detail',
+                name: 'credit-history',
                 meta: {
                   title: '授信记录'
                 }
               },
               {
-                path: 'credit-file-detail',
+                path: 'credit-file',
                 component: () => import('@/views/pages/factoring/credit/mgr/mgr-detail/credit-file'),
                 tabsSidebar: '/factoring/credit/mgr-detail',
-                name: 'credit-file-detail',
+                name: 'credit-file',
                 meta: {
                   title: '档案资料'
                 }
@@ -315,6 +324,70 @@ export const asyncRoutes = [
             }
           },
           {
+            path: 'quota-detail',
+            component: () => import('@/views/pages/factoring/index'),
+            hidden: true,
+            tabsSidebar: '/factoring/credit/quota-detail',
+            leftSidebar: false,
+            redirect: '/factoring/credit/quota-detail/basic-info-detail',
+            name: 'quota-detail',
+            meta: {
+              title: '授信管理查看'
+            },
+            children: [
+              {
+                path: 'basic-info-detail',
+                component: () => import('@/views/pages/factoring/credit/quota/quota-detail/basic-info'),
+                tabsSidebar: '/factoring/credit/quota-detail',
+                name: 'basic-info-detail',
+                meta: {
+                  title: '基本信息'
+                }
+              },
+              {
+                path: 'credit-file-detail',
+                component: () => import('@/views/pages/factoring/credit/quota/quota-detail/credit-file'),
+                tabsSidebar: '/factoring/credit/quota-detail',
+                name: 'credit-file-detail',
+                meta: {
+                  title: '档案资料'
+                }
+              }
+            ]
+          },
+          {
+            path: 'quota-editor',
+            hidden: true,
+            component: () => import('@/views/pages/factoring/index'),
+            redirect: '/factoring/credit/quota-editor/basic-info',
+            leftSidebar: '/factoring/credit',
+            tabsSidebar: false,
+            name: 'quota-editor',
+            meta: {
+              title: '授信管理编辑'
+            },
+            children: [
+              {
+                path: 'basic-info',
+                component: () => import('@/views/pages/factoring/credit/quota/quota-editor/basic-info'),
+                leftSidebar: '/factoring/credit/quota-editor',
+                name: 'basic-info',
+                meta: {
+                  title: '基本信息'
+                }
+              },
+              {
+                path: 'credit-file',
+                component: () => import('@/views/pages/factoring/credit/quota/quota-editor/credit-file'),
+                leftSidebar: '/factoring/credit/quota-editor',
+                name: 'credit-file',
+                meta: {
+                  title: '档案资料'
+                }
+              }
+            ]
+          },
+          {
             path: 'chg',
             component: () => import('@/views/pages/factoring/credit/chg'),
             leftSidebar: '/factoring/credit',
@@ -324,189 +397,51 @@ export const asyncRoutes = [
             }
           },
           {
-            path: 'corp-detail',
-            hidden: true,
+            path: 'chg-detail',
             component: () => import('@/views/pages/factoring/index'),
-            redirect: '/factoring/credit/corp-detail/basic-info',
-            tabsSidebar: '/factoring/credit/corp-detail',
-            name: 'CorpDetail',
+            hidden: true,
+            tabsSidebar: '/factoring/credit/chg-detail',
+            leftSidebar: false,
+            redirect: '/factoring/credit/chg-detail/basic-info-detail',
+            name: 'chg-detail',
             meta: {
-              title: '公司详情'
+              title: '授信管理查看'
             },
             children: [
               {
-                path: 'basic-info',
-                component: () => import('@/views/pages/factoring/credit/corp-detail/basic-info'),
-                tabsSidebar: '/factoring/credit/corp-detail',
-                name: 'basic-info',
+                path: 'basic-info-detail',
+                component: () => import('@/views/pages/factoring/credit/chg/chg-detail/basic-info'),
+                tabsSidebar: '/factoring/credit/chg-detail',
+                name: 'basic-info-detail',
                 meta: {
                   title: '基本信息'
-                }
-              },
-              {
-                path: 'scheme-info',
-                component: () => import('@/views/pages/factoring/credit/corp-detail/scheme-info'),
-                tabsSidebar: '/factoring/credit/corp-detail',
-                name: 'scheme-info',
-                meta: {
-                  title: '方案信息'
-                }
-              },
-              {
-                path: 'guarantee-info',
-                component: () => import('@/views/pages/factoring/credit/corp-detail/guarantee-info'),
-                tabsSidebar: '/factoring/credit/corp-detail',
-                name: 'guarantee-info',
-                meta: {
-                  title: '担保信息'
-                }
-              },
-              {
-                path: 'files',
-                component: () => import('@/views/pages/factoring/credit/corp-detail/files'),
-                tabsSidebar: '/factoring/credit/corp-detail',
-                name: 'files',
-                meta: {
-                  title: '档案管理'
                 }
               }
             ]
           },
           {
-            path: 'personal-detail',
+            path: 'chg-editor',
             hidden: true,
-            component: () => import('@/views/pages/factoring'),
-            redirect: '/factoring/credit/personal-detail/basic-info',
-            tabsSidebar: '/factoring/credit/personal-detail',
-            name: 'PersonalDetail',
+            component: () => import('@/views/pages/factoring/index'),
+            redirect: '/factoring/credit/chg-editor/basic-info',
+            leftSidebar: '/factoring/credit',
+            tabsSidebar: false,
+            name: 'chg-editor',
             meta: {
-              title: '个人详情'
+              title: '授信管理编辑'
             },
             children: [
               {
                 path: 'basic-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/basic-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
+                component: () => import('@/views/pages/factoring/credit/chg/chg-editor/basic-info'),
+                leftSidebar: '/factoring/credit/chg-editor',
                 name: 'basic-info',
                 meta: {
                   title: '基本信息'
-                }
-              },
-              {
-                path: 'spouse-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/spouse-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
-                name: 'spouse-info',
-                meta: {
-                  title: '配偶信息'
-                }
-              },
-              {
-                path: 'user-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/user-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
-                name: 'user-info',
-                meta: {
-                  title: '用户信息'
-                }
-              },
-              {
-                path: 'event-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/event-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
-                name: 'event-info',
-                meta: {
-                  title: '事件信息'
-                }
-              },
-              {
-                path: 'other-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/other-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
-                name: 'other-info',
-                meta: {
-                  title: '其他信息'
-                }
-              },
-              {
-                path: 'account-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/account-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
-                name: 'account-info',
-                meta: {
-                  title: '账户信息'
-                }
-              },
-              {
-                path: 'data-info',
-                component: () => import('@/views/pages/factoring/credit/personal-detail/data-info'),
-                tabsSidebar: '/factoring/credit/personal-detail',
-                name: 'data-info',
-                meta: {
-                  title: '资料信息'
                 }
               }
             ]
           },
-          {
-            path: 'credit-detail',
-            hidden: true,
-            component: () => import('@/views/pages/factoring/index'),
-            redirect: '/factoring/credit/credit-detail/basic-info',
-            leftSidebar: '/factoring/credit/credit-detail',
-            name: 'CreditDetail',
-            meta: {
-              title: '授信编辑'
-            },
-            children: [
-              {
-                path: 'basic-info',
-                component: () => import('@/views/pages/factoring/credit/detail/basic-info'),
-                leftSidebar: '/factoring/credit/credit-detail',
-                name: 'basic-info',
-                meta: {
-                  title: '基本信息'
-                }
-              },
-              {
-                path: 'scheme-info',
-                component: () => import('@/views/pages/factoring/credit/detail/guarantee-info'),
-                leftSidebar: '/factoring/credit/credit-detail',
-                name: 'scheme-info',
-                meta: {
-                  title: '担保信息'
-                }
-              },
-              {
-                path: 'accounts-receivable',
-                component: () => import('@/views/pages/factoring/credit/detail/factoring-facility'),
-                leftSidebar: '/factoring/credit/credit-detail',
-                fullPath: '/factoring/credit/credit-detail/accounts-receivable',
-                name: 'accounts-receivable',
-                meta: {
-                  title: '保理信息'
-                }
-              },
-              {
-                path: 'commercial-terms',
-                component: () => import('@/views/pages/factoring/credit/detail/credit-record'),
-                leftSidebar: '/factoring/credit/credit-detail',
-                name: 'commercial-terms',
-                meta: {
-                  title: '授信记录'
-                }
-              },
-              {
-                path: 'information',
-                component: () => import('@/views/pages/factoring/credit/detail/information'),
-                leftSidebar: '/factoring/credit/credit-detail',
-                name: 'information',
-                meta: {
-                  title: '资料信息'
-                }
-              }
-            ]
-          }
         ]
       },
       {

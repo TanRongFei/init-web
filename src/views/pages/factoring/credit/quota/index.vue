@@ -1,6 +1,12 @@
 <template>
   <div class="facility-management">
-    <head-title :label="'客户授信'" :total="total" @handleCheek="handleCheek"></head-title>
+    <head-title
+      :label="'额度管理'"
+      :total="total"
+      :functions="btnFunctions"
+      @handleDelete="handleDel"
+      @handleEditor="handleEditor"
+      @handleCheck="handleCheck" />
 
     <table-search >
       <template slot="after">
@@ -15,18 +21,16 @@
           </el-form-item>
           <el-form-item label="创建日期:">
             <el-date-picker
-              v-model="form['beginDate']"
+              v-model="form['applyStartDate']"
               type="date"
-              value-format="yyyy-MM-dd HH:mm:ss"
               size="small"
               clearable
               placeholder="选择开始日期">
             </el-date-picker>
             至
             <el-date-picker
-              v-model="form['endDate']"
+              v-model="form['applyEndDate']"
               type="date"
-              value-format="yyyy-MM-dd 23:59:59"
               size="small"
               clearable
               placeholder="选择结束日期">
@@ -39,24 +43,30 @@
       </template>
     </table-search>
 
-    <el-table :data="tableData" style="width: 100%">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="50" />
       <el-table-column type='index' label="序号" width="50" align="center" />
-      <el-table-column prop="status" label="状态" width="180" align="center" />
-      <el-table-column prop="applyDate" label="授信分配编号" align="center" />
-      <el-table-column prop="credCode" label="授信编号" align="center">
+      <el-table-column prop="status" label="状态" align="center">
+        <template slot-scope="scope">{{ scope.row.status + '-status' | filterDict }}</template>
+      </el-table-column>
+      <el-table-column prop="distriCode" label="授信分配编号" align="center" />
+      <el-table-column prop="credCode" label="授信编号" align="center" width="160">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('CorpDetail', scope.row)">{{scope.row.credCode}}</el-button>
+          <el-button type="text" @click="handleDetail('credit-ft-detail', scope.row)">{{scope.row.credCode}}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="custName" label="客户名称" align="center">
+      <el-table-column prop="custName" label="客户名称" align="center" width="160">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('PersonalDetail', scope.row)">{{scope.row.custName}}</el-button>
+          <el-button type="text" @click="handleDetail('mgr-detail', scope.row)">{{scope.row.custName}}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="creditAmount" label="授信额度" align="center" />
-      <el-table-column prop="occupiedAmount" label="分配总额" align="center" />
-      <el-table-column prop="ftCreditAmount" label="创建人" align="center" />
-      <el-table-column prop="ftCreditAmount" label="创建时间" align="center" />
+      <el-table-column prop="creditAmount" label="授信额度" align="center" width="160" />
+      <el-table-column prop="distributeAmount" label="分配总额" align="center" />
+      <el-table-column prop="createdName" label="创建人" align="center" />
+      <el-table-column prop="createdTime" label="创建时间" align="center" width="160" />
     </el-table>
 
     <div class="pagination-wrap" >
@@ -75,7 +85,8 @@
 <script>
 import HeadTitle from '../../../components/head-title'
 import TableSearch from '@/views/pages/components/table-search'
-import Model from '@/api/factoring/facility/creditList'
+import Model from '@/api/factoring/credit'
+import Pagination from '../mixin/pagination'
 
 export default {
   name: 'CreditQuota',
@@ -83,8 +94,10 @@ export default {
     HeadTitle,
     TableSearch
   },
+  mixins: [ Pagination ],
   data() {
     return {
+      btnFunctions: ['check', 'editor', 'delete'],
       form: {
         checkList: []
       },
@@ -92,11 +105,12 @@ export default {
         {
           id: 1,
           status: 1,
+          bizCode: 's123',
           credCode: 's123',
           custName: '中金云创'
         }
       ],
-      total: 22
+      multipleSelection: []
     }
   },
   created() {
@@ -105,13 +119,13 @@ export default {
   methods: {
     fetchList() {
       const param = {
-        pageNum: 1,
-        pageSize: 10,
-        searchValue: '',
-        orderBy: 'createdTime'
+        ...this.Query
       }
-      Model.fetchList(param).then(res => {
+      Model.credDistributionList(param).then(res => {
         console.log(res)
+        if (!res) return
+        this.total = res.total
+        this.tableData = res.list
       })
     },
     submit() {
@@ -126,17 +140,67 @@ export default {
       }
       this.$router.push({ name: pathName, query})
     },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
-    },
-    handleCheek(v) {
+    handleCheck(v) {
       /**
        * 查看
        * **/
-      this.handleDetail('CreditDetail')
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        this.handleDetail('quota-detail', { bizCode })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
+    },
+    handleEditor() {
+      /**
+       * 编辑
+       * **/
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        this.handleDetail('quota-editor', { bizCode })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行编辑！',
+          type: 'warning'
+        })
+      }
+    },
+    handleDel() {
+      /**
+       * 删除
+       * **/
+      if (this.multipleSelection && this.multipleSelection.length === 1) {
+        const { bizCode } = this.multipleSelection[0]
+        Model.deleteCredDistribution(bizCode).then(() => {
+          this.handleDetail()
+        })
+      } else if (this.multipleSelection && this.multipleSelection.length > 1) {
+        this.$message({
+          message: '只能选取一条数据进行删除！',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '请选取一条数据进行删除！',
+          type: 'warning'
+        })
+      }
     }
   }
 }

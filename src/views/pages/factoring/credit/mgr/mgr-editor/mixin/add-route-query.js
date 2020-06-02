@@ -1,8 +1,5 @@
 
 export default {
-  create() {
-    // if (!this.$route.query.bizCode || this.$route.query.bizCode === 'undefined') this.backToList()
-  },
   beforeRouteLeave(to, from, next) {
     if (!to.path.includes('/factoring/credit/mgr-editor/')) {
       next()

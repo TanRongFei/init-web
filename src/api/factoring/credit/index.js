@@ -142,8 +142,8 @@ class Model extends RestModel{
   /**
    * 查询额度分配资料
    * **/
-  fetchCredDistributionFile(param = {}) {
-    return this.fetchList(param, `/api/credit/query/credDistributionFile`)
+  fetchCredDistributionFile(bizCode = '') {
+    return this.fetchList({}, `/api/credit/query/credDistributionFile?bizCode=${bizCode}`)
   }
 
   /**

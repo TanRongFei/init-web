@@ -11,12 +11,12 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="授信编号">
-              <el-input v-model="form.name" disabled />
+              <el-input v-model="form.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="客户编号">
-              <el-input v-model="form.custCode" disabled />
+              <el-input v-model="form.custCode"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -24,8 +24,9 @@
         <el-row :gutter="20">
           <el-col :span="6">
             <el-form-item label="客户名称">
-              <el-select v-model="form.custName" placeholder="请选择" style="width:100%;">
-                <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.custName" :key="item.code" />
+              <el-select v-model="form.custName" placeholder="请选择活动区域" style="width:100%;">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -100,7 +101,6 @@
             <el-form-item label="授信开始日">
               <el-date-picker
                 style="width: 100%;"
-                disabled
                 v-model="form.creditStartDate"
                 type="date"
                 placeholder="选择日期">
@@ -112,13 +112,12 @@
         <el-row :gutter="20">
           <el-col :span="12"><el-form-item label="授信期限">
             <el-select v-model="form.creditDuration" placeholder="请选择" style="width:100%;">
-              <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.duration" :key="item.code" />
+              <el-option :label="item.FLAG" :value="item.CODE" v-for="item in dict.returnWay" :key="item.CODE" />
             </el-select>
           </el-form-item></el-col>
           <el-col :span="12"><el-form-item label="授信截至日">
             <el-date-picker
               style="width: 100%;"
-              disabled
               v-model="form.creditEndDate"
               type="date"
               placeholder="选择日期">
@@ -129,7 +128,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="已占用授信额度">
-              <el-input v-model="form.occupiedAmount" type="number" disabled />
+              <el-input v-model="form.occupiedAmount" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -150,9 +149,9 @@
             <el-input type="number" v-model="scope.row.allocateAmount" />
           </template>
         </el-table-column>
-        <el-table-column prop="creditDuration" label="授信期限" align="center">
+        <el-table-column prop="creditDuration" label="授信期限s" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.creditDuration" disabled />
+            <el-input type="number" v-model="scope.row.creditDuration" />
           </template>
         </el-table-column>
       </el-table>
@@ -164,25 +163,20 @@
 <script>
 import { mapGetters } from 'vuex'
 import rules from '@/views/mixins/rules'
-import AddRouteQuery from '../mixin/add-route-query'
 import FormLabel from '@/views/pages/components/form-label'
 import HeadTitle from '@/views/pages/components/head-title'
 import Model from '@/api/factoring/credit'
-import { isPlainObject } from '@/utils'
 
 export default {
-  name: 'CreditMgrEditorBasic',
+  name: 'CreditChgEditorBasic',
   components: { FormLabel, HeadTitle },
-  mixins: [rules, AddRouteQuery],
+  mixins: [rules],
   data() {
     return {
       disabled: false,
       showDefaultButton: false,
       multipleSelection: [],
-      form: {
-        occupiedAmount: 0
-      },
-      a: 0,
+      form: {},
       value: false,
       activeName: '1',
       credPlatAllocationList: [] // 额度分配
@@ -190,28 +184,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'creditDict'
+      'dict'
     ])
-  },
-  watch: {
-    credPlatAllocationList: {
-      deep: true,
-      handler: function(n) {
-        let num = 0
-        n.forEach(item => {
-          num = num + (item.allocateAmount - 0)
-        })
-        this.form.occupiedAmount = num
-      }
-    },
-    'form.creditDuration'(n) {
-      if (this.credPlatAllocationList && this.credPlatAllocationList.length) {
-        this.credPlatAllocationList.map(item => {
-          item.creditDuration = n
-          return item
-        })
-      }
-    }
   },
   created() {
     this.fetchDetail()
@@ -220,7 +194,7 @@ export default {
     fetchDetail() {
       const bizCode = this.$route.query.bizCode
       if (!bizCode) return
-      Model.fetchCreditPlatform(bizCode).then(res => {
+      Model.fetchCredChange({ bizCode }).then(res => {
         console.log(res)
         if (!res) return
         this.form = JSON.parse(JSON.stringify(res))
@@ -231,12 +205,12 @@ export default {
       this.disabled = true
       this.$refs.form.validate((valid) => {
         if (valid) {
-          Model.saveCreditPlatform(this.form).then(res => {
-            if (isPlainObject(this.$route.query)) {
-              this.$router.push({ name: 'mgr-editor', query: { bizCode: res.bizCode }})
-            } else {
-              this.fetchDetail()
-            }
+          const param = {
+            ...this.form,
+            credPlatAllocationList: this.credPlatAllocationList
+          }
+          Model.saveCredChange(param).then(res => {
+            this.fetchDetail()
             this.disabled = false
           }).catch(() => {
             this.disabled = false
@@ -253,12 +227,15 @@ export default {
           productCode: '',
           productName: '',
           allocateAmount: '',
-          creditDuration: this.form.creditAmount
+          creditDuration: ''
         }
       this.credPlatAllocationList.push(temp)
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    backToList() {
+      this.$router.push({ name: 'chg' })
     }
   }
 }

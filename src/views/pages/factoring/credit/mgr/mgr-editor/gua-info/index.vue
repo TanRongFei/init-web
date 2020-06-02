@@ -16,16 +16,20 @@
       <el-table :data="credCompGuaList" @selection-change="handleSelectionChange" style="width: 100%">
         <el-table-column type="selection" width="50" />
         <el-table-column type="index" label="序号" width="50" align="center" />
-        <el-table-column prop="productName" label="名称" align="center" />
-        <el-table-column prop="productName" label="统一社会信用代码" align="center" />
+        <el-table-column prop="custName" label="名称" align="center" />
+        <el-table-column prop="socialCreditCode" label="统一社会信用代码" align="center" />
         <el-table-column prop="relType" label="关联关系" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.relType" />
+            <el-select v-model="scope.row.relType" placeholder="请选择" style="width:100%;">
+              <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.compRelations" :key="item.code" />
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column prop="guaType" label="保证类型" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.guaType" />
+            <el-select v-model="scope.row.guaType" placeholder="请选择" style="width:100%;">
+              <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.guaType" :key="item.code" />
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column prop="amount" label="保证金额" align="center">
@@ -50,20 +54,24 @@
         <el-table-column type="selection" width="50" />
         <el-table-column type="index" label="序号" width="50" align="center" />
         <el-table-column prop="custName" label="担保人姓名" align="center" />
-        <el-table-column prop="" label="证件类型" align="center">
+        <el-table-column prop="guaType" label="证件类型" align="center">
           <template slot-scope="scope">
-<!--            <el-input v-model="scope.row.creditDuration" />-->
+            <span>{{scope.row.guaType + '-guaType' | filterDict}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="productName" label="证件号码" align="center" />
+        <el-table-column prop="idno" label="证件号码" align="center" />
         <el-table-column prop="relType" label="关联关系" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.allocateAmount" />
+            <el-select v-model="scope.row.relType" placeholder="请选择" style="width:100%;">
+              <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.personRelations" :key="item.code" />
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column prop="guaType" label="保证类型" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.creditDuration" />
+            <el-select v-model="scope.row.guaType" placeholder="请选择" style="width:100%;">
+              <el-option :label="item.flag" :value="item.code" v-for="item in creditDict.guaType" :key="item.code" />
+            </el-select>
           </template>
         </el-table-column>
         <el-table-column prop="amount" label="保证金额" align="center">
@@ -73,12 +81,49 @@
         </el-table-column>
         <el-table-column prop="remark" label="其他说明" align="center">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.creditDuration" />
+            <el-input v-model="scope.row.remark" />
           </template>
         </el-table-column>
       </el-table>
 
       <form-label :label="'抵押品'">
+        <template slot="after">
+          <el-button @click="handleAddMortgage" type="" icon="el-icon-plus" size="mini" />
+          <el-button type="" icon="el-icon-delete" size="mini" />
+        </template>
+      </form-label>
+      <el-table :data="credMortgageList" @selection-change="handleSelectionChange" style="width: 100%">
+        <el-table-column type="selection" width="50" />
+        <el-table-column type="index" label="序号" width="50" align="center" />
+        <el-table-column prop="mortName" label="抵押品名称" align="center">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.certificateNo" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="certificateNo" label="权属证书及其他有关证书编号" align="center">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.certificateNo" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="mortgager" label="抵押人" align="center" />
+        <el-table-column prop="area" label="面积" align="center">
+          <template slot-scope="scope">
+            <el-input type="number" v-model="scope.row.area" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="value" label="价值(万元)" align="center">
+          <template slot-scope="scope">
+            <el-input type="number" v-model="scope.row.value" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="remark" label="备注" align="center">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.remark" />
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <form-label :label="'质押品'">
         <template slot="after">
           <el-button @click="handleAddPledge" type="" icon="el-icon-plus" size="mini" />
           <el-button type="" icon="el-icon-delete" size="mini" />
@@ -87,22 +132,34 @@
       <el-table :data="credPledgeList" @selection-change="handleSelectionChange" style="width: 100%">
         <el-table-column type="selection" width="50" />
         <el-table-column type="index" label="序号" width="50" align="center" />
-        <el-table-column prop="pledgeName" label="抵押品名称" align="center" />
-        <el-table-column prop="certificateNo" label="权属证书及其他有关证书编号" align="center" />
-        <el-table-column prop="pledgor" label="抵押人" align="center" />
-        <el-table-column prop="" label="面积" align="center">
+        <el-table-column prop="pledgeName" label="质押品名称" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.allocateAmount" />
+            <el-input v-model="scope.row.pledgeName" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="certificateNo" label="权属证书及其他有关证书编号" align="center">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.certificateNo" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="pledgor" label="质押人" align="center">
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.pledgor" />
+          </template>
+        </el-table-column>
+        <el-table-column prop="quantity" label="数量" align="center">
+          <template slot-scope="scope">
+            <el-input type="number" v-model="scope.row.quantity" />
           </template>
         </el-table-column>
         <el-table-column prop="value" label="价值(万元)" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.creditDuration" />
+            <el-input type="number" v-model="scope.row.value" />
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" align="center">
           <template slot-scope="scope">
-            <el-input type="number" v-model="scope.row.creditDuration" />
+            <el-input v-model="scope.row.remark" />
           </template>
         </el-table-column>
       </el-table>
@@ -142,7 +199,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'dict'
+      'creditDict'
     ])
   },
   created() {
@@ -165,7 +222,14 @@ export default {
     },
     handleSubmit() {
       this.disabled = true
-      Model.saveCreditGua(this.form).then(res => {
+      const param = {
+        ...this.form,
+        credCompGuaList: this.credCompGuaList,
+        credPersonGuaList: this.credPersonGuaList,
+        credMortgageList: this.credMortgageList,
+        credPledgeList: this.credPledgeList,
+      }
+      Model.saveCreditGua(param).then(res => {
         this.fetchDetail()
         this.disabled = false
       }).catch(() => {
@@ -201,17 +265,29 @@ export default {
       }
       this.credPersonGuaList.push(temp)
     },
-    // 抵押品
+    // 质押品
     handleAddPledge() {
       const temp = {
-        certificateNo: '',
         pledgeName: '',
+        certificateNo: '',
         pledgor: '',
         quantity: '',
         remark: '',
         value: ''
       }
       this.credPledgeList.push(temp)
+    },
+    // 抵押品
+    handleAddMortgage() {
+      const temp = {
+        certificateNo: '',
+        mortName: '',
+        pledgor: '',
+        quantity: '',
+        remark: '',
+        value: ''
+      }
+      this.credMortgageList.push(temp)
     }
   }
 }

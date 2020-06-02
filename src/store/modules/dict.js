@@ -1,4 +1,5 @@
 import Module from '@/api/factoring/contract'
+import ContractModule from '@/api/factoring/contract'
 import CreditModule from '@/api/factoring/credit'
 import CrmModule from '@/api/factoring/crm'
 
@@ -7,10 +8,14 @@ const state = {
   custList: [],
   province: [],
   area: [],
+  contractDict: [], // 合同字典
   creditDict: [] // 授信字典
 }
 
 const mutations = {
+  SET_CONTRACT_DICT: (state, contractDict) => {
+    state.contractDict = contractDict
+  },
   SET_CREDIT_DICT: (state, creditDict) => {
     state.creditDict = creditDict
   },
@@ -32,6 +37,11 @@ const actions = {
   fetchCreditDict({ commit }) {
     CreditModule.dict().then(res => {
       commit('SET_CREDIT_DICT', res)
+    })
+  },
+  fetchContractDict({ commit }) {
+    ContractModule.dict().then(res => {
+      commit('SET_CONTRACT_DICT', res)
     })
   },
   fetchDict({ commit }) {

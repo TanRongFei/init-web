@@ -4,6 +4,7 @@
       :label="'客户授信'"
       :total="total"
       :functions="btnFunctions"
+      @handleAdd="handleDetail('mgr-editor')"
       @handleDelete="handleDel"
       @handleEditor="handleEditor"
       @handleCheck="handleCheck" />
@@ -45,7 +46,12 @@
       </template>
     </table-search>
 
-    <side-tool :functions="functions" key="enterprise-customers" ref="sideTool" :label="'授信'" />
+    <side-tool
+      :functions="functions"
+      key="enterprise-customers"
+      :data="multipleSelection"
+      ref="sideTool"
+      :label="'授信'" />
 
     <el-table
       :data="tableData"
@@ -53,16 +59,18 @@
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" />
       <el-table-column type='index' label="序号" width="50" align="center" />
-      <el-table-column prop="status" label="状态" align="center" />
-      <el-table-column prop="applyDate" label="申请日期" width="180" align="center" />
+      <el-table-column prop="status" label="状态" align="center">
+        <template slot-scope="scope">{{scope.row.status + '-status' | filterDict}}</template>
+      </el-table-column>
+      <el-table-column prop="applyDate" label="申请日期" width="95" align="center" />
       <el-table-column prop="credCode" label="授信编号" align="center">
         <template slot-scope="scope">
-         <el-button type="text" @click="handleDetail('CorpDetail', scope.row)">{{scope.row.credCode}}</el-button>
+         <el-button type="text" @click="handleDetail('credit-ft-detail', scope.row)">{{scope.row.credCode}}</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="custName" label="客户名称" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('PersonalDetail', scope.row)">{{scope.row.custName}}</el-button>
+          <el-button type="text" @click="handleDetail('mgr-detail', scope.row)">{{scope.row.custName}}</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="creditAmount" label="授信额度" align="center" />
@@ -105,8 +113,8 @@ export default {
   mixins: [ Pagination ],
   data() {
     return {
-      btnFunctions: ['check', 'editor', 'delete'],
-      functions: ['add-contract'], // 生成合同
+      btnFunctions: ['add', 'check', 'editor', 'delete'],
+      functions: ['add-contract', 'quota-allocation', 'change-credit'], // 生成合同 额度分配 授信变更
       form: {
         checkList: []
       },
@@ -200,7 +208,7 @@ export default {
        * **/
       if (this.multipleSelection && this.multipleSelection.length === 1) {
         const { bizCode } = this.multipleSelection[0]
-        Model.deleteInfo(bizCode).then(() => {
+        Model.deleteCreditPlatform(bizCode).then(() => {
           this.handleDetail()
         })
       } else if (this.multipleSelection && this.multipleSelection.length > 1) {

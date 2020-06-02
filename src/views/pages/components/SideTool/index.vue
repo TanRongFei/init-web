@@ -57,6 +57,16 @@
         <change-unAudit :data="data" @handleChangeUnAudit="handleChangeUnAudit"/>
       </div>
 
+      <!--额度分配-->
+      <div v-if="functions.includes('quota-allocation')">
+        <quotaAllocation :data="data" />
+      </div>
+
+      <!--授信变更-->
+      <div v-if="functions.includes('change-credit')">
+        <change-credit :data="data" />
+      </div>
+
       <slot name="after"></slot>
     </div>
 
@@ -76,6 +86,8 @@ import infoAudit from './infoAudit'
 import unAudit from './unAudit'
 import changeUnAudit from './change-unAudit'
 import changeAudit from './change-audit'
+import quotaAllocation from './quota-allocation'
+import changeCredit from './change-credit'
 
 export default {
   name: 'SideTool',
@@ -114,7 +126,9 @@ export default {
     infoAudit, // 合同审批通过
     unAudit, // 合同审批不通过
     changeAudit, // 变更审批通过
-    changeUnAudit // 变更审批不通过
+    changeUnAudit, // 变更审批不通过
+    quotaAllocation, // 额度分配，
+    changeCredit // 授信变更
   },
   data() {
     return {}

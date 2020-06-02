@@ -360,20 +360,13 @@ export function removeClass(ele, cls) {
  * 空对象判断
  * **/
 export function isPlainObject(obj){
-  let prototype
+  // let prototype
+  //
+  // return Object.prototype.toString.call(obj) === '[object Object]'
+  //   && (prototype = Object.getPrototypeOf(obj), prototype === null ||
+  //   prototype == Object.getPrototypeOf({}))
+  let key = Object.keys(obj)
 
-  return Object.prototype.toString.call(obj) === '[object Object]'
-    && (prototype = Object.getPrototypeOf(obj), prototype === null ||
-    prototype == Object.getPrototypeOf({}))
+  return key.length == 0
 }
 
-/**
- * 时间格式转化
- * **/
-export function formatDate(date, type='YYYY-MM-DD') {
-  if (date) {
-    return moment(date).format(type)
-  } else {
-    return date
-  }
-}
