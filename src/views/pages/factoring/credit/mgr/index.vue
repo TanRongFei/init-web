@@ -4,7 +4,7 @@
       :label="'客户授信'"
       :total="total"
       :functions="btnFunctions"
-      @handleAdd="handleDetail('mgr-editor')"
+      @handleAdd="handleDetail('deduction-editor')"
       @handleDelete="handleDel"
       @handleEditor="handleEditor"
       @handleCheck="handleCheck" />
@@ -70,7 +70,7 @@
       </el-table-column>
       <el-table-column prop="custName" label="客户名称" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('mgr-detail', scope.row)">{{scope.row.custName}}</el-button>
+          <el-button type="text" @click="handleDetail('deduction-detail', scope.row)">{{scope.row.custName}}</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="creditAmount" label="授信额度" align="center" />
@@ -170,7 +170,7 @@ export default {
        * **/
       if (this.multipleSelection && this.multipleSelection.length === 1) {
         const { bizCode } = this.multipleSelection[0]
-        this.handleDetail('mgr-detail', { bizCode })
+        this.$router.push({ path: '/factoring/credit/mgr-detail/basic-info', query: { bizCode }})
       } else if (this.multipleSelection && this.multipleSelection.length > 1) {
         this.$message({
           message: '只能选取一条数据进行编辑！',
@@ -189,7 +189,8 @@ export default {
        * **/
       if (this.multipleSelection && this.multipleSelection.length === 1) {
         const { bizCode } = this.multipleSelection[0]
-        this.handleDetail('mgr-editor', { bizCode })
+        // this.handleDetail('deduction-editor', { bizCode })
+        this.$router.push({ path: '/factoring/credit/mgr-editor/basic-info', query: { bizCode }})
       } else if (this.multipleSelection && this.multipleSelection.length > 1) {
         this.$message({
           message: '只能选取一条数据进行编辑！',

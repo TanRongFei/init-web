@@ -3,7 +3,7 @@ import RestModel from '@/api/restmodel_hz'
 class Model extends RestModel{
   // 保理准入插入接口
   countView(param) {
-    return this.fetchList(param, '/api/business/count/view')
+    return this.fetchList(param, '/ft/api/business/count/view')
   }
 }
 

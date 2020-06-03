@@ -37,6 +37,33 @@ export function filterAsyncRoutes(routes, roles) {
 /**
  * 过滤左侧路由导航
  * **/
+// function hasLeftSideRoute(router, fullPath) {
+//   if (!router.children || !fullPath.includes(router.redirect)) return
+//
+//   const arr = fullPath.split('/')
+//   let fullPathName = ''
+//   if (arr && arr.length) {
+//     fullPathName = arr[arr.length - 1]
+//   }
+//
+//   let child = null
+//   router.children.forEach(item => {
+//     if (item.path === fullPathName && fullPath.includes(item.leftSidebar)) {
+//       child = item
+//     }
+//   })
+//
+//   if (router.leftSidebar
+//     && fullPath.includes(router.leftSidebar)
+//     && fullPathName
+//     && child
+//     && child.leftSidebar
+//     && fullPathName === child.path) {
+//     return router
+//   } else {
+//     return false
+//   }
+// }
 function hasLeftSideRoute(router, fullPath) {
   if (!router.children) return
 

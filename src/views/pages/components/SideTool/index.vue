@@ -67,6 +67,12 @@
         <change-credit :data="data" />
       </div>
 
+      <!--前期款审批通过-->
+      <pa-audit v-if="functions.includes('pa-audit')" :data="data" />
+
+      <!--前期款审批不通过-->
+      <pa-un-audit v-if="functions.includes('pa-unAudit')" :data="data" />
+
       <slot name="after"></slot>
     </div>
 
@@ -88,6 +94,8 @@ import changeUnAudit from './change-unAudit'
 import changeAudit from './change-audit'
 import quotaAllocation from './quota-allocation'
 import changeCredit from './change-credit'
+import paAudit from './pa-audit'
+import paUnAudit from './pa-unAudit'
 
 export default {
   name: 'SideTool',
@@ -128,7 +136,9 @@ export default {
     changeAudit, // 变更审批通过
     changeUnAudit, // 变更审批不通过
     quotaAllocation, // 额度分配，
-    changeCredit // 授信变更
+    changeCredit, // 授信变更
+    paAudit, // 前期款审批通过
+    paUnAudit // 前期款审批不通过
   },
   data() {
     return {}

@@ -233,7 +233,7 @@ export default {
         if (valid) {
           Model.saveCreditPlatform(this.form).then(res => {
             if (isPlainObject(this.$route.query)) {
-              this.$router.push({ name: 'mgr-editor', query: { bizCode: res.bizCode }})
+              this.$router.push({ name: 'deduction-editor', query: { bizCode: res.bizCode }})
             } else {
               this.fetchDetail()
             }

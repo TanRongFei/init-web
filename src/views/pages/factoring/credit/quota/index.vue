@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column prop="custName" label="客户名称" align="center" width="160">
         <template slot-scope="scope">
-          <el-button type="text" @click="handleDetail('mgr-detail', scope.row)">{{scope.row.custName}}</el-button>
+          <el-button type="text" @click="handleDetail('deduction-detail', scope.row)">{{scope.row.custName}}</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="creditAmount" label="授信额度" align="center" width="160" />

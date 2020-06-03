@@ -74,7 +74,7 @@ export default {
         bizCode: item.bizCode
       }
 
-      this.$router.push({ name: 'mgr-detail',  query})
+      this.$router.push({ name: 'deduction-detail',  query})
     }
   }
 }

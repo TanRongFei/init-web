@@ -1,13 +1,13 @@
 
 export default {
   beforeRouteLeave(to, from, next) {
-    if (!to.path.includes('/factoring/credit/mgr-editor/')) {
+    if (!to.path.includes('/factoring/credit/deduction-editor/')) {
       next()
     } else if (!from.query.bizCode || from.query.bizCode === 'undefined') {
       next('/factoring/credit/mgr')
-    } else if (to.path.includes('/factoring/credit/mgr-editor/') && to.query.bizCode) {
+    } else if (to.path.includes('/factoring/credit/deduction-editor/') && to.query.bizCode) {
       next()
-    } else if(to.path.includes('/factoring/credit/mgr-editor/') && !to.query.bizCode) {
+    } else if(to.path.includes('/factoring/credit/deduction-editor/') && !to.query.bizCode) {
       next(`${to.path}?bizCode=${from.query.bizCode}`)
     }
   },

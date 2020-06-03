@@ -192,7 +192,6 @@ export const asyncRoutes = [
             component: () => import('@/views/pages/factoring/index'),
             hidden: true,
             tabsSidebar: '/factoring/credit/mgr-detail',
-            leftSidebar: false,
             redirect: '/factoring/credit/mgr-detail/basic-info',
             name: 'mgr-detail',
             meta: {
@@ -260,7 +259,7 @@ export const asyncRoutes = [
             hidden: true,
             component: () => import('@/views/pages/factoring/index'),
             redirect: '/factoring/credit/mgr-editor/basic-info',
-            leftSidebar: '/factoring/credit',
+            leftSidebar: '/factoring/credit/mgr-editor',
             tabsSidebar: false,
             name: 'mgr-editor',
             meta: {
@@ -360,7 +359,7 @@ export const asyncRoutes = [
             hidden: true,
             component: () => import('@/views/pages/factoring/index'),
             redirect: '/factoring/credit/quota-editor/basic-info',
-            leftSidebar: '/factoring/credit',
+            leftSidebar: '/factoring/credit/quota-editor',
             tabsSidebar: false,
             name: 'quota-editor',
             meta: {
@@ -424,7 +423,7 @@ export const asyncRoutes = [
             hidden: true,
             component: () => import('@/views/pages/factoring/index'),
             redirect: '/factoring/credit/chg-editor/basic-info',
-            leftSidebar: '/factoring/credit',
+            leftSidebar: '/factoring/credit/chg-editor',
             tabsSidebar: false,
             name: 'chg-editor',
             meta: {
@@ -659,48 +658,21 @@ export const asyncRoutes = [
             }
           },
           {
-            path: 'deduction',
-            leftSidebar: '/factoring/pa',
-            component: () => import('@/views/pages/factoring/pa/deduction'),
-            name: 'deduction',
-            meta: {
-              title: '前期款抵扣'
-            }
-          },
-          {
-            path: 'complement',
-            leftSidebar: '/factoring/pa',
-            component: () => import('@/views/pages/factoring/pa/complement'),
-            name: 'complement',
-            meta: {
-              title: '前期款补足'
-            }
-          },
-          {
-            path: 'return',
-            leftSidebar: '/factoring/pa',
-            component: () => import('@/views/pages/factoring/pa/return'),
-            name: 'return',
-            meta: {
-              title: '前期款退回'
-            }
-          },
-          {
-            path: 'paMgrLayout',
+            path: 'mgr-editor',
             component: () => import('@/views/pages/factoring/index'),
             hidden: true,
-            redirect: '/factoring/pa/mgr/paMgrEditorLayout/paMgrEditor',
-            leftSidebar: '/factoring/pa/paMgrLayout',
-            name: 'paMgrLayout',
+            redirect: '/factoring/pa/mgr-editor/basic-info',
+            leftSidebar: '/factoring/pa/mgr-editor',
+            name: 'mgr-editor',
             meta: {
-              title: '前期款编辑'
+              title: '前期款管理编辑'
             },
             children: [
               {
-                path: 'paMgrEditor',
-                component: () => import('@/views/pages/factoring/pa/mgr/editor'),
-                leftSidebar: '/factoring/pa/paMgrLayout',
-                name: 'paMgrEditor',
+                path: 'basic-info',
+                component: () => import('@/views/pages/factoring/pa/mgr/mgr-editor'),
+                leftSidebar: '/factoring/pa/mgr-editor',
+                name: 'basic-info',
                 meta: {
                   title: '基本信息'
                 }
@@ -708,65 +680,21 @@ export const asyncRoutes = [
             ]
           },
           {
-            path: 'paDeductionLayout',
-            component: () => import('@/views/pages/factoring/index'),
+            path: 'mgr-detail',
             hidden: true,
-            redirect: '/factoring/pa/mgr/paMgrEditorLayout/paDeductionEditor',
-            leftSidebar: '/factoring/pa/paDeductionLayout',
-            name: 'paDeductionLayout',
+            component: () => import('@/views/pages/factoring/index'),
+            redirect: '/factoring/pa/mgr-detail/basic-info',
+            tabsSidebar: '/factoring/pa/mgr-detail',
+            name: 'mgr-detail',
             meta: {
-              title: '前期款编辑'
+              title: '前期款管理查看'
             },
             children: [
               {
-                path: 'paDeductionEditor',
-                component: () => import('@/views/pages/factoring/pa/deduction/editor'),
-                leftSidebar: '/factoring/pa/paMgrEditorLayout',
-                name: 'paDeductionEditor',
-                meta: {
-                  title: '基本信息'
-                }
-              }
-            ]
-          },
-          {
-            path: 'paComplementLayout',
-            component: () => import('@/views/pages/factoring/index'),
-            hidden: true,
-            redirect: '/factoring/pa/mgr/paComplementLayout/paComplementEditor',
-            leftSidebar: '/factoring/pa/paComplementLayout',
-            name: 'paComplementLayout',
-            meta: {
-              title: '前期款编辑'
-            },
-            children: [
-              {
-                path: 'paComplementEditor',
-                component: () => import('@/views/pages/factoring/pa/complement/editor'),
-                leftSidebar: '/factoring/pa/paMgrEditorLayout',
-                name: 'paComplementEditor',
-                meta: {
-                  title: '基本信息'
-                }
-              }
-            ]
-          },
-          {
-            path: 'paReturnEditorLayout',
-            component: () => import('@/views/pages/factoring/index'),
-            hidden: true,
-            redirect: '/factoring/pa/mgr/paReturnEditorLayout/paReturnEditor',
-            leftSidebar: '/factoring/pa/paReturnEditorLayout',
-            name: 'paReturnEditorLayout',
-            meta: {
-              title: '前期款编辑'
-            },
-            children: [
-              {
-                path: 'paReturnEditor',
-                component: () => import('@/views/pages/factoring/pa/return/editor'),
-                leftSidebar: '/factoring/pa/paReturnEditor',
-                name: 'paReturnEditor',
+                path: 'basic-info',
+                component: () => import('@/views/pages/factoring/pa/mgr/mgr-detail'),
+                tabsSidebar: '/factoring/pa/mgr-detail',
+                name: 'basic-info',
                 meta: {
                   title: '基本信息'
                 }

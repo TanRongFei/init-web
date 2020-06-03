@@ -1,12 +1,5 @@
 <template>
   <div class="basic-info">
-    <head-title :label="'保证金抵扣租金'" :showDefaultButton="false">
-      <template slot="after">
-        <el-button type="primary" size="mini">保 存</el-button>
-        <el-button type="" size="mini">返 回</el-button>
-      </template>
-    </head-title>
-
     <el-card shadow="nerve">
       <form-label :label="'基本信息'" />
       <div class="info">
@@ -19,73 +12,60 @@
           <span></span>
         </div>
         <div class="item col-lg-12">
-          <span class="label">保证金金额</span>
-          <span></span>
-        </div>
-        <div class="item col-lg-12">
-          <span class="label">保证金余额</span>
+          <span class="label">合同金额</span>
           <span></span>
         </div>
       </div>
 
-      <form-label :label="'退款申请信息'" />
+      <form-label :label="'收取信息'" />
       <div class="info">
         <div class="item">
-          <span class="label">退款金额</span>
-          <el-input />
-        </div>
-        <div class="item">
-          <span class="label">申请人</span>
+          <span class="label">费用类型</span>
           <span></span>
         </div>
         <div class="item">
-          <span class="label">申请日期</span>
+          <span class="label">保证金金额</span>
+          <span></span>
+        </div>
+        <div class="item">
+          <span class="label">已收取保证金金额</span>
           <span></span>
         </div>
         <div class="item">
           <span class="label">收款单位</span>
-          <el-input />
-        </div>
-        <div class="item">
-          <span class="label">收款银行</span>
-          <el-input />
-        </div>
-        <div class="item">
-          <span class="label">收款账号</span>
-          <el-input />
-        </div>
-
-        <div class="item">
-          <span class="label col-lg-24">备注</span>
-          <el-input />
-        </div>
-      </div>
-
-      <form-label :label="'退款实付信息'" />
-      <div class="info">
-        <div class="item">
-          <span class="label">退款日期</span>
           <span></span>
         </div>
         <div class="item">
-          <span class="label">退款方式</span>
-          <el-checkbox-group v-model="form.checkList">
-            <el-checkbox label="a">现金</el-checkbox>
-            <el-checkbox label="b">网银</el-checkbox>
-          </el-checkbox-group>
+          <span class="label">收款银行</span>
+          <span></span>
         </div>
         <div class="item">
-          <span class="label">退款银行</span>
-          <el-input />
+          <span class="label">收款账号</span>
+          <span></span>
         </div>
         <div class="item">
-          <span class="label">退款账号</span>
-          <el-input />
+          <span class="label">付款单位</span>
+          <span></span>
         </div>
-
-        <div class="item col-lg-24">
-          <span class="label">备注</span>
-          <el-input />
+        <div class="item">
+          <span class="label">收款银行</span>
+          <span></span>
+        </div>
+        <div class="item">
+          <span class="label">收款账号</span>
+          <span></span>
+        </div>
+        <div class="item">
+          <span class="label">收款金额</span>
+          <span></span>
+        </div>
+        <div class="item">
+          <span class="label">计划收取日期</span>
+          <span></span>
+        </div>
+        <div class="item">
+          <span class="label">实收I日期</span>
+          <span></span>
         </div>
       </div>
     </el-card>
@@ -93,19 +73,33 @@
 </template>
 
 <script>
-import HeadTitle from '@/views/pages/components/head-title'
 import FormLabel from '@/views/pages/components/form-label'
+import Model from '@/api/factoring/pa'
 
 export default {
-  name: 'PaReturnEditor',
+  name: 'PaMgrEditor',
   components: {
-    HeadTitle,
     FormLabel
   },
   data() {
     return {
       tableData: [],
       form: {}
+    }
+  },
+  created() {
+    this.fetchDetail()
+  },
+  methods: {
+    fetchDetail() {
+      const bizCode = this.$route.query.bizCode
+      if (!bizCode) return
+      Model.viewBaseInfo(bizCode).then(res => {
+        console.log(res)
+        if (!res) return
+        this.form = JSON.parse(JSON.stringify(res))
+        this.credPlatAllocationList = JSON.parse(JSON.stringify(res.credPlatAllocationList))
+      })
     }
   }
 }
@@ -119,7 +113,7 @@ export default {
     .item{
       flex: 0 0 33%;
       line-height: 28px;
-      padding: 4px 8px 4px 0;
+      padding: 4px 8px 4px 4px;
       color: #333;
       word-wrap: break-word;
       word-break: break-all;
@@ -127,7 +121,7 @@ export default {
       .label{
         padding-right: 5px;
         color: #999;
-        flex: 0 0 140px;
+        width: 160px;
       }
       &.col-lg-6{
         flex: 0 0 25%;
